@@ -1,6 +1,6 @@
-# PBX
+# aiPBX
 
-Pbx is a powerful software that allows you to easily integrate text and audio chats for WhatsApp, Telegram and Asterisk, with an artificial intelligence chat bot. It relies on Tibula RDBMS, providing you the ability to add new users and personalize system prompts and translations directly from the Tibula web framework.
+aiPbx is a powerful software that allows you to easily integrate text and audio chats for WhatsApp, Telegram and Asterisk, with an artificial intelligence chat bot. It relies on Tibula RDBMS, providing you the ability to add new users and personalize system prompts and translations directly from the Tibula web framework.
 
 ## Requirements
 
