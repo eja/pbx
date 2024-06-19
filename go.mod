@@ -1,6 +1,6 @@
 module pbx
 
-go 1.21.5
+go 1.20
 
 require github.com/eja/tibula v0.0.0-20240519103102-7ec53596327e
 
