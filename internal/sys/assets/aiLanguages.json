@@ -1,0 +1,116 @@
+{
+  "module": {
+    "parentName": "ai",
+    "power": 20,
+    "searchLimit": 0,
+    "sqlCreated": 1
+  },
+  "command": [
+    "logout",
+    "new",
+    "edit",
+    "previous",
+    "next",
+    "copy",
+    "delete",
+    "save",
+    "search",
+    "list"
+  ],
+  "field": [
+    {
+      "value": "",
+      "powerEdit": 10,
+      "powerList": 10,
+      "type": "text",
+      "translate": 0,
+      "powerSearch": 10,
+      "name": "code"
+    },
+    {
+      "value": "",
+      "powerEdit": 20,
+      "powerList": 20,
+      "type": "text",
+      "translate": 0,
+      "powerSearch": 0,
+      "name": "locale"
+    },
+    {
+      "value": "",
+      "powerEdit": 30,
+      "powerList": 30,
+      "type": "text",
+      "translate": 0,
+      "powerSearch": 30,
+      "name": "native"
+    },
+    {
+      "value": "",
+      "powerEdit": 40,
+      "powerList": 40,
+      "type": "text",
+      "translate": 0,
+      "powerSearch": 40,
+      "name": "internal"
+    }
+  ],
+  "translation": [
+    {
+      "ejaLanguage": "en",
+      "word": "aiLanguages",
+      "translation": "Languages"
+    },
+    {
+      "ejaLanguage": "en",
+      "ejaModuleName": "aiLanguages",
+      "word": "code",
+      "translation": "ISO Code"
+    },
+    {
+      "ejaLanguage": "en",
+      "ejaModuleName": "aiLanguages",
+      "word": "native",
+      "translation": "Native Name"
+    },
+    {
+      "ejaLanguage": "en",
+      "ejaModuleName": "aiLanguages",
+      "word": "internal",
+      "translation": "Internal Name"
+    },
+    {
+      "ejaLanguage": "en",
+      "ejaModuleName": "aiLanguages",
+      "word": "locale",
+      "translation": "Locale"
+    }
+  ],
+  "name": "aiLanguages",
+  "data": [
+    {
+      "code": "it",
+      "internal": "italian",
+      "locale": "it-IT",
+      "native": "italiano"
+    },
+    {
+      "code": "es",
+      "internal": "spanish",
+      "locale": "es-ES",
+      "native": "español"
+    },
+    {
+      "code": "en",
+      "internal": "english",
+      "locale": "en-GB",
+      "native": "english"
+    },
+    {
+      "code": "de",
+      "internal": "german",
+      "locale": "de-DE",
+      "native": "Deutsch"
+    }
+  ]
+}

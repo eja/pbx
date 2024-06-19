@@ -1,0 +1,47 @@
+{
+  "module": {
+    "parentName": "ai",
+    "power": 100,
+    "searchLimit": 0,
+    "sqlCreated": 0
+  },
+  "command": [
+    "logout",
+    "run"
+  ],
+  "field": [
+    {
+      "value": "",
+      "powerEdit": 0,
+      "powerList": 0,
+      "type": "textArea",
+      "translate": 0,
+      "powerSearch": 10,
+      "name": "chat",
+      "sizeSearch": 20,
+      "sizeList": 0,
+      "sizeEdit": 0
+    }
+  ],
+  "translation": [
+    {
+      "ejaLanguage": "en",
+      "word": "aiChat",
+      "translation": "Chat"
+    },
+    {
+      "ejaLanguage": "en",
+      "ejaModuleName": "aiChat",
+      "word": "chat",
+      "translation": "Chat"
+    },
+    {
+      "ejaLanguage": "en",
+      "ejaModuleName": "aiChat",
+      "word": "run",
+      "translation": "Send"
+    }
+  ],
+  "name": "aiChat",
+  "data": null
+}

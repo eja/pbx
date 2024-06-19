@@ -1,0 +1,145 @@
+{
+  "module": {
+    "parentName": "ai",
+    "power": 60,
+    "searchLimit": 0,
+    "sqlCreated": 1
+  },
+  "command": [
+    "logout",
+    "new",
+    "edit",
+    "previous",
+    "next",
+    "copy",
+    "delete",
+    "save",
+    "search",
+    "list"
+  ],
+  "field": [
+    {
+      "value": "",
+      "powerEdit": 5,
+      "powerList": 5,
+      "type": "text",
+      "translate": 0,
+      "powerSearch": 5,
+      "name": "id"
+    },
+    {
+      "value": "",
+      "powerEdit": 20,
+      "powerList": 20,
+      "type": "text",
+      "translate": 0,
+      "powerSearch": 20,
+      "name": "name"
+    },
+    {
+      "value": "SELECT code,internal from aiLanguages",
+      "powerEdit": 5,
+      "powerList": 5,
+      "type": "sqlMatrix",
+      "translate": 0,
+      "powerSearch": 5,
+      "name": "language"
+    },
+    {
+      "value": "",
+      "powerEdit": 100,
+      "powerList": 0,
+      "type": "textArea",
+      "translate": 0,
+      "powerSearch": 0,
+      "name": "note"
+    },
+    {
+      "value": "",
+      "powerEdit": 60,
+      "powerList": 60,
+      "type": "datetime",
+      "translate": 0,
+      "powerSearch": 60,
+      "name": "expiration"
+    },
+    {
+      "value": "",
+      "powerEdit": 0,
+      "powerList": 0,
+      "type": "hidden",
+      "translate": 0,
+      "powerSearch": 0,
+      "name": "welcome"
+    },
+    {
+      "value": "0|none\r\n1|input\r\n2|all",
+      "powerEdit": 65,
+      "powerList": 65,
+      "type": "select",
+      "translate": 0,
+      "powerSearch": 65,
+      "name": "audio"
+    },
+    {
+      "value": "SELECT ejaId,username FROM ejaUsers WHERE ejaId IN (SELECT value FROM ejaSession WHERE ejaSession.name='ejaOwners') ORDER BY username",
+      "powerEdit": 0,
+      "powerList": 1,
+      "type": "sqlMatrix",
+      "translate": 0,
+      "powerSearch": 0,
+      "name": "ejaOwner"
+    }
+  ],
+  "translation": [
+    {
+      "ejaLanguage": "en",
+      "ejaModuleName": "aiUsers",
+      "word": "language",
+      "translation": "Language"
+    },
+    {
+      "ejaLanguage": "en",
+      "ejaModuleName": "aiUsers",
+      "word": "id",
+      "translation": "ID"
+    },
+    {
+      "ejaLanguage": "en",
+      "ejaModuleName": "aiUsers",
+      "word": "name",
+      "translation": "Name"
+    },
+    {
+      "ejaLanguage": "en",
+      "ejaModuleName": "aiUsers",
+      "word": "expiration",
+      "translation": "Expiration"
+    },
+    {
+      "ejaLanguage": "en",
+      "ejaModuleName": "aiUsers",
+      "word": "audio",
+      "translation": "Audio Output"
+    },
+    {
+      "ejaLanguage": "en",
+      "word": "aiUsers",
+      "translation": "Users"
+    },
+    {
+      "ejaLanguage": "en",
+      "ejaModuleName": "aiUsers",
+      "word": "ejaOwner",
+      "translation": "Owner"
+    },
+    {
+      "ejaLanguage": "en",
+      "ejaModuleName": "aiUsers",
+      "word": "note",
+      "translation": "Note"
+    }
+  ],
+  "name": "aiUsers",
+  "data": null
+}

@@ -1,0 +1,276 @@
+{
+  "module": {
+    "parentName": "ai",
+    "power": 55,
+    "searchLimit": 0,
+    "sqlCreated": 1
+  },
+  "command": [
+    "logout",
+    "new",
+    "edit",
+    "previous",
+    "next",
+    "copy",
+    "delete",
+    "save",
+    "search",
+    "list"
+  ],
+  "field": [
+    {
+      "value": "",
+      "powerEdit": 10,
+      "powerList": 10,
+      "type": "text",
+      "translate": 0,
+      "powerSearch": 10,
+      "name": "action",
+      "sizeSearch": 0,
+      "sizeList": 0,
+      "sizeEdit": 0
+    },
+    {
+      "value": "",
+      "powerEdit": 20,
+      "powerList": 20,
+      "type": "text",
+      "translate": 0,
+      "powerSearch": 20,
+      "name": "function",
+      "sizeSearch": 0,
+      "sizeList": 0,
+      "sizeEdit": 0
+    },
+    {
+      "value": "",
+      "powerEdit": 1,
+      "powerList": 7,
+      "type": "boolean",
+      "translate": 0,
+      "powerSearch": 1,
+      "name": "active",
+      "sizeSearch": 0,
+      "sizeList": 0,
+      "sizeEdit": 0
+    },
+    {
+      "value": "SELECT code,internal from aiLanguages",
+      "powerEdit": 7,
+      "powerList": 7,
+      "type": "sqlMatrix",
+      "translate": 0,
+      "powerSearch": 7,
+      "name": "language",
+      "sizeSearch": 0,
+      "sizeList": 0,
+      "sizeEdit": 0
+    },
+    {
+      "value": "",
+      "powerEdit": 100,
+      "powerList": 100,
+      "type": "textArea",
+      "translate": 0,
+      "powerSearch": 0,
+      "name": "response",
+      "sizeSearch": 0,
+      "sizeList": 0,
+      "sizeEdit": 0
+    }
+  ],
+  "translation": [
+    {
+      "ejaLanguage": "en",
+      "word": "aiActions",
+      "translation": "Actions"
+    },
+    {
+      "ejaLanguage": "en",
+      "ejaModuleName": "aiActions",
+      "word": "response",
+      "translation": "Response"
+    },
+    {
+      "ejaLanguage": "en",
+      "ejaModuleName": "aiActions",
+      "word": "language",
+      "translation": "Language"
+    },
+    {
+      "ejaLanguage": "en",
+      "ejaModuleName": "aiActions",
+      "word": "active",
+      "translation": "Active"
+    },
+    {
+      "ejaLanguage": "en",
+      "ejaModuleName": "aiActions",
+      "word": "function",
+      "translation": "Function"
+    },
+    {
+      "ejaLanguage": "en",
+      "ejaModuleName": "aiActions",
+      "word": "action",
+      "translation": "Action"
+    }
+  ],
+  "name": "aiActions",
+  "data": [
+    {
+      "action": "/help",
+      "active": "1",
+      "function": "",
+      "language": "en",
+      "response": "*/help* this list of commands\r\n*/reset* starts a new chat"
+    },
+    {
+      "action": "/help",
+      "active": "1",
+      "function": "",
+      "language": "es",
+      "response": "*/help* esta lista de comandos \r\n*/reset* inicia un nuevo chat "
+    },
+    {
+      "action": "/help",
+      "active": "1",
+      "function": "",
+      "language": "it",
+      "response": "*/help* questa lista di comandi\r\n*/reset* inizia una nuova chat"
+    },
+    {
+      "action": "/reset",
+      "active": "1",
+      "function": "reset",
+      "language": "it",
+      "response": "Ripartiamo da zero..."
+    },
+    {
+      "action": "/reset",
+      "active": "1",
+      "function": "reset",
+      "language": "es",
+      "response": "Empecemos desde cero..."
+    },
+    {
+      "action": "/reset",
+      "active": "1",
+      "function": "reset",
+      "language": "en",
+      "response": "Let's start from scratch..."
+    },
+    {
+      "action": "/asterisk_welcome",
+      "active": "1",
+      "function": "reset",
+      "language": "it",
+      "response": "Benvenuto alla segreteria intelligente di eja.it, fammi sapere se hai bisogno di informazioni sui nostri prodotti o sui nostri servizi."
+    },
+    {
+      "action": "/asterisk_welcome",
+      "active": "1",
+      "function": "reset",
+      "language": "en",
+      "response": "Welcome to the intelligent answering machine of eja.it.\r\nLet me know if you need information about our products or services."
+    },
+    {
+      "action": "/asterisk_welcome",
+      "active": "1",
+      "function": "reset",
+      "language": "es",
+      "response": "Bienvenido al contestador inteligente de eja.it, avísame si necesitas información sobre nuestros productos o servicios."
+    },
+    {
+      "action": "/asterisk_welcome",
+      "active": "1",
+      "function": "reset",
+      "language": "de",
+      "response": "Willkommen beim intelligenten Sprachdialogsystem von eja.it.\r\nLass mich wissen, wenn du Informationen über unsere Produkte oder Dienstleistungen benötigst."
+    },
+    {
+      "action": "/help",
+      "active": "1",
+      "function": "",
+      "language": "de",
+      "response": "*/help* diese Liste von Befehlen\r\n*/reset* startet einen neuen Dialog"
+    },
+    {
+      "action": "/reset",
+      "active": "1",
+      "function": "reset",
+      "language": "de",
+      "response": "Nochmal neu..."
+    },
+    {
+      "action": "/asterisk_error",
+      "active": "1",
+      "function": "",
+      "language": "en",
+      "response": "I'm sorry, but there is a communication problem with the server, please try again later."
+    },
+    {
+      "action": "/asterisk_error",
+      "active": "1",
+      "function": "",
+      "language": "es",
+      "response": "Lo siento, pero hay un problema de comunicación con el servidor, por favor inténtalo de nuevo más tarde."
+    },
+    {
+      "action": "/asterisk_error",
+      "active": "1",
+      "function": "",
+      "language": "de",
+      "response": "Es tut mir leid, aber es gibt ein Kommunikationsproblem mit dem Server. Bitte versuchen Sie es später erneut."
+    },
+    {
+      "action": "/asterisk_error",
+      "active": "1",
+      "function": "",
+      "language": "it",
+      "response": "Mi dispiace, ma c'è un problema di comunicazione con il server, riprova più tardi."
+    },
+    {
+      "action": "/asterisk_language",
+      "active": "1",
+      "function": "",
+      "language": "",
+      "response": "Please press one for English.\r\nPresione dos para hablar en Español.\r\nDrucken Sie die Drei für Deutsch.\r\nPremi quattro per parlare in Italiano."
+    },
+    {
+      "action": "/hangup",
+      "active": "1",
+      "function": "mail",
+      "language": "",
+      "response": "pbx@eja.it"
+    },
+    {
+      "action": "/welcome",
+      "active": "1",
+      "function": "",
+      "language": "it",
+      "response": "Benvenuto, manda un messaggio con la parola */help* in qualsiasi momento per avere la lista dei comandi disponibili. Ricorda che stai dialogando con un'intelligenza artificiale per cui mai ed in nessuna circostanza devi fare affidamento su cio' che ti viene detto o scritto, buon divertimento! :)"
+    },
+    {
+      "action": "/welcome",
+      "active": "1",
+      "function": "",
+      "language": "en",
+      "response": "Welcome, send a message with the word */help* at any time to get the list of available commands. Remember that you are interacting with an artificial intelligence, so never rely on what you are told or written in any circumstance.\r\nHave fun! :)"
+    },
+    {
+      "action": "/welcome",
+      "active": "1",
+      "function": "",
+      "language": "es",
+      "response": "¡Bienvenido! Envía un mensaje con la palabra */help* en cualquier momento para obtener la lista de comandos disponibles. Recuerda que estás interactuando con una inteligencia artificial, así que nunca debes confiar en lo que se te dice o escribe en ninguna circunstancia.\r\n¡Que te diviertas! :)"
+    },
+    {
+      "action": "/welcome",
+      "active": "1",
+      "function": "",
+      "language": "de",
+      "response": "Willkommen! Schicke jederzeit eine Nachricht mit dem Wort */help*, um die Liste der verfügbaren Befehle zu erhalten. Denke daran, dass du mit einer künstlichen Intelligenz interagierst, also solltest du niemals in irgendeiner Situation auf das vertrauen, was dir gesagt oder geschrieben wird.\r\nViel Spaß! :)"
+   }
+  ]
+}

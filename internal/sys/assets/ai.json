@@ -1,0 +1,21 @@
+{
+  "module": {
+    "parentName": "eja",
+    "power": 1000,
+    "searchLimit": 0,
+    "sqlCreated": 0
+  },
+  "command": [
+    "logout"
+  ],
+  "field": null,
+  "translation": [
+    {
+      "ejaLanguage": "en",
+      "word": "ai",
+      "translation": "AI"
+    }
+  ],
+  "name": "ai",
+  "data": null
+}

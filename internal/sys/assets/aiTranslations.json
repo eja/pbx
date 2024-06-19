@@ -1,0 +1,157 @@
+{
+  "module": {
+    "parentName": "ai",
+    "power": 20,
+    "searchLimit": 0,
+    "sqlCreated": 1
+  },
+  "command": [
+    "logout",
+    "new",
+    "edit",
+    "previous",
+    "next",
+    "copy",
+    "delete",
+    "save",
+    "search",
+    "list"
+  ],
+  "field": [
+    {
+      "value": "SELECT code,internal from aiLanguages",
+      "powerEdit": 10,
+      "powerList": 10,
+      "type": "sqlMatrix",
+      "translate": 0,
+      "powerSearch": 10,
+      "name": "language"
+    },
+    {
+      "value": "",
+      "powerEdit": 20,
+      "powerList": 20,
+      "type": "text",
+      "translate": 0,
+      "powerSearch": 20,
+      "name": "label"
+    },
+    {
+      "value": "",
+      "powerEdit": 30,
+      "powerList": 30,
+      "type": "textArea",
+      "translate": 0,
+      "powerSearch": 0,
+      "name": "translation"
+    }
+  ],
+  "translation": [
+    {
+      "ejaLanguage": "en",
+      "word": "aiTranslations",
+      "translation": "Translations"
+    },
+    {
+      "ejaLanguage": "en",
+      "ejaModuleName": "aiTranslations",
+      "word": "language",
+      "translation": "Language"
+    },
+    {
+      "ejaLanguage": "en",
+      "ejaModuleName": "aiTranslations",
+      "word": "label",
+      "translation": "Label"
+    },
+    {
+      "ejaLanguage": "en",
+      "ejaModuleName": "aiTranslations",
+      "word": "translation",
+      "translation": "Translation"
+    }
+  ],
+  "name": "aiTranslations",
+  "data": [
+    {
+      "label": "audio_disabled",
+      "language": "it",
+      "translation": "I messaggi audio sono disattivati per questo account."
+    },
+    {
+      "label": "audio_input_limit",
+      "language": "it",
+      "translation": "Mi dispiace ma la lunghezza massima di un messaggio audio e' di un minuto."
+    },
+    {
+      "label": "error",
+      "language": "it",
+      "translation": "Al momento abbiamo un piccolo problema di sistema, prova piu' tardi..."
+    },
+    {
+      "label": "user_unknown",
+      "language": "it",
+      "translation": "Ciao, non vedo l'ora di aiutarti, ma sembra che il tuo numero non sia ancora autenticato nel nostro sistema."
+    },
+    {
+      "label": "user_unknown",
+      "language": "en",
+      "translation": "Hello, I can't wait to help you in every way possible, but it seems that your number is not yet authenticated in our system."
+    },
+    {
+      "label": "error",
+      "language": "en",
+      "translation": "Currently, we have a small system issue, please try again later..."
+    },
+    {
+      "label": "audio_input_limit",
+      "language": "en",
+      "translation": "I'm sorry, but the maximum length of an audio message is one minute."
+    },
+    {
+      "label": "audio_disabled",
+      "language": "en",
+      "translation": "Audio messages are disabled for this account."
+    },
+    {
+      "label": "user_unknown",
+      "language": "es",
+      "translation": "Hola, estoy ansioso por ayudarte, pero parece que tu número aún no ha sido autenticado en nuestro sistema."
+    },
+    {
+      "label": "error",
+      "language": "es",
+      "translation": "Actualmente, tenemos un pequeño problema en el sistema, por favor, inténtalo de nuevo más tarde..."
+    },
+    {
+      "label": "audio_input_limit",
+      "language": "es",
+      "translation": "Lo siento, pero la longitud máxima de un mensaje de audio es de un minuto."
+    },
+    {
+      "label": "audio_disabled",
+      "language": "es",
+      "translation": "Los mensajes de audio están desactivados para esta cuenta."
+    },
+    {
+      "label": "audio_disabled",
+      "language": "de",
+      "translation": "Die Audio-Nachrichten sind für dieses Konto deaktiviert."
+    },
+    {
+      "label": "audio_input_limit",
+      "language": "de",
+      "translation": "Es tut mir leid, aber die maximale Länge einer Audio-Nachricht beträgt eine Minute."
+    },
+    {
+      "label": "error",
+      "language": "de",
+      "translation": "Derzeit haben wir ein kleines Systemproblem, bitte versuchen Sie es später erneut..."
+    },
+    {
+      "label": "user_unknown",
+      "language": "de",
+      "translation": "Hallo, ich freue mich darauf, Ihnen zu helfen, aber es scheint, dass Ihre Nummer noch nicht in unserem System authentifiziert ist."
+    }
+  ]
+}

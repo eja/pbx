@@ -1,0 +1,8 @@
+pbx
+pbx.exe
+pbx.json
+tibula.db
+
+dist/
+
+!cmd/pbx

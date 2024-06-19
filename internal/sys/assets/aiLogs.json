@@ -1,0 +1,97 @@
+{
+  "module": {
+    "parentName": "ai",
+    "power": 90,
+    "searchLimit": 0,
+    "sqlCreated": 1
+  },
+  "command": [
+    "logout",
+    "new",
+    "edit",
+    "previous",
+    "next",
+    "copy",
+    "delete",
+    "save",
+    "search",
+    "list"
+  ],
+  "field": [
+    {
+      "value": "",
+      "powerEdit": 10,
+      "powerList": 10,
+      "type": "text",
+      "translate": 0,
+      "powerSearch": 10,
+      "name": "source"
+    },
+    {
+      "value": "",
+      "powerEdit": 30,
+      "powerList": 30,
+      "type": "text",
+      "translate": 0,
+      "powerSearch": 0,
+      "name": "audio"
+    },
+    {
+      "value": "",
+      "powerEdit": 40,
+      "powerList": 40,
+      "type": "textArea",
+      "translate": 0,
+      "powerSearch": 0,
+      "name": "text"
+    },
+    {
+      "value": "",
+      "powerEdit": 0,
+      "powerList": 1,
+      "type": "datetime",
+      "translate": 0,
+      "powerSearch": 1,
+      "name": "ejaLog"
+    }
+  ],
+  "translation": [
+    {
+      "ejaLanguage": "en",
+      "word": "aiLogs",
+      "translation": "Logs"
+    },
+    {
+      "ejaLanguage": "en",
+      "ejaModuleName": "aiLogs",
+      "word": "source",
+      "translation": "Source"
+    },
+    {
+      "ejaLanguage": "en",
+      "ejaModuleName": "aiLogs",
+      "word": "destination",
+      "translation": "Destination"
+    },
+    {
+      "ejaLanguage": "en",
+      "ejaModuleName": "aiLogs",
+      "word": "audio",
+      "translation": "Audio File"
+    },
+    {
+      "ejaLanguage": "en",
+      "ejaModuleName": "aiLogs",
+      "word": "text",
+      "translation": "Text"
+    },
+    {
+      "ejaLanguage": "en",
+      "ejaModuleName": "aiLogs",
+      "word": "ejaLog",
+      "translation": "Log"
+    }
+  ],
+  "name": "aiLogs",
+  "data": null
+}

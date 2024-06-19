@@ -1,0 +1,587 @@
+{
+  "module": {
+    "parentName": "ai",
+    "power": 5,
+    "searchLimit": 0,
+    "sqlCreated": 1
+  },
+  "command": [
+    "logout",
+    "run"
+  ],
+  "field": [
+    {
+      "value": "|Off\r\ngoogle|Google\r\nopenai|Openai\r\n",
+      "powerEdit": 0,
+      "powerList": 0,
+      "type": "select",
+      "translate": 0,
+      "powerSearch": 20,
+      "name": "ttsProvider",
+      "sizeSearch": 0,
+      "sizeList": 0,
+      "sizeEdit": 0
+    },
+    {
+      "value": "|Off\r\ngoogle|Google\r\nopenai|Openai",
+      "powerEdit": 0,
+      "powerList": 0,
+      "type": "select",
+      "translate": 0,
+      "powerSearch": 10,
+      "name": "asrProvider",
+      "sizeSearch": 0,
+      "sizeList": 0,
+      "sizeEdit": 0
+    },
+    {
+      "value": "",
+      "powerEdit": 0,
+      "powerList": 0,
+      "type": "boolean",
+      "translate": 0,
+      "powerSearch": 50,
+      "name": "userRestricted",
+      "sizeSearch": 0,
+      "sizeList": 0,
+      "sizeEdit": 0
+    },
+    {
+      "value": "|Off\r\ngoogle|Google\r\nopenai|Openai",
+      "powerEdit": 0,
+      "powerList": 0,
+      "type": "select",
+      "translate": 0,
+      "powerSearch": 5,
+      "name": "llmProvider",
+      "sizeSearch": 0,
+      "sizeList": 0,
+      "sizeEdit": 0
+    },
+    {
+      "value": "SELECT code,internal from aiLanguages",
+      "powerEdit": 0,
+      "powerList": 0,
+      "type": "sqlMatrix",
+      "translate": 0,
+      "powerSearch": 30,
+      "name": "language",
+      "sizeSearch": 0,
+      "sizeList": 0,
+      "sizeEdit": 0
+    },
+    {
+      "value": "",
+      "powerEdit": 0,
+      "powerList": 0,
+      "type": "boolean",
+      "translate": 0,
+      "powerSearch": 40,
+      "name": "logs",
+      "sizeSearch": 0,
+      "sizeList": 0,
+      "sizeEdit": 0
+    },
+    {
+      "value": "",
+      "powerEdit": 0,
+      "powerList": 0,
+      "type": "label",
+      "translate": 0,
+      "powerSearch": 200,
+      "name": "openaiLabel",
+      "sizeSearch": 0,
+      "sizeList": 0,
+      "sizeEdit": 0
+    },
+    {
+      "value": "",
+      "powerEdit": 0,
+      "powerList": 0,
+      "type": "text",
+      "translate": 0,
+      "powerSearch": 203,
+      "name": "openaiModel",
+      "sizeSearch": 0,
+      "sizeList": 0,
+      "sizeEdit": 0
+    },
+    {
+      "value": "",
+      "powerEdit": 0,
+      "powerList": 0,
+      "type": "text",
+      "translate": 0,
+      "powerSearch": 232,
+      "name": "openaiTtsModel",
+      "sizeSearch": 0,
+      "sizeList": 0,
+      "sizeEdit": 0
+    },
+    {
+      "value": "",
+      "powerEdit": 0,
+      "powerList": 0,
+      "type": "text",
+      "translate": 0,
+      "powerSearch": 201,
+      "name": "openaiUrl",
+      "sizeSearch": 0,
+      "sizeList": 0,
+      "sizeEdit": 0
+    },
+    {
+      "value": "",
+      "powerEdit": 0,
+      "powerList": 0,
+      "type": "text",
+      "translate": 0,
+      "powerSearch": 202,
+      "name": "openaiToken",
+      "sizeSearch": 0,
+      "sizeList": 0,
+      "sizeEdit": 0
+    },
+    {
+      "value": "",
+      "powerEdit": 0,
+      "powerList": 0,
+      "type": "text",
+      "translate": 0,
+      "powerSearch": 503,
+      "name": "telegramToken",
+      "sizeSearch": 0,
+      "sizeList": 0,
+      "sizeEdit": 0
+    },
+    {
+      "value": "",
+      "powerEdit": 0,
+      "powerList": 0,
+      "type": "text",
+      "translate": 0,
+      "powerSearch": 101,
+      "name": "googleToken",
+      "sizeSearch": 0,
+      "sizeList": 0,
+      "sizeEdit": 0
+    },
+    {
+      "value": "",
+      "powerEdit": 0,
+      "powerList": 0,
+      "type": "text",
+      "translate": 0,
+      "powerSearch": 502,
+      "name": "asteriskToken",
+      "sizeSearch": 0,
+      "sizeList": 0,
+      "sizeEdit": 0
+    },
+    {
+      "value": "",
+      "powerEdit": 0,
+      "powerList": 0,
+      "type": "label",
+      "translate": 0,
+      "powerSearch": 500,
+      "name": "othersLabel",
+      "sizeSearch": 0,
+      "sizeList": 0,
+      "sizeEdit": 0
+    },
+    {
+      "value": "",
+      "powerEdit": 0,
+      "powerList": 0,
+      "type": "label",
+      "translate": 0,
+      "powerSearch": 300,
+      "name": "metaLabel",
+      "sizeSearch": 0,
+      "sizeList": 0,
+      "sizeEdit": 0
+    },
+    {
+      "value": "",
+      "powerEdit": 0,
+      "powerList": 0,
+      "type": "text",
+      "translate": 0,
+      "powerSearch": 303,
+      "name": "metaUser",
+      "sizeSearch": 0,
+      "sizeList": 0,
+      "sizeEdit": 0
+    },
+    {
+      "value": "",
+      "powerEdit": 0,
+      "powerList": 0,
+      "type": "text",
+      "translate": 0,
+      "powerSearch": 304,
+      "name": "metaAuth",
+      "sizeSearch": 0,
+      "sizeList": 0,
+      "sizeEdit": 0
+    },
+    {
+      "value": "",
+      "powerEdit": 0,
+      "powerList": 0,
+      "type": "text",
+      "translate": 0,
+      "powerSearch": 302,
+      "name": "metaToken",
+      "sizeSearch": 0,
+      "sizeList": 0,
+      "sizeEdit": 0
+    },
+    {
+      "value": "",
+      "powerEdit": 0,
+      "powerList": 0,
+      "type": "text",
+      "translate": 0,
+      "powerSearch": 301,
+      "name": "metaUrl",
+      "sizeSearch": 0,
+      "sizeList": 0,
+      "sizeEdit": 0
+    },
+    {
+      "value": "",
+      "powerEdit": 0,
+      "powerList": 0,
+      "type": "text",
+      "translate": 0,
+      "powerSearch": 230,
+      "name": "openaiTtsUrl",
+      "sizeSearch": 0,
+      "sizeList": 0,
+      "sizeEdit": 0
+    },
+    {
+      "value": "",
+      "powerEdit": 0,
+      "powerList": 0,
+      "type": "text",
+      "translate": 0,
+      "powerSearch": 231,
+      "name": "openaiTtsToken",
+      "sizeSearch": 0,
+      "sizeList": 0,
+      "sizeEdit": 0
+    },
+    {
+      "value": "",
+      "powerEdit": 0,
+      "powerList": 0,
+      "type": "text",
+      "translate": 0,
+      "powerSearch": 220,
+      "name": "openaiAsrUrl",
+      "sizeSearch": 0,
+      "sizeList": 0,
+      "sizeEdit": 0
+    },
+    {
+      "value": "",
+      "powerEdit": 0,
+      "powerList": 0,
+      "type": "text",
+      "translate": 0,
+      "powerSearch": 221,
+      "name": "openaiAsrToken",
+      "sizeSearch": 0,
+      "sizeList": 0,
+      "sizeEdit": 0
+    },
+    {
+      "value": "",
+      "powerEdit": 0,
+      "powerList": 0,
+      "type": "text",
+      "translate": 0,
+      "powerSearch": 222,
+      "name": "openaiAsrModel",
+      "sizeSearch": 0,
+      "sizeList": 0,
+      "sizeEdit": 0
+    },
+    {
+      "value": "",
+      "powerEdit": 0,
+      "powerList": 0,
+      "type": "text",
+      "translate": 0,
+      "powerSearch": 233,
+      "name": "openaiTtsVoice",
+      "sizeSearch": 0,
+      "sizeList": 0,
+      "sizeEdit": 0
+    },
+    {
+      "value": "",
+      "powerEdit": 0,
+      "powerList": 0,
+      "type": "label",
+      "translate": 0,
+      "powerSearch": 100,
+      "name": "googleLabel",
+      "sizeSearch": 0,
+      "sizeList": 0,
+      "sizeEdit": 0
+    },
+    {
+      "value": "",
+      "powerEdit": 0,
+      "powerList": 0,
+      "type": "text",
+      "translate": 0,
+      "powerSearch": 102,
+      "name": "googleModel",
+      "sizeSearch": 0,
+      "sizeList": 0,
+      "sizeEdit": 0
+    },
+    {
+      "value": "MALE|Male\r\nFEMALE|Female",
+      "powerEdit": 0,
+      "powerList": 0,
+      "type": "select",
+      "translate": 0,
+      "powerSearch": 102,
+      "name": "googleTtsGender",
+      "sizeSearch": 0,
+      "sizeList": 0,
+      "sizeEdit": 0
+    },
+    {
+      "value": "",
+      "powerEdit": 0,
+      "powerList": 0,
+      "type": "boolean",
+      "translate": 0,
+      "powerSearch": 501,
+      "name": "asteriskVad",
+      "sizeSearch": 0,
+      "sizeList": 0,
+      "sizeEdit": 0
+    }
+  ],
+  "translation": [
+    {
+      "ejaLanguage": "en",
+      "word": "aiSettings",
+      "translation": "Settings"
+    },
+    {
+      "ejaLanguage": "en",
+      "ejaModuleName": "aiSettings",
+      "word": "ttsProvider",
+      "translation": "TTS Provider"
+    },
+    {
+      "ejaLanguage": "en",
+      "ejaModuleName": "aiSettings",
+      "word": "asrProvider",
+      "translation": "ASR Provider"
+    },
+    {
+      "ejaLanguage": "en",
+      "ejaModuleName": "aiSettings",
+      "word": "userRestricted",
+      "translation": "Members Only"
+    },
+    {
+      "ejaLanguage": "en",
+      "ejaModuleName": "aiSettings",
+      "word": "run",
+      "translation": "Update"
+    },
+    {
+      "ejaLanguage": "en",
+      "ejaModuleName": "aiSettings",
+      "word": "language",
+      "translation": "Language"
+    },
+    {
+      "ejaLanguage": "en",
+      "ejaModuleName": "aiSettings",
+      "word": "llmProvider",
+      "translation": "AI Provider"
+    },
+    {
+      "ejaLanguage": "en",
+      "ejaModuleName": "aiSettings",
+      "word": "logs",
+      "translation": "Logs"
+    },
+    {
+      "ejaLanguage": "en",
+      "ejaModuleName": "aiSettings",
+      "word": "openaiLabel",
+      "translation": "OpenAI"
+    },
+    {
+      "ejaLanguage": "en",
+      "ejaModuleName": "aiSettings",
+      "word": "openaiModel",
+      "translation": "LLM Model"
+    },
+    {
+      "ejaLanguage": "en",
+      "ejaModuleName": "aiSettings",
+      "word": "openaiVoice",
+      "translation": "TTS Model"
+    },
+    {
+      "ejaLanguage": "en",
+      "ejaModuleName": "aiSettings",
+      "word": "openaiUrl",
+      "translation": "LLM URL"
+    },
+    {
+      "ejaLanguage": "en",
+      "ejaModuleName": "aiSettings",
+      "word": "openaiToken",
+      "translation": "LLM Token"
+    },
+    {
+      "ejaLanguage": "en",
+      "ejaModuleName": "aiSettings",
+      "word": "metaLabel",
+      "translation": "WhatsApp"
+    },
+    {
+      "ejaLanguage": "en",
+      "ejaModuleName": "aiSettings",
+      "word": "metaUrl",
+      "translation": "API URL"
+    },
+    {
+      "ejaLanguage": "en",
+      "ejaModuleName": "aiSettings",
+      "word": "metaToken",
+      "translation": "Token"
+    },
+    {
+      "ejaLanguage": "en",
+      "ejaModuleName": "aiSettings",
+      "word": "metaUser",
+      "translation": "User"
+    },
+    {
+      "ejaLanguage": "en",
+      "ejaModuleName": "aiSettings",
+      "word": "metaAuth",
+      "translation": "Auth"
+    },
+    {
+      "ejaLanguage": "en",
+      "ejaModuleName": "aiSettings",
+      "word": "googleToken",
+      "translation": "LLM Token"
+    },
+    {
+      "ejaLanguage": "en",
+      "ejaModuleName": "aiSettings",
+      "word": "telegramToken",
+      "translation": "Telegram Token"
+    },
+    {
+      "ejaLanguage": "en",
+      "ejaModuleName": "aiSettings",
+      "word": "telegramToken",
+      "translation": "Telegram Token"
+    },
+    {
+      "ejaLanguage": "en",
+      "ejaModuleName": "aiSettings",
+      "word": "asteriskToken",
+      "translation": "Asterisk Token"
+    },
+    {
+      "ejaLanguage": "en",
+      "ejaModuleName": "aiSettings",
+      "word": "credentialsLabel",
+      "translation": "Credentials"
+    },
+    {
+      "ejaLanguage": "en",
+      "ejaModuleName": "aiSettings",
+      "word": "openaiTtsUrl",
+      "translation": "TTS URL"
+    },
+    {
+      "ejaLanguage": "en",
+      "ejaModuleName": "aiSettings",
+      "word": "openaiAsrUrl",
+      "translation": "ASR URL"
+    },
+    {
+      "ejaLanguage": "en",
+      "ejaModuleName": "aiSettings",
+      "word": "openaiAsrToken",
+      "translation": "ASR Token"
+    },
+    {
+      "ejaLanguage": "en",
+      "ejaModuleName": "aiSettings",
+      "word": "openaiTtsToken",
+      "translation": "TTS Token"
+    },
+    {
+      "ejaLanguage": "en",
+      "ejaModuleName": "aiSettings",
+      "word": "openaiTtsModel",
+      "translation": "TTS Model"
+    },
+    {
+      "ejaLanguage": "en",
+      "ejaModuleName": "aiSettings",
+      "word": "openaiAsrModel",
+      "translation": "ASR Model"
+    },
+    {
+      "ejaLanguage": "en",
+      "ejaModuleName": "aiSettings",
+      "word": "openaiTtsVoice",
+      "translation": "TTS Voice"
+    },
+    {
+      "ejaLanguage": "en",
+      "ejaModuleName": "aiSettings",
+      "word": "googleModel",
+      "translation": "LLM Model"
+    },
+    {
+      "ejaLanguage": "en",
+      "ejaModuleName": "aiSettings",
+      "word": "googleTtsGender",
+      "translation": "TTS Gender"
+    },
+    {
+      "ejaLanguage": "en",
+      "ejaModuleName": "aiSettings",
+      "word": "googleLabel",
+      "translation": "Google"
+    },
+    {
+      "ejaLanguage": "en",
+      "ejaModuleName": "aiSettings",
+      "word": "othersLabel",
+      "translation": "Others"
+    },
+    {
+      "ejaLanguage": "en",
+      "ejaModuleName": "aiSettings",
+      "word": "asteriskVad",
+      "translation": "Asterisk VAD"
+    }
+  ],
+  "name": "aiSettings",
+  "data": null
+}
