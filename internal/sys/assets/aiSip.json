@@ -1,0 +1,105 @@
+{
+  "module": {
+    "parentName": "ai",
+    "power": 80,
+    "searchLimit": 0,
+    "sqlCreated": 1
+  },
+  "command": [
+    "logout",
+    "new",
+    "edit",
+    "previous",
+    "next",
+    "copy",
+    "delete",
+    "save",
+    "search",
+    "list",
+    "link",
+    "unlink"
+  ],
+  "field": [
+    {
+      "value": "",
+      "powerEdit": 10,
+      "powerList": 10,
+      "type": "text",
+      "translate": 0,
+      "powerSearch": 10,
+      "name": "hostname",
+      "sizeSearch": 0,
+      "sizeList": 0,
+      "sizeEdit": 0
+    },
+    {
+      "value": "",
+      "powerEdit": 20,
+      "powerList": 20,
+      "type": "text",
+      "translate": 0,
+      "powerSearch": 20,
+      "name": "username",
+      "sizeSearch": 0,
+      "sizeList": 0,
+      "sizeEdit": 0
+    },
+    {
+      "value": "",
+      "powerEdit": 30,
+      "powerList": 0,
+      "type": "text",
+      "translate": 0,
+      "powerSearch": 0,
+      "name": "password",
+      "sizeSearch": 0,
+      "sizeList": 0,
+      "sizeEdit": 0
+    },
+    {
+      "value": "",
+      "powerEdit": 5,
+      "powerList": 5,
+      "type": "boolean",
+      "translate": 0,
+      "powerSearch": 5,
+      "name": "active",
+      "sizeSearch": 0,
+      "sizeList": 0,
+      "sizeEdit": 0
+    }
+  ],
+  "translation": [
+    {
+      "ejaLanguage": "en",
+      "word": "aiSip",
+      "translation": "Sip"
+    },
+    {
+      "ejaLanguage": "en",
+      "ejaModuleName": "aiSip",
+      "word": "active",
+      "translation": "Active"
+    },
+    {
+      "ejaLanguage": "en",
+      "ejaModuleName": "aiSip",
+      "word": "hostname",
+      "translation": "Hostname"
+    },
+    {
+      "ejaLanguage": "en",
+      "ejaModuleName": "aiSip",
+      "word": "username",
+      "translation": "Username"
+    },
+    {
+      "ejaLanguage": "en",
+      "ejaModuleName": "aiSip",
+      "word": "password",
+      "translation": "Password"
+    }
+  ],
+  "name": "aiSip",
+  "data": null
+}

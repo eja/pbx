@@ -172,7 +172,7 @@
       "powerList": 0,
       "type": "text",
       "translate": 0,
-      "powerSearch": 502,
+      "powerSearch": 252,
       "name": "asteriskToken",
       "sizeSearch": 0,
       "sizeList": 0,
@@ -185,7 +185,7 @@
       "type": "label",
       "translate": 0,
       "powerSearch": 500,
-      "name": "othersLabel",
+      "name": "telegramLabel",
       "sizeSearch": 0,
       "sizeList": 0,
       "sizeEdit": 0
@@ -364,8 +364,32 @@
       "powerList": 0,
       "type": "boolean",
       "translate": 0,
-      "powerSearch": 501,
+      "powerSearch": 253,
       "name": "asteriskVad",
+      "sizeSearch": 0,
+      "sizeList": 0,
+      "sizeEdit": 0
+    },
+    {
+      "value": "",
+      "powerEdit": 0,
+      "powerList": 0,
+      "type": "text",
+      "translate": 0,
+      "powerSearch": 251,
+      "name": "asteriskUrl",
+      "sizeSearch": 0,
+      "sizeList": 0,
+      "sizeEdit": 0
+    },
+    {
+      "value": "",
+      "powerEdit": 0,
+      "powerList": 0,
+      "type": "label",
+      "translate": 0,
+      "powerSearch": 250,
+      "name": "asteriskLabel",
       "sizeSearch": 0,
       "sizeList": 0,
       "sizeEdit": 0
@@ -489,19 +513,13 @@
       "ejaLanguage": "en",
       "ejaModuleName": "aiSettings",
       "word": "telegramToken",
-      "translation": "Telegram Token"
-    },
-    {
-      "ejaLanguage": "en",
-      "ejaModuleName": "aiSettings",
-      "word": "telegramToken",
-      "translation": "Telegram Token"
+      "translation": "Token"
     },
     {
       "ejaLanguage": "en",
       "ejaModuleName": "aiSettings",
       "word": "asteriskToken",
-      "translation": "Asterisk Token"
+      "translation": "Token"
     },
     {
       "ejaLanguage": "en",
@@ -572,14 +590,26 @@
     {
       "ejaLanguage": "en",
       "ejaModuleName": "aiSettings",
-      "word": "othersLabel",
-      "translation": "Others"
+      "word": "telegramLabel",
+      "translation": "Telegram"
     },
     {
       "ejaLanguage": "en",
       "ejaModuleName": "aiSettings",
       "word": "asteriskVad",
-      "translation": "Asterisk VAD"
+      "translation": "VAD"
+    },
+    {
+      "ejaLanguage": "en",
+      "ejaModuleName": "aiSettings",
+      "word": "asteriskLabel",
+      "translation": "Asterisk"
+    },
+    {
+      "ejaLanguage": "en",
+      "ejaModuleName": "aiSettings",
+      "word": "asteriskUrl",
+      "translation": "ARI URL"
     }
   ],
   "name": "aiSettings",
