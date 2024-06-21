@@ -27,7 +27,7 @@
       "type": "text",
       "translate": 0,
       "powerSearch": 10,
-      "name": "hostname",
+      "name": "address",
       "sizeSearch": 0,
       "sizeList": 0,
       "sizeEdit": 0
@@ -84,8 +84,8 @@
     {
       "ejaLanguage": "en",
       "ejaModuleName": "aiSip",
-      "word": "hostname",
-      "translation": "Hostname"
+      "word": "address",
+      "translation": "Address"
     },
     {
       "ejaLanguage": "en",

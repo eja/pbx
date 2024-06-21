@@ -24,8 +24,8 @@ type typeConfigPbx struct {
 	OpenaiAsrToken string `json:"openai_asr_token,omitempty"`
 	OpenaiAsrModel string `json:"openai_asr_model,omitempty"`
 	Asterisk       bool   `json:"asterisk,omitempty"`
-	AsteriskHost   string `json:"asterisk_host,omitempty"`
-	AsteriskPort   int    `json:"asterisk_port,omitempty"`
+	AsteriskAgi    string `json:"asterisk_agi,omitempty"`
+	AsteriskAri    string `json:"asterisk_ari,omitempty"`
 	AsteriskToken  string `json:"asterisk_token,omitempty"`
 	GoogleToken    string `json:"google_token,omitempty"`
 	GoogleModel    string `json:"google_model,omitempty"`

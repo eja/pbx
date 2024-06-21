@@ -4,7 +4,6 @@ package sys
 
 import (
 	"embed"
-	"strconv"
 	"strings"
 
 	"github.com/eja/tibula/db"
@@ -38,12 +37,9 @@ func Wizard() error {
 	asterisk := sys.WizardPrompt("Enable Asterisk AGI server? (N/y)")
 	if len(asterisk) > 0 && strings.ToLower(asterisk[0:1]) == "y" {
 		Options.Asterisk = true
-		Options.AsteriskHost = sys.WizardPrompt("Asterisk host (localhost)")
-		asteriskPort := sys.WizardPrompt("Asterisk port (4573)")
-		if asteriskPort != "" {
-			Options.AsteriskPort, _ = strconv.Atoi(asteriskPort)
-		}
+		Options.AsteriskAgi = sys.WizardPrompt("Asterisk AGI address (localhost:4573)")
 		Options.AsteriskToken = sys.WizardPrompt("Asterisk token")
+		Options.AsteriskAri = sys.WizardPrompt("Asterisk ARI url")
 	}
 	Options.MailSender = sys.WizardPrompt("Mail Sender")
 

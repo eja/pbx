@@ -272,14 +272,13 @@ func send(conn net.Conn, tx string) (rx string, err error) {
 }
 
 func Start() error {
-	uri := fmt.Sprintf("%s:%d", sys.Options.AsteriskHost, sys.Options.AsteriskPort)
-	listener, err := net.Listen("tcp", uri)
+	listener, err := net.Listen("tcp", sys.Options.AsteriskAgi)
 	if err != nil {
 		return err
 	}
 	defer listener.Close()
 
-	log.Info(tag, "ready on", uri)
+	log.Info(tag, "ready on", sys.Options.AsteriskAgi)
 	for {
 		conn, err := listener.Accept()
 		if err != nil {

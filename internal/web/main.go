@@ -9,6 +9,7 @@ import (
 	"github.com/eja/tibula/api"
 	"github.com/eja/tibula/db"
 	"github.com/eja/tibula/web"
+	"pbx/internal/asterisk"
 	"pbx/internal/core"
 	"pbx/internal/sys"
 )
@@ -56,6 +57,22 @@ func Router() error {
 			}
 		} else {
 			eja.Values = data
+		}
+
+		return eja
+	}
+
+	api.Plugins["aiSip"] = func(eja api.TypeApi) api.TypeApi {
+		if eja.Action == "save" {
+			if eja.Values["address"] != "" && eja.Values["username"] != "" && eja.Values["password"] != "" {
+				if err := asterisk.SipUpdate(eja.Values["address"], eja.Values["username"], eja.Values["password"]); err != nil {
+					eja.Alert = append(eja.Alert, fmt.Sprintf("Sync error: %v", err))
+				} else {
+					eja.Info = append(eja.Info, "SIP account synced")
+				}
+			} else {
+				eja.Alert = append(eja.Alert, "Missing fields, not syncing")
+			}
 		}
 
 		return eja
