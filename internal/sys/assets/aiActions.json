@@ -45,7 +45,7 @@
     {
       "value": "",
       "powerEdit": 1,
-      "powerList": 7,
+      "powerList": 1,
       "type": "boolean",
       "translate": 0,
       "powerSearch": 1,
@@ -74,6 +74,18 @@
       "translate": 0,
       "powerSearch": 0,
       "name": "response",
+      "sizeSearch": 0,
+      "sizeList": 0,
+      "sizeEdit": 0
+    },
+    {
+      "value": "all\r\npbx\r\nchat\r\n",
+      "powerEdit": 5,
+      "powerList": 5,
+      "type": "select",
+      "translate": 0,
+      "powerSearch": 5,
+      "name": "platform",
       "sizeSearch": 0,
       "sizeList": 0,
       "sizeEdit": 0
@@ -114,6 +126,12 @@
       "ejaModuleName": "aiActions",
       "word": "action",
       "translation": "Action"
+    },
+    {
+      "ejaLanguage": "en",
+      "ejaModuleName": "aiActions",
+      "word": "platform",
+      "translation": "Platform"
     }
   ],
   "name": "aiActions",
@@ -123,6 +141,7 @@
       "active": "1",
       "function": "",
       "language": "en",
+      "platform": "chat",
       "response": "*/help* this list of commands\r\n*/reset* starts a new chat"
     },
     {
@@ -130,6 +149,7 @@
       "active": "1",
       "function": "",
       "language": "es",
+      "platform": "chat",
       "response": "*/help* esta lista de comandos \r\n*/reset* inicia un nuevo chat "
     },
     {
@@ -137,6 +157,7 @@
       "active": "1",
       "function": "",
       "language": "it",
+      "platform": "chat",
       "response": "*/help* questa lista di comandi\r\n*/reset* inizia una nuova chat"
     },
     {
@@ -144,6 +165,7 @@
       "active": "1",
       "function": "reset",
       "language": "it",
+      "platform": "all",
       "response": "Ripartiamo da zero..."
     },
     {
@@ -151,6 +173,7 @@
       "active": "1",
       "function": "reset",
       "language": "es",
+      "platform": "all",
       "response": "Empecemos desde cero..."
     },
     {
@@ -158,34 +181,39 @@
       "active": "1",
       "function": "reset",
       "language": "en",
+      "platform": "all",
       "response": "Let's start from scratch..."
     },
     {
-      "action": "/asterisk_welcome",
+      "action": "/welcome",
       "active": "1",
       "function": "reset",
       "language": "it",
+      "platform": "pbx",
       "response": "Benvenuto alla segreteria intelligente di eja.it, fammi sapere se hai bisogno di informazioni sui nostri prodotti o sui nostri servizi."
     },
     {
-      "action": "/asterisk_welcome",
+      "action": "/welcome",
       "active": "1",
       "function": "reset",
       "language": "en",
+      "platform": "pbx",
       "response": "Welcome to the intelligent answering machine of eja.it.\r\nLet me know if you need information about our products or services."
     },
     {
-      "action": "/asterisk_welcome",
+      "action": "/welcome",
       "active": "1",
       "function": "reset",
       "language": "es",
+      "platform": "pbx",
       "response": "Bienvenido al contestador inteligente de eja.it, avísame si necesitas información sobre nuestros productos o servicios."
     },
     {
-      "action": "/asterisk_welcome",
+      "action": "/welcome",
       "active": "1",
       "function": "reset",
       "language": "de",
+      "platform": "pbx",
       "response": "Willkommen beim intelligenten Sprachdialogsystem von eja.it.\r\nLass mich wissen, wenn du Informationen über unsere Produkte oder Dienstleistungen benötigst."
     },
     {
@@ -193,6 +221,7 @@
       "active": "1",
       "function": "",
       "language": "de",
+      "platform": "chat",
       "response": "*/help* diese Liste von Befehlen\r\n*/reset* startet einen neuen Dialog"
     },
     {
@@ -200,48 +229,47 @@
       "active": "1",
       "function": "reset",
       "language": "de",
+      "platform": "all",
       "response": "Nochmal neu..."
     },
     {
-      "action": "/asterisk_error",
+      "action": "/error",
       "active": "1",
       "function": "",
       "language": "en",
+      "platform": "pbx",
       "response": "I'm sorry, but there is a communication problem with the server, please try again later."
     },
     {
-      "action": "/asterisk_error",
+      "action": "/error",
       "active": "1",
       "function": "",
       "language": "es",
+      "platform": "pbx",
       "response": "Lo siento, pero hay un problema de comunicación con el servidor, por favor inténtalo de nuevo más tarde."
     },
     {
-      "action": "/asterisk_error",
+      "action": "/error",
       "active": "1",
       "function": "",
       "language": "de",
+      "platform": "pbx",
       "response": "Es tut mir leid, aber es gibt ein Kommunikationsproblem mit dem Server. Bitte versuchen Sie es später erneut."
     },
     {
-      "action": "/asterisk_error",
+      "action": "/error",
       "active": "1",
       "function": "",
       "language": "it",
+      "platform": "pbx",
       "response": "Mi dispiace, ma c'è un problema di comunicazione con il server, riprova più tardi."
-    },
-    {
-      "action": "/asterisk_language",
-      "active": "1",
-      "function": "",
-      "language": "",
-      "response": "Please press one for English.\r\nPresione dos para hablar en Español.\r\nDrucken Sie die Drei für Deutsch.\r\nPremi quattro per parlare in Italiano."
     },
     {
       "action": "/hangup",
       "active": "1",
       "function": "mail",
       "language": "",
+      "platform": "pbx",
       "response": "pbx@eja.it"
     },
     {
@@ -249,6 +277,7 @@
       "active": "1",
       "function": "",
       "language": "it",
+      "platform": "chat",
       "response": "Benvenuto, manda un messaggio con la parola */help* in qualsiasi momento per avere la lista dei comandi disponibili. Ricorda che stai dialogando con un'intelligenza artificiale per cui mai ed in nessuna circostanza devi fare affidamento su cio' che ti viene detto o scritto, buon divertimento! :)"
     },
     {
@@ -256,6 +285,7 @@
       "active": "1",
       "function": "",
       "language": "en",
+      "platform": "chat",
       "response": "Welcome, send a message with the word */help* at any time to get the list of available commands. Remember that you are interacting with an artificial intelligence, so never rely on what you are told or written in any circumstance.\r\nHave fun! :)"
     },
     {
@@ -263,6 +293,7 @@
       "active": "1",
       "function": "",
       "language": "es",
+      "platform": "chat",
       "response": "¡Bienvenido! Envía un mensaje con la palabra */help* en cualquier momento para obtener la lista de comandos disponibles. Recuerda que estás interactuando con una inteligencia artificial, así que nunca debes confiar en lo que se te dice o escribe en ninguna circunstancia.\r\n¡Que te diviertas! :)"
     },
     {
@@ -270,7 +301,8 @@
       "active": "1",
       "function": "",
       "language": "de",
+      "platform": "chat",
       "response": "Willkommen! Schicke jederzeit eine Nachricht mit dem Wort */help*, um die Liste der verfügbaren Befehle zu erhalten. Denke daran, dass du mit einer künstlichen Intelligenz interagierst, also solltest du niemals in irgendeiner Situation auf das vertrauen, was dir gesagt oder geschrieben wird.\r\nViel Spaß! :)"
-   }
+    }
   ]
 }

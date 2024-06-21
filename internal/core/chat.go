@@ -21,7 +21,7 @@ var history map[string][]sys.TypeChatMessage
 var historyTime map[string]time.Time
 var historyInit bool
 
-func Chat(userId, message, language string) (string, error) {
+func Chat(platform, userId, message, language string) (string, error) {
 	var response, system, assistant string
 	var err error
 	aiSettings := db.Settings()
@@ -35,7 +35,7 @@ func Chat(userId, message, language string) (string, error) {
 		historyInit = true
 	}
 
-	if rows, err := db.SystemPrompt(); err != nil {
+	if rows, err := db.SystemPrompt(platform); err != nil {
 		return "", err
 	} else {
 		for _, row := range rows {
@@ -49,7 +49,7 @@ func Chat(userId, message, language string) (string, error) {
 	if strings.HasPrefix(message, "/") {
 		action = true
 		parameters := strings.Split(message, " ")
-		var actionFunction, actionResponse = db.ChatAction(parameters[0], language)
+		var actionFunction, actionResponse = db.ChatAction(platform, parameters[0], language)
 		if actionFunction != "" {
 			if AiChatPlugins[actionFunction] != nil {
 				response = AiChatPlugins[actionFunction](userId, language, message, actionResponse)

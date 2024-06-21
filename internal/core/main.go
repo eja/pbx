@@ -46,7 +46,7 @@ func FilterLanguage(tags []string, language string) string {
 }
 
 func Text(userId string, language string, text string) (string, error) {
-	response, err := Chat(userId, text, language)
+	response, err := Chat("chat", userId, text, language)
 	if err == nil {
 		response, _ = TagsExtract(response)
 	}
@@ -87,7 +87,7 @@ func Audio(platform string, userId string, language string, chatId string, media
 		return "", nil
 	}
 
-	responseRaw, err := Chat(userId, transcript, language)
+	responseRaw, err := Chat("chat", userId, transcript, language)
 	if err != nil {
 		return "", err
 	}

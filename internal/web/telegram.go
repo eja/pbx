@@ -69,7 +69,7 @@ func telegramRouter(w http.ResponseWriter, r *http.Request) {
 
 		if err == nil && user != nil {
 			if db.Number(user["welcome"]) < 1 {
-				_, actionResponse := db.ChatAction("/welcome", user["language"])
+				_, actionResponse := db.ChatAction("chat", "/welcome", user["language"])
 				telegram.SendText(chatId, actionResponse)
 				db.UserUpdate(userId, "welcome", "1")
 			}

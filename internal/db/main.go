@@ -23,12 +23,18 @@ func UserUpdate(id string, field string, value string) (err error) {
 	return
 }
 
-func SystemPrompt() (db.TypeRows, error) {
-	return db.Rows("SELECT prompt FROM aiPrompts WHERE active > 0 ORDER BY power ASC")
+func SystemPrompt(platform string) (db.TypeRows, error) {
+	return db.Rows("SELECT prompt FROM aiPrompts WHERE active > 0 AND (platform='' OR platform='all' OR platform=?) ORDER BY power ASC", platform)
 }
 
-func ChatAction(action string, language string) (function string, response string) {
-	values, err := db.Row("SELECT function, response FROM aiActions WHERE active>0 AND action=? AND (language=? OR language='') ORDER by language DESC LIMIT 1", action, language)
+func ChatAction(platform, action, language string) (function, response string) {
+	values, err := db.Row(`SELECT function, response FROM aiActions WHERE 
+			active>0 AND 
+			action=? AND 
+			(language=? OR language='') AND 
+			(platform='' OR platform='all' OR platform=?) 
+			ORDER by language DESC LIMIT 1`,
+		action, language, platform)
 	if err == nil {
 		function = values["function"]
 		response = values["response"]
