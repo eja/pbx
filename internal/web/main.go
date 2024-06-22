@@ -4,14 +4,12 @@ package web
 
 import (
 	"fmt"
-	"strings"
 
 	"github.com/eja/tibula/api"
 	"github.com/eja/tibula/db"
 	"github.com/eja/tibula/web"
 	"pbx/internal/asterisk"
 	"pbx/internal/core"
-	"pbx/internal/sys"
 )
 
 func Router() error {
@@ -38,22 +36,7 @@ func Router() error {
 				db.New(eja.Owner, eja.ModuleId)
 			}
 			for k, v := range eja.Values {
-				add := true
-				if strings.Contains("#llmProvider#ttsProvider#asrProvider#", "#"+k+"#") {
-					if v == "google" && sys.Options.GoogleToken == "" && eja.Values["googleToken"] == "" {
-						add = false
-						eja.Values[k] = ""
-					}
-					if v == "openai" && sys.Options.OpenaiToken == "" && eja.Values["openaiToken"] == "" {
-						add = false
-						eja.Values[k] = ""
-					}
-				}
-				if add {
-					db.Put(eja.Owner, eja.ModuleId, 1, k, v)
-				} else {
-					eja.Alert = append(eja.Alert, "Missing provider credentials, cannot enable")
-				}
+				db.Put(eja.Owner, eja.ModuleId, 1, k, v)
 			}
 		} else {
 			eja.Values = data
@@ -65,7 +48,7 @@ func Router() error {
 	api.Plugins["aiSip"] = func(eja api.TypeApi) api.TypeApi {
 		if eja.Action == "save" {
 			if eja.Values["address"] != "" && eja.Values["username"] != "" && eja.Values["password"] != "" {
-				if err := asterisk.SipUpdate(eja.Values["address"], eja.Values["username"], eja.Values["password"]); err != nil {
+				if err := asterisk.SipUpdate(eja.Values["address"], eja.Values["username"], eja.Values["password"], eja.Values["trunk"], eja.Values["webrtc"]); err != nil {
 					eja.Alert = append(eja.Alert, fmt.Sprintf("Sync error: %v", err))
 				} else {
 					eja.Info = append(eja.Info, "SIP account synced")

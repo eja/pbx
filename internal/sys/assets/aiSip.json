@@ -67,6 +67,30 @@
       "sizeSearch": 0,
       "sizeList": 0,
       "sizeEdit": 0
+    },
+    {
+      "value": "",
+      "powerEdit": 6,
+      "powerList": 6,
+      "type": "boolean",
+      "translate": 0,
+      "powerSearch": 0,
+      "name": "trunk",
+      "sizeSearch": 0,
+      "sizeList": 0,
+      "sizeEdit": 0
+    },
+    {
+      "value": "",
+      "powerEdit": 7,
+      "powerList": 7,
+      "type": "boolean",
+      "translate": 0,
+      "powerSearch": 0,
+      "name": "webrtc",
+      "sizeSearch": 0,
+      "sizeList": 0,
+      "sizeEdit": 0
     }
   ],
   "translation": [
@@ -98,6 +122,18 @@
       "ejaModuleName": "aiSip",
       "word": "password",
       "translation": "Password"
+    },
+    {
+      "ejaLanguage": "en",
+      "ejaModuleName": "aiSip",
+      "word": "trunk",
+      "translation": "Trunk"
+    },
+    {
+      "ejaLanguage": "en",
+      "ejaModuleName": "aiSip",
+      "word": "webrtc",
+      "translation": "WebRTC"
     }
   ],
   "name": "aiSip",

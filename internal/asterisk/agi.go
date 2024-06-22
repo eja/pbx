@@ -84,7 +84,6 @@ func session(conn net.Conn) (err error) {
 	} else {
 		vad := db.Number(aiSettings["asteriskVad"]) > 0
 		monitorFile := fmt.Sprintf("%s/monitor.%s.%s.wav", sys.Options.MediaPath, phone, agi.uniqueId)
-		welcome := "/welcome"
 
 		if agi.extension == "h" {
 			if _, err = core.Chat(platform, phone, "/hangup "+monitorFile, language); err != nil {
@@ -114,7 +113,7 @@ func session(conn net.Conn) (err error) {
 			}
 		}
 
-		if message, err := core.Chat(platform, phone, welcome, language); err != nil {
+		if message, err := core.Chat(platform, phone, "/welcome", language); err != nil {
 			return err
 		} else if err := play(conn, phone, message, language, vad); err != nil {
 			return err

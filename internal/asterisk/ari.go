@@ -4,7 +4,6 @@ package asterisk
 
 import (
 	"bytes"
-	"crypto/md5"
 	"encoding/base64"
 	"encoding/json"
 	"fmt"
@@ -57,7 +56,7 @@ func ari(method, token, origin, class, id string, data AriPayload) (ariResponse 
 	return
 }
 
-func SipUpdate(address, username, password string) (err error) {
+func SipUpdate(address, username, password, trunk, webrtc string) (err error) {
 	aiSettings := db.Settings()
 	token := aiSettings["asteriskToken"]
 	if token == "" {
@@ -67,7 +66,6 @@ func SipUpdate(address, username, password string) (err error) {
 	if origin == "" {
 		origin = sys.Options.AsteriskAri
 	}
-	id := fmt.Sprintf("%x", md5.Sum([]byte(address+username)))
 
 	auth := AriPayload{
 		Fields: []AriField{
@@ -75,7 +73,7 @@ func SipUpdate(address, username, password string) (err error) {
 			{Attribute: "password", Value: password},
 		},
 	}
-	if _, err = ari("put", token, origin, "auth", id, auth); err != nil {
+	if _, err = ari("put", token, origin, "auth", username, auth); err != nil {
 		return
 	}
 
@@ -86,39 +84,42 @@ func SipUpdate(address, username, password string) (err error) {
 			{Attribute: "max_contacts", Value: "1"},
 		},
 	}
-	if _, err = ari("put", token, origin, "aor", id, aor); err != nil {
+	if _, err = ari("put", token, origin, "aor", username, aor); err != nil {
 		return
 	}
 
 	endpoint := AriPayload{
 		Fields: []AriField{
 			{Attribute: "context", Value: "agi"},
-			{Attribute: "aors", Value: id},
-			{Attribute: "auth", Value: id},
-			{Attribute: "outbound_auth", Value: id},
+			{Attribute: "aors", Value: username},
+			{Attribute: "auth", Value: username},
+			{Attribute: "outbound_auth", Value: username},
 			{Attribute: "from_user", Value: username},
 			{Attribute: "from_domain", Value: address},
 			{Attribute: "allow", Value: "!all,ulaw,alaw"},
 		},
 	}
-	if _, err = ari("put", token, origin, "endpoint", id, endpoint); err != nil {
+	if db.Number(webrtc) > 0 {
+		endpoint.Fields = append(endpoint.Fields, AriField{Attribute: "webrtc", Value: "yes"})
+	}
+	if _, err = ari("put", token, origin, "endpoint", username, endpoint); err != nil {
 		return
 	}
 
-	/*
+	if db.Number(trunk) > 0 {
 		registration := AriPayload{
 			Fields: []AriField{
-				{Attribute: "outbound_auth", Value: id},
-				{Attribute: "endpoint", Value: id},
+				{Attribute: "outbound_auth", Value: username},
+				{Attribute: "endpoint", Value: username},
 				{Attribute: "line", Value: "yes"},
 				{Attribute: "contact_user", Value: username},
 				{Attribute: "server_uri", Value: fmt.Sprintf("sip:%s", address)},
 				{Attribute: "client_uri", Value: fmt.Sprintf("sip:%s@%s", username, address)},
 			},
 		}
-		if _, err = ari("put", token, origin, "registration", id, registration); err != nil {
+		if _, err = ari("put", token, origin, "registration", username, registration); err != nil {
 			return
 		}
-	*/
+	}
 	return
 }
