@@ -82,8 +82,8 @@
     {
       "ejaLanguage": "en",
       "ejaModuleName": "aiLogs",
-      "word": "text",
-      "translation": "Text"
+      "word": "message",
+      "translation": "Message"
     },
     {
       "ejaLanguage": "en",
