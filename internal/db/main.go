@@ -54,10 +54,10 @@ func Settings() (values db.TypeRow) {
 	return
 }
 
-func Log(source, text string) error {
+func Log(source, message string) error {
 	settings := Settings()
 	if Number(settings["logs"]) > 0 {
-		if _, err := db.Run(`INSERT INTO aiLogs (ejaOwner, ejaLog, source, text) VALUES (1,?,?,?)`, db.Now(), source, text); err != nil {
+		if _, err := db.Run(`INSERT INTO aiLogs (ejaOwner, ejaLog, source, message) VALUES (1,?,?,?)`, db.Now(), source, message); err != nil {
 			return err
 		}
 	}
