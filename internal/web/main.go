@@ -46,6 +46,18 @@ func Router() error {
 	}
 
 	api.Plugins["aiSip"] = func(eja api.TypeApi) api.TypeApi {
+		if eja.Action == "delete" {
+			if eja.Values["username"] != "" {
+				if err := asterisk.SipDelete(eja.Values["username"]); err != nil {
+					eja.Alert = append(eja.Alert, "Sync error, please check asterisk")
+				} else {
+					eja.Info = append(eja.Info, "SIP account removed from Asterisk")
+				}
+			} else {
+				eja.Alert = append(eja.Alert, "Empty values, didn't sync")
+			}
+
+		}
 		if eja.Action == "save" {
 			if eja.Values["address"] != "" && eja.Values["username"] != "" && eja.Values["password"] != "" {
 				if err := asterisk.SipUpdate(eja.Values["address"], eja.Values["username"], eja.Values["password"], eja.Values["trunk"], eja.Values["webrtc"]); err != nil {

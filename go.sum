@@ -2,6 +2,8 @@ github.com/eja/tibula v0.0.0-20240519103102-7ec53596327e h1:UYLxvkGtjlACZ2avEwrf
 github.com/eja/tibula v0.0.0-20240519103102-7ec53596327e/go.mod h1:poUDfEk3hfr4SP4CVRQ+RhRv2fRapNM7l8brrtaSjfE=
 github.com/eja/tibula v0.0.0-20240623093955-94c7ca4ce516 h1:nqqFP0BOL5mJeP87V5g7Zb5/PRUxCDAjnL4LWUFI5+w=
 github.com/eja/tibula v0.0.0-20240623093955-94c7ca4ce516/go.mod h1:poUDfEk3hfr4SP4CVRQ+RhRv2fRapNM7l8brrtaSjfE=
+github.com/eja/tibula v0.0.0-20240625083126-62c049885291 h1:Q/TT09Hy+y5bHdsyuX/IFXN8xFUefuZ6eiMCDEtUSlc=
+github.com/eja/tibula v0.0.0-20240625083126-62c049885291/go.mod h1:poUDfEk3hfr4SP4CVRQ+RhRv2fRapNM7l8brrtaSjfE=
 github.com/go-sql-driver/mysql v1.7.1 h1:lUIinVbN1DY0xBg0eMOzmmtGoHwWBbvnWubQUrtU8EI=
 github.com/go-sql-driver/mysql v1.7.1/go.mod h1:OXbVy3sEdcQ2Doequ6Z5BW6fXNQTmx+9S1MCJN5yJMI=
 github.com/mattn/go-sqlite3 v1.14.19 h1:fhGleo2h1p8tVChob4I9HpmVFIAkKGpiukdrgQbWfGI=

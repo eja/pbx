@@ -50,10 +50,34 @@ func ari(method, token, origin, class, id string, data AriPayload) (ariResponse 
 	}
 	defer resp.Body.Close()
 
-	if resp.StatusCode != http.StatusOK {
+	if resp.StatusCode != http.StatusOK && resp.StatusCode != http.StatusNoContent {
 		return nil, fmt.Errorf("Request failed with status code: %d\n", resp.StatusCode)
 	}
 	return
+}
+
+func SipDelete(username string) (err error) {
+	aiSettings := db.Settings()
+	token := aiSettings["asteriskToken"]
+	if token == "" {
+		token = sys.Options.AsteriskToken
+	}
+	origin := aiSettings["asteriskAri"]
+	if origin == "" {
+		origin = sys.Options.AsteriskAri
+	}
+
+	if _, err = ari("delete", token, origin, "endpoint", username, AriPayload{}); err != nil {
+		return
+	}
+	if _, err = ari("delete", token, origin, "aor", username, AriPayload{}); err != nil {
+		return
+	}
+	if _, err = ari("delete", token, origin, "auth", username, AriPayload{}); err != nil {
+		return
+	}
+
+	return nil
 }
 
 func SipUpdate(address, username, password, trunk, webrtc string) (err error) {
@@ -95,6 +119,7 @@ func SipUpdate(address, username, password, trunk, webrtc string) (err error) {
 			{Attribute: "from_user", Value: username},
 			{Attribute: "from_domain", Value: address},
 			{Attribute: "allow", Value: "!all,ulaw,alaw"},
+			{Attribute: "set_var", Value: fmt.Sprintf(`"AGI_TOKEN=%s"`, token)},
 		},
 	}
 	if db.Number(webrtc) > 0 {
