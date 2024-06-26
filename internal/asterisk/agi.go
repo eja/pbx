@@ -7,6 +7,7 @@ import (
 	"crypto/md5"
 	"fmt"
 	"net"
+	"net/url"
 	"os"
 	"strings"
 	"time"
@@ -26,6 +27,7 @@ type AgiType struct {
 	callerId  string
 	extension string
 	language  string
+	request   string
 }
 
 func session(conn net.Conn) (err error) {
@@ -54,6 +56,14 @@ func session(conn net.Conn) (err error) {
 	aiSettings := db.Settings()
 	authorized := false
 	phone := agi.callerId
+
+	if agi.token == "" {
+		if parsedUrl, err := url.Parse(agi.request); err == nil {
+			if len(parsedUrl.Path) > 1 {
+				agi.token = parsedUrl.Path[1:]
+			}
+		}
+	}
 
 	asteriskToken := aiSettings["asteriskToken"]
 	if asteriskToken == "" {
@@ -245,6 +255,8 @@ func processHeader(line string, agi *AgiType) {
 		agi.language = value
 	case "agi_extension":
 		agi.extension = value
+	case "agi_request":
+		agi.request = value
 	case "agi_arg_1":
 		agi.token = value
 	}

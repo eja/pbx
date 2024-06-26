@@ -112,6 +112,12 @@ func SipUpdate(address, username, password, trunk, webrtc string) (err error) {
 		return
 	}
 
+	if _, err = ari("get", token, origin, "endpoint", username, AriPayload{}); err == nil {
+		if _, err = ari("delete", token, origin, "endpoint", username, AriPayload{}); err != nil {
+			return
+		}
+	}
+
 	endpoint := AriPayload{
 		Fields: []AriField{
 			{Attribute: "context", Value: "agi"},
@@ -119,7 +125,7 @@ func SipUpdate(address, username, password, trunk, webrtc string) (err error) {
 			{Attribute: "from_user", Value: username},
 			{Attribute: "from_domain", Value: address},
 			{Attribute: "allow", Value: "!all,ulaw,alaw"},
-			{Attribute: "set_var", Value: fmt.Sprintf(`"AGI_TOKEN=%s"`, token)},
+			{Attribute: "set_var", Value: fmt.Sprintf("set_var=AGI=agi://%s/%s", sys.Options.AsteriskAgi, token)},
 		},
 	}
 	if db.Number(webrtc) > 0 {
