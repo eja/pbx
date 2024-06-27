@@ -21,7 +21,6 @@ func Configure() error {
 	flag.StringVar(&Options.MetaToken, "meta-token", "", "Meta token")
 	flag.StringVar(&Options.TelegramToken, "telegram-token", "", "Telegram token")
 	flag.StringVar(&Options.OpenaiToken, "openai-token", "", "OpenAI LLM token")
-	flag.StringVar(&Options.OpenaiUrl, "openai-url", "https://api.openai.com/v1/chat/completions", "OpenAI LLM url")
 	flag.StringVar(&Options.OpenaiModel, "openai-model", "gpt-3.5-turbo", "OpenAI LLM model")
 	flag.StringVar(&Options.AsteriskAgi, "asterisk-agi", "127.0.0.1:4573", "Asterisk AGI address")
 	flag.StringVar(&Options.AsteriskAri, "asterisk-ari", "http://localhost:8088", "Asterisk ARI url")

@@ -31,7 +31,6 @@ func Wizard() error {
 	}
 	Options.OpenaiToken = sys.WizardPrompt("OpenAI LLM key")
 	if Options.OpenaiToken != "" {
-		Options.OpenaiUrl = sys.WizardPrompt("OpenAI LLM url")
 		Options.OpenaiModel = sys.WizardPrompt("OpenAI LLM model")
 	}
 	asterisk := sys.WizardPrompt("Enable Asterisk AGI server? (N/y)")

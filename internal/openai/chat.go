@@ -12,6 +12,8 @@ import (
 	"pbx/internal/sys"
 )
 
+const llmUrl = "https://api.openai.com/v1/chat/completions"
+
 type typeChatResponse struct {
 	ID      string `json:"id"`
 	Object  string `json:"object"`
@@ -29,7 +31,7 @@ func Chat(messages []sys.TypeChatMessage, system string) (string, error) {
 	aiSettings := db.Settings()
 	url := aiSettings["openaiUrl"]
 	if url == "" {
-		url = sys.Options.OpenaiUrl
+		url = llmUrl
 	}
 	model := aiSettings["openaiModel"]
 	if model == "" {
