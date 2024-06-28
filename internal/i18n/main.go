@@ -3,11 +3,12 @@
 package i18n
 
 import (
-	"github.com/eja/tibula/db"
+	"pbx/internal/db"
 	"pbx/internal/sys"
 )
 
 func DefaultLanguage() string {
+	db, _ := db.Open()
 	language, err := db.Value("SELECT language FROM aiSettings WHERE ejaId=1")
 	if err != nil || language == "" {
 		language = sys.Options.Language
@@ -16,6 +17,7 @@ func DefaultLanguage() string {
 }
 
 func Translate(language string, label string) string {
+	db, _ := db.Open()
 	if language == "" {
 		language = DefaultLanguage()
 	}
@@ -28,6 +30,7 @@ func Translate(language string, label string) string {
 }
 
 func LanguageCodeToLocale(language string) string {
+	db, _ := db.Open()
 	if language == "" {
 		language = DefaultLanguage()
 	}
@@ -40,6 +43,7 @@ func LanguageCodeToLocale(language string) string {
 }
 
 func LanguageCodeToInternal(language string) string {
+	db, _ := db.Open()
 	if language == "" {
 		language = DefaultLanguage()
 	}

@@ -6,7 +6,7 @@ import (
 	"embed"
 	"strings"
 
-	"github.com/eja/tibula/db"
+	tibulaDb "github.com/eja/tibula/db"
 	"github.com/eja/tibula/sys"
 )
 
@@ -42,7 +42,9 @@ func Wizard() error {
 	}
 	Options.MailSender = sys.WizardPrompt("Mail Sender")
 
-	db.Assets = dbAssets
+	tibulaDb.Assets = dbAssets
+
+	db := tibulaDb.Session()
 	if err := db.Open(Options.DbType, Options.DbName, Options.DbUser, Options.DbPass, Options.DbHost, Options.DbPort); err != nil {
 		return err
 	}

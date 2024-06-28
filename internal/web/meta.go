@@ -34,10 +34,6 @@ type typeMetaMessage struct {
 }
 
 func metaRouter(w http.ResponseWriter, r *http.Request) {
-	if err := db.Open(); err != nil {
-		return
-	}
-
 	if r.Method == http.MethodGet {
 		hubMode := r.URL.Query().Get("hub.mode")
 		verifyToken := r.URL.Query().Get("hub.verify_token")
@@ -72,7 +68,7 @@ func metaRouter(w http.ResponseWriter, r *http.Request) {
 					aiSettings := db.Settings()
 
 					user, err := db.UserGet(userId)
-					if user == nil && db.Number(aiSettings["userRestricted"]) < 1 {
+					if user == nil && sys.Number(aiSettings["userRestricted"]) < 1 {
 						user = make(map[string]string)
 						user["welcome"] = "1"
 						user["language"] = aiSettings["language"]
@@ -87,7 +83,7 @@ func metaRouter(w http.ResponseWriter, r *http.Request) {
 							log.Warn("[FB]", "status", userId, chatId, err)
 						}
 
-						if db.Number(user["welcome"]) < 1 {
+						if sys.Number(user["welcome"]) < 1 {
 							_, actionResponse := db.ChatAction("chat", "/welcome", user["language"])
 							meta.SendText(userId, actionResponse)
 							db.UserUpdate(userId, "welcome", "1")
@@ -103,14 +99,14 @@ func metaRouter(w http.ResponseWriter, r *http.Request) {
 								log.Warn("[FB]", userId, err)
 							}
 						} else if message.Audio != nil {
-							if db.Number(user["audio"]) > 0 {
+							if sys.Number(user["audio"]) > 0 {
 								response, err := core.Audio(
 									platform,
 									userId,
 									user["language"],
 									chatId,
 									message.Audio.ID,
-									db.Number(user["audio"]) > 1,
+									sys.Number(user["audio"]) > 1,
 								)
 								if err != nil {
 									log.Warn("[FB]", userId, chatId, err)

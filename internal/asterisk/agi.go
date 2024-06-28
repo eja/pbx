@@ -49,10 +49,6 @@ func session(conn net.Conn) (err error) {
 		}
 	}
 
-	if err := db.Open(); err != nil {
-		return err
-	}
-
 	aiSettings := db.Settings()
 	authorized := false
 	phone := agi.callerId
@@ -78,7 +74,7 @@ func session(conn net.Conn) (err error) {
 	if agi.token != asteriskToken {
 		log.Warn(tag, "wrong authorization token")
 	} else {
-		if db.Number(aiSettings["userRestricted"]) == 0 {
+		if sys.Number(aiSettings["userRestricted"]) == 0 {
 			authorized = true
 		} else {
 			user, err := db.UserGet(phone)
@@ -92,7 +88,7 @@ func session(conn net.Conn) (err error) {
 	if !authorized {
 		return fmt.Errorf("user not authorized")
 	} else {
-		vad := db.Number(aiSettings["asteriskVad"]) > 0
+		vad := sys.Number(aiSettings["asteriskVad"]) > 0
 		monitorFile := fmt.Sprintf("%s/monitor.%s.%s.wav", sys.Options.MediaPath, phone, agi.uniqueId)
 
 		if agi.extension == "h" {

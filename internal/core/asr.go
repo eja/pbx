@@ -8,6 +8,7 @@ import (
 	"pbx/internal/google"
 	"pbx/internal/i18n"
 	"pbx/internal/openai"
+	"pbx/internal/sys"
 )
 
 func ASR(fileAudioInput, language string) (string, error) {
@@ -20,7 +21,7 @@ func ASR(fileAudioInput, language string) (string, error) {
 
 	if aiSettings["asrProvider"] == "google" {
 		fileAudioInputGoogle := fileAudioInput
-		if db.Number(probeInput["duration"]) > maxAudioInputTime {
+		if sys.Number(probeInput["duration"]) > maxAudioInputTime {
 			return i18n.Translate(language, "audio_input_limit"), nil
 		}
 		if probeInput["codec_name"] != "opus" {

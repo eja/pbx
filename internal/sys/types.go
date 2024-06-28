@@ -30,3 +30,7 @@ type TypeChatMessage struct {
 	Role    string `json:"role"`
 	Content string `json:"content"`
 }
+
+var String = sys.String
+var Number = sys.Number
+var Float = sys.Float

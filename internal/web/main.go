@@ -6,7 +6,6 @@ import (
 	"fmt"
 
 	"github.com/eja/tibula/api"
-	"github.com/eja/tibula/db"
 	"github.com/eja/tibula/web"
 	"pbx/internal/asterisk"
 	"pbx/internal/core"
@@ -16,7 +15,7 @@ func Router() error {
 	web.Router.HandleFunc("/meta", metaRouter)
 	web.Router.HandleFunc("/tg", telegramRouter)
 
-	api.Plugins["aiChat"] = func(eja api.TypeApi) api.TypeApi {
+	api.Plugins["aiChat"] = func(eja api.TypeApi, db api.TypeDbSession) api.TypeApi {
 		if eja.Action == "run" && eja.Values["chat"] != "" {
 			user := fmt.Sprintf("T.%d", eja.Owner)
 			language := eja.Language
@@ -29,7 +28,7 @@ func Router() error {
 		return eja
 	}
 
-	api.Plugins["aiSettings"] = func(eja api.TypeApi) api.TypeApi {
+	api.Plugins["aiSettings"] = func(eja api.TypeApi, db api.TypeDbSession) api.TypeApi {
 		data, _ := db.Get(eja.Owner, eja.ModuleId, 1)
 		if eja.Action == "run" {
 			if data == nil {
@@ -45,7 +44,7 @@ func Router() error {
 		return eja
 	}
 
-	api.Plugins["aiSip"] = func(eja api.TypeApi) api.TypeApi {
+	api.Plugins["aiSip"] = func(eja api.TypeApi, db api.TypeDbSession) api.TypeApi {
 		if eja.Action == "delete" {
 			if eja.Values["username"] != "" {
 				if err := asterisk.SipDelete(eja.Values["username"]); err != nil {

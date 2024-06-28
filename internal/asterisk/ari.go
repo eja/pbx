@@ -128,10 +128,10 @@ func SipUpdate(address, username, password, trunk, webrtc string) (err error) {
 			{Attribute: "set_var", Value: fmt.Sprintf("set_var=AGI=agi://%s/%s", sys.Options.AsteriskAgi, token)},
 		},
 	}
-	if db.Number(webrtc) > 0 {
+	if sys.Number(webrtc) > 0 {
 		endpoint.Fields = append(endpoint.Fields, AriField{Attribute: "webrtc", Value: "yes"})
 	}
-	if db.Number(trunk) > 0 {
+	if sys.Number(trunk) > 0 {
 		endpoint.Fields = append(endpoint.Fields, AriField{Attribute: "auth", Value: ""})
 		endpoint.Fields = append(endpoint.Fields, AriField{Attribute: "outbound_auth", Value: username})
 	} else {
@@ -143,7 +143,7 @@ func SipUpdate(address, username, password, trunk, webrtc string) (err error) {
 	}
 
 	/*
-		if db.Number(trunk) > 0 {
+		if sys.Number(trunk) > 0 {
 			registration := AriPayload{
 				Fields: []AriField{
 					{Attribute: "outbound_auth", Value: username},
