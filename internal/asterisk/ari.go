@@ -124,6 +124,7 @@ func SipUpdate(address, username, password, trunk, webrtc string) (err error) {
 			{Attribute: "aors", Value: username},
 			{Attribute: "from_user", Value: username},
 			{Attribute: "from_domain", Value: address},
+			{Attribute: "callerid", Value: "asreceived"},
 			{Attribute: "allow", Value: "!all,ulaw,alaw"},
 			{Attribute: "set_var", Value: fmt.Sprintf("set_var=AGI=agi://%s/%s", sys.Options.AsteriskAgi, token)},
 		},

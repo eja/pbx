@@ -9,17 +9,21 @@ import (
 	"strings"
 )
 
-func Ntfy(link, title, message, filePath string) error {
-	file, err := os.Open(filePath)
-	if err != nil {
-		return err
-	}
-	defer file.Close()
+func Ntfy(link, title, message, filePath string) (err error) {
+	var file *os.File
+	var req *http.Request
 
-	req, err := http.NewRequest("PUT", link, file)
-	if err != nil {
-		return err
+	if filePath != "" {
+		file, err = os.Open(filePath)
+		if err != nil {
+			return err
+		}
+		defer file.Close()
+		req, err = http.NewRequest("PUT", link, file)
+	} else {
+		req, err = http.NewRequest("POST", link, nil)
 	}
+
 	req.Header.Set("X-Title", strings.Trim(fmt.Sprintf("%q", title), `"`))
 	req.Header.Set("X-Message", strings.Trim(fmt.Sprintf("%q", message), `"`))
 

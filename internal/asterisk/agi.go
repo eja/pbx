@@ -155,6 +155,11 @@ func session(conn net.Conn) (err error) {
 					switch lower {
 					case "close":
 						hangup = true
+					case "hangup":
+						hangup = true
+					}
+					if len(lower) == 2 {
+						ttsLanguage = lower
 					}
 					if strings.HasPrefix(lower, "sip:") {
 						if message != "" {
@@ -168,10 +173,8 @@ func session(conn net.Conn) (err error) {
 						}
 						hangup = true
 					}
-					if len(lower) == 2 {
-						ttsLanguage = lower
-					}
 				}
+				message, err = core.TagsProcess(platform, language, phone, message, tags)
 
 				if message != "" {
 					if err = play(conn, phone, message, ttsLanguage, vad); err != nil {
