@@ -92,10 +92,8 @@ func session(conn net.Conn) (err error) {
 		monitorFile := fmt.Sprintf("%s/monitor.%s.%s.wav", sys.Options.MediaPath, phone, agi.uniqueId)
 
 		if agi.extension == "h" {
-			if _, err = core.Chat(platform, phone, "/hangup "+monitorFile, language); err != nil {
-				return
-			}
-			return nil
+			_, err = core.Chat(platform, phone, "/hangup "+monitorFile, language)
+			return
 		}
 
 		if _, err = send(conn, "ANSWER"); err != nil {
@@ -183,10 +181,8 @@ func session(conn net.Conn) (err error) {
 				}
 
 				if hangup {
-					if _, err = send(conn, "HANGUP"); err != nil {
-						return
-					}
-					return nil
+					_, err = send(conn, "HANGUP")
+					return
 				}
 			}
 		}

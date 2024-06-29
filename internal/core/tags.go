@@ -11,6 +11,7 @@ import (
 )
 
 func TagsProcess(platform, language, userId, message string, tags []string) (response string, err error) {
+	log.Trace(tag, "processing", tags, message)
 	response = message
 	for _, item := range tags {
 		lower := strings.ToLower(item)

@@ -16,19 +16,23 @@ const tag = "[core]"
 const maxAudioInputTime = 60
 const maxAudioOutputSize = 50 * 1000
 
-func Text(userId string, language string, text string) (string, error) {
-	response, err := Chat("chat", userId, text, language)
-	if err == nil {
-		response, _ = TagsExtract(response)
+func Text(userId string, language string, text string) (response string, err error) {
+	platform := "chat"
+	var tags []string
+
+	response, err = Chat(platform, userId, text, language)
+	if err != nil {
+		return
 	}
-	return response, err
+	response, tags = TagsExtract(response)
+	response, err = TagsProcess(platform, language, userId, response, tags)
+
+	return
 }
 
-func Audio(platform string, userId string, language string, chatId string, mediaId string, tts bool) (string, error) {
-	var response string
+func Audio(platform string, userId string, language string, chatId string, mediaId string, tts bool) (response string, err error) {
 	var transcript string
 	var tags []string
-	var err error
 
 	aiSettings := db.Settings()
 	if tts && aiSettings["ttsProvider"] == "" {
@@ -43,49 +47,53 @@ func Audio(platform string, userId string, language string, chatId string, media
 
 	fileAudioInput := mediaPath + ".original.audio.in"
 	if platform == "meta" {
-		if err := meta.MediaGet(mediaId, fileAudioInput); err != nil {
-			return "", err
+		if err = meta.MediaGet(mediaId, fileAudioInput); err != nil {
+			return
 		}
 	}
 	if platform == "telegram" {
-		if err := telegram.MediaGet(mediaId, fileAudioInput); err != nil {
-			return "", err
+		if err = telegram.MediaGet(mediaId, fileAudioInput); err != nil {
+			return
 		}
 	}
 
 	transcript, err = ASR(fileAudioInput, language)
 	if err != nil {
-		return "", nil
+		return
 	}
 
 	responseRaw, err := Chat("chat", userId, transcript, language)
 	if err != nil {
-		return "", err
+		return
 	}
 	response, tags = TagsExtract(responseRaw)
+	response, err = TagsProcess(platform, language, userId, response, tags)
+	if err != nil {
+		return
+	}
 
 	if !tts || len(response) > maxAudioOutputSize {
-		return response, nil
+		return
 	}
 
 	fileAudioOutput := mediaPath + ".audio.out"
 	ttsLanguage := FilterLanguage(tags, language)
-	if err := TTS(response, ttsLanguage, fileAudioOutput); err != nil {
-		return "", nil
+	if err = TTS(response, ttsLanguage, fileAudioOutput); err != nil {
+		return
 	}
 
 	if platform == "meta" {
-		if err := meta.SendAudio(userId, fileAudioOutput); err != nil {
-			return "", err
+		if err = meta.SendAudio(userId, fileAudioOutput); err != nil {
+			return
 		}
 		response = ""
 	}
 	if platform == "telegram" {
-		if err := telegram.SendAudio(chatId, fileAudioOutput, response); err != nil {
-			return "", err
+		if err = telegram.SendAudio(chatId, fileAudioOutput, response); err != nil {
+			return
 		}
 		response = ""
 	}
 
-	return response, nil
+	return
 }
