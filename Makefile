@@ -19,7 +19,7 @@ test:
 	@go test -v ./test
 
 pbx:
-	@go build -ldflags "-s -w" -o pbx cmd/pbx/main.go
+	@go build -ldflags "-s -w" -o pbx cmd/pbx/*.go
 	@strip pbx
 
 release-dry-run:
