@@ -27,6 +27,9 @@ func Chat(platform, userId, message, language string) (string, error) {
 	aiSettings := db.Settings()
 	action := false
 
+	timeZoneDiff := time.Duration(sys.Number(aiSettings["timezone"]))
+	timeZoneNow := time.Now().Add(timeZoneDiff * time.Hour).Format("Monday 02 of January 2006, 03:04 pm")
+
 	log.Debug(tag, "chat request:", userId, message, language)
 
 	if !historyInit {
@@ -43,7 +46,7 @@ func Chat(platform, userId, message, language string) (string, error) {
 		}
 	}
 	system += fmt.Sprintf("The user usually speaks in %s, so please answer in that language or the language of the question if not instructed otherwise.\n", i18n.LanguageCodeToInternal(language))
-	system += fmt.Sprintf("Now is %s (UTC).", time.Now().Format("Monday 02 of January 2006, 03:04 pm"))
+	system += fmt.Sprintf("Now is %s (UTC).", timeZoneNow)
 	system += "Always add a new line containing the language code, 2 chars, between square brackets that you have used to answer the question at the end of your response, like this: \n\n[en]\n"
 
 	if strings.HasPrefix(message, "/") {

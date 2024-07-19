@@ -393,6 +393,18 @@
       "sizeSearch": 0,
       "sizeList": 0,
       "sizeEdit": 0
+    },
+    {
+      "value": "-12|UTC -12\r\n-11|UTC -11\r\n-10|UTC -10\r\n-9|UTC -9\r\n-8|UTC -8\r\n-7|UTC -7\r\n-6|UTC -6\r\n-5|UTC -5\r\n-4|UTC -4\r\n-3|UTC -3\r\n-2|UTC -2\r\n-1|UTC -1\r\n0|UTC 0\r\n1|UTC +1\r\n2|UTC +2\r\n3|UTC +3\r\n4|UTC +4\r\n5|UTC +5\r\n6|UTC +6\r\n7|UTC +7\r\n8|UTC +8\r\n9|UTC +9\r\n10|UTC +10\r\n11|UTC +11\r\n12|UTC +12",
+      "powerEdit": 0,
+      "powerList": 0,
+      "type": "select",
+      "translate": 0,
+      "powerSearch": 45,
+      "name": "timezone",
+      "sizeSearch": 0,
+      "sizeList": 0,
+      "sizeEdit": 0
     }
   ],
   "translation": [
@@ -610,6 +622,12 @@
       "ejaModuleName": "aiSettings",
       "word": "asteriskUrl",
       "translation": "ARI URL"
+    },
+    {
+      "ejaLanguage": "en",
+      "ejaModuleName": "aiSettings",
+      "word": "timezone",
+      "translation": "Time Zone"
     }
   ],
   "name": "aiSettings",
