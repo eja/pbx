@@ -11,24 +11,24 @@
   ],
   "field": [
     {
-      "value": "|Off\r\ngoogle|Google\r\nopenai|Openai\r\n",
+      "value": "|Off\r\ngoogle|Google\r\nopenai|OpenAI\r\n",
       "powerEdit": 0,
       "powerList": 0,
       "type": "select",
       "translate": 0,
-      "powerSearch": 20,
+      "powerSearch": 231,
       "name": "ttsProvider",
       "sizeSearch": 0,
       "sizeList": 0,
       "sizeEdit": 0
     },
     {
-      "value": "|Off\r\ngoogle|Google\r\nopenai|Openai",
+      "value": "|Off\r\ngoogle|Google\r\nopenai|OpenAI",
       "powerEdit": 0,
       "powerList": 0,
       "type": "select",
       "translate": 0,
-      "powerSearch": 10,
+      "powerSearch": 221,
       "name": "asrProvider",
       "sizeSearch": 0,
       "sizeList": 0,
@@ -47,12 +47,12 @@
       "sizeEdit": 0
     },
     {
-      "value": "|Off\r\ngoogle|Google\r\nopenai|Openai",
+      "value": "|Off\r\ngoogle|Google\r\nopenai|OpenAI\r\nanythingLLM|AnythingLLM",
       "powerEdit": 0,
       "powerList": 0,
       "type": "select",
       "translate": 0,
-      "powerSearch": 5,
+      "powerSearch": 201,
       "name": "llmProvider",
       "sizeSearch": 0,
       "sizeList": 0,
@@ -64,7 +64,7 @@
       "powerList": 0,
       "type": "sqlMatrix",
       "translate": 0,
-      "powerSearch": 30,
+      "powerSearch": 20,
       "name": "language",
       "sizeSearch": 0,
       "sizeList": 0,
@@ -89,7 +89,7 @@
       "type": "label",
       "translate": 0,
       "powerSearch": 200,
-      "name": "openaiLabel",
+      "name": "llmLabel",
       "sizeSearch": 0,
       "sizeList": 0,
       "sizeEdit": 0
@@ -100,8 +100,8 @@
       "powerList": 0,
       "type": "text",
       "translate": 0,
-      "powerSearch": 203,
-      "name": "openaiModel",
+      "powerSearch": 204,
+      "name": "llmModel",
       "sizeSearch": 0,
       "sizeList": 0,
       "sizeEdit": 0
@@ -112,20 +112,8 @@
       "powerList": 0,
       "type": "text",
       "translate": 0,
-      "powerSearch": 232,
-      "name": "openaiTtsModel",
-      "sizeSearch": 0,
-      "sizeList": 0,
-      "sizeEdit": 0
-    },
-    {
-      "value": "",
-      "powerEdit": 0,
-      "powerList": 0,
-      "type": "text",
-      "translate": 0,
-      "powerSearch": 201,
-      "name": "openaiUrl",
+      "powerSearch": 233,
+      "name": "ttsModel",
       "sizeSearch": 0,
       "sizeList": 0,
       "sizeEdit": 0
@@ -137,7 +125,19 @@
       "type": "text",
       "translate": 0,
       "powerSearch": 202,
-      "name": "openaiToken",
+      "name": "llmUrl",
+      "sizeSearch": 0,
+      "sizeList": 0,
+      "sizeEdit": 0
+    },
+    {
+      "value": "",
+      "powerEdit": 0,
+      "powerList": 0,
+      "type": "text",
+      "translate": 0,
+      "powerSearch": 205,
+      "name": "llmToken",
       "sizeSearch": 0,
       "sizeList": 0,
       "sizeEdit": 0
@@ -150,18 +150,6 @@
       "translate": 0,
       "powerSearch": 503,
       "name": "telegramToken",
-      "sizeSearch": 0,
-      "sizeList": 0,
-      "sizeEdit": 0
-    },
-    {
-      "value": "",
-      "powerEdit": 0,
-      "powerList": 0,
-      "type": "text",
-      "translate": 0,
-      "powerSearch": 101,
-      "name": "googleToken",
       "sizeSearch": 0,
       "sizeList": 0,
       "sizeEdit": 0
@@ -256,8 +244,8 @@
       "powerList": 0,
       "type": "text",
       "translate": 0,
-      "powerSearch": 230,
-      "name": "openaiTtsUrl",
+      "powerSearch": 232,
+      "name": "ttsUrl",
       "sizeSearch": 0,
       "sizeList": 0,
       "sizeEdit": 0
@@ -268,32 +256,8 @@
       "powerList": 0,
       "type": "text",
       "translate": 0,
-      "powerSearch": 231,
-      "name": "openaiTtsToken",
-      "sizeSearch": 0,
-      "sizeList": 0,
-      "sizeEdit": 0
-    },
-    {
-      "value": "",
-      "powerEdit": 0,
-      "powerList": 0,
-      "type": "text",
-      "translate": 0,
-      "powerSearch": 220,
-      "name": "openaiAsrUrl",
-      "sizeSearch": 0,
-      "sizeList": 0,
-      "sizeEdit": 0
-    },
-    {
-      "value": "",
-      "powerEdit": 0,
-      "powerList": 0,
-      "type": "text",
-      "translate": 0,
-      "powerSearch": 221,
-      "name": "openaiAsrToken",
+      "powerSearch": 234,
+      "name": "ttsToken",
       "sizeSearch": 0,
       "sizeList": 0,
       "sizeEdit": 0
@@ -305,7 +269,7 @@
       "type": "text",
       "translate": 0,
       "powerSearch": 222,
-      "name": "openaiAsrModel",
+      "name": "asrUrl",
       "sizeSearch": 0,
       "sizeList": 0,
       "sizeEdit": 0
@@ -316,20 +280,8 @@
       "powerList": 0,
       "type": "text",
       "translate": 0,
-      "powerSearch": 233,
-      "name": "openaiTtsVoice",
-      "sizeSearch": 0,
-      "sizeList": 0,
-      "sizeEdit": 0
-    },
-    {
-      "value": "",
-      "powerEdit": 0,
-      "powerList": 0,
-      "type": "label",
-      "translate": 0,
-      "powerSearch": 100,
-      "name": "googleLabel",
+      "powerSearch": 223,
+      "name": "asrToken",
       "sizeSearch": 0,
       "sizeList": 0,
       "sizeEdit": 0
@@ -340,8 +292,20 @@
       "powerList": 0,
       "type": "text",
       "translate": 0,
-      "powerSearch": 102,
-      "name": "googleModel",
+      "powerSearch": 222,
+      "name": "asrModel",
+      "sizeSearch": 0,
+      "sizeList": 0,
+      "sizeEdit": 0
+    },
+    {
+      "value": "",
+      "powerEdit": 0,
+      "powerList": 0,
+      "type": "text",
+      "translate": 0,
+      "powerSearch": 235,
+      "name": "ttsVoice",
       "sizeSearch": 0,
       "sizeList": 0,
       "sizeEdit": 0
@@ -352,8 +316,8 @@
       "powerList": 0,
       "type": "select",
       "translate": 0,
-      "powerSearch": 102,
-      "name": "googleTtsGender",
+      "powerSearch": 236,
+      "name": "ttsGender",
       "sizeSearch": 0,
       "sizeList": 0,
       "sizeEdit": 0
@@ -400,8 +364,32 @@
       "powerList": 0,
       "type": "select",
       "translate": 0,
-      "powerSearch": 45,
+      "powerSearch": 30,
       "name": "timezone",
+      "sizeSearch": 0,
+      "sizeList": 0,
+      "sizeEdit": 0
+    },
+    {
+      "value": "",
+      "powerEdit": 0,
+      "powerList": 0,
+      "type": "label",
+      "translate": 0,
+      "powerSearch": 220,
+      "name": "asrLabel",
+      "sizeSearch": 0,
+      "sizeList": 0,
+      "sizeEdit": 0
+    },
+    {
+      "value": "\r\n",
+      "powerEdit": 0,
+      "powerList": 0,
+      "type": "label",
+      "translate": 0,
+      "powerSearch": 230,
+      "name": "ttsLabel",
       "sizeSearch": 0,
       "sizeList": 0,
       "sizeEdit": 0
@@ -417,13 +405,13 @@
       "ejaLanguage": "en",
       "ejaModuleName": "aiSettings",
       "word": "ttsProvider",
-      "translation": "TTS Provider"
+      "translation": "Provider"
     },
     {
       "ejaLanguage": "en",
       "ejaModuleName": "aiSettings",
       "word": "asrProvider",
-      "translation": "ASR Provider"
+      "translation": "Provider"
     },
     {
       "ejaLanguage": "en",
@@ -447,7 +435,7 @@
       "ejaLanguage": "en",
       "ejaModuleName": "aiSettings",
       "word": "llmProvider",
-      "translation": "AI Provider"
+      "translation": "Provider"
     },
     {
       "ejaLanguage": "en",
@@ -628,6 +616,90 @@
       "ejaModuleName": "aiSettings",
       "word": "timezone",
       "translation": "Time Zone"
+    },
+    {
+      "ejaLanguage": "en",
+      "ejaModuleName": "aiSettings",
+      "word": "llmLabel",
+      "translation": "LLM"
+    },
+    {
+      "ejaLanguage": "en",
+      "ejaModuleName": "aiSettings",
+      "word": "llmUrl",
+      "translation": "API URL"
+    },
+    {
+      "ejaLanguage": "en",
+      "ejaModuleName": "aiSettings",
+      "word": "llmModel",
+      "translation": "Model"
+    },
+    {
+      "ejaLanguage": "en",
+      "ejaModuleName": "aiSettings",
+      "word": "llmToken",
+      "translation": "Token"
+    },
+    {
+      "ejaLanguage": "en",
+      "ejaModuleName": "aiSettings",
+      "word": "asrToken",
+      "translation": "Token"
+    },
+    {
+      "ejaLanguage": "en",
+      "ejaModuleName": "aiSettings",
+      "word": "asrLabel",
+      "translation": "ASR"
+    },
+    {
+      "ejaLanguage": "en",
+      "ejaModuleName": "aiSettings",
+      "word": "asrModel",
+      "translation": "Model"
+    },
+    {
+      "ejaLanguage": "en",
+      "ejaModuleName": "aiSettings",
+      "word": "ttsLabel",
+      "translation": "TTS"
+    },
+    {
+      "ejaLanguage": "en",
+      "ejaModuleName": "aiSettings",
+      "word": "ttsUrl",
+      "translation": "API URL"
+    },
+    {
+      "ejaLanguage": "en",
+      "ejaModuleName": "aiSettings",
+      "word": "ttsModel",
+      "translation": "Model"
+    },
+    {
+      "ejaLanguage": "en",
+      "ejaModuleName": "aiSettings",
+      "word": "ttsToken",
+      "translation": "Token"
+    },
+    {
+      "ejaLanguage": "en",
+      "ejaModuleName": "aiSettings",
+      "word": "ttsVoice",
+      "translation": "Voice"
+    },
+    {
+      "ejaLanguage": "en",
+      "ejaModuleName": "aiSettings",
+      "word": "ttsGender",
+      "translation": "Gender"
+    },
+    {
+      "ejaLanguage": "en",
+      "ejaModuleName": "aiSettings",
+      "word": "asrUrl",
+      "translation": "API URL"
     }
   ],
   "name": "aiSettings",

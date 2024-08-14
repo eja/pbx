@@ -14,14 +14,12 @@ type typeConfigPbx struct {
 	MetaAuth      string `json:"meta_auth,omitempty"`
 	MetaToken     string `json:"meta_token,omitempty"`
 	TelegramToken string `json:"telegram_token,omitempty"`
-	OpenaiToken   string `json:"openai_token,omitempty"`
-	OpenaiModel   string `json:"openai_model,omitempty"`
+	AiToken       string `json:"ai_token,omitempty"`
+	AiProvider    string `json:"ai_provider,omitempty"`
 	Asterisk      bool   `json:"asterisk,omitempty"`
 	AsteriskAgi   string `json:"asterisk_agi,omitempty"`
 	AsteriskAri   string `json:"asterisk_ari,omitempty"`
 	AsteriskToken string `json:"asterisk_token,omitempty"`
-	GoogleToken   string `json:"google_token,omitempty"`
-	GoogleModel   string `json:"google_model,omitempty"`
 	Cache         string `json:"cache,omitempty"`
 	MailSender    string `json:"mail_sender,omitempty"`
 }

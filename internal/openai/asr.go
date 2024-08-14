@@ -27,18 +27,18 @@ type typeASRResponse struct {
 func ASR(filePath string, languageCode string) (string, error) {
 	const audioType = "ogg"
 	aiSettings := db.Settings()
-	model := aiSettings["openaiAsrModel"]
+	model := aiSettings["asrModel"]
 	if model == "" {
 		model = asrModel
 	}
-	token := aiSettings["openaiAsrToken"]
+	token := aiSettings["asrToken"]
 	if token == "" {
-		token = aiSettings["openaiToken"]
+		token = aiSettings["aiToken"]
 		if token == "" {
-			token = sys.Options.OpenaiToken
+			token = sys.Options.AiToken
 		}
 	}
-	url := aiSettings["openaiAsrUrl"]
+	url := aiSettings["asrUrl"]
 	if url == "" {
 		url = asrUrl
 	}

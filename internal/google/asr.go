@@ -16,9 +16,9 @@ import (
 
 func ASR(filePath, language string) (string, error) {
 	aiSettings := db.Settings()
-	apiKey := aiSettings["googleToken"]
+	apiKey := aiSettings["llmToken"]
 	if apiKey == "" {
-		apiKey = sys.Options.GoogleToken
+		apiKey = sys.Options.AiToken
 	}
 
 	audioBytes, err := ioutil.ReadFile(filePath)

@@ -28,22 +28,22 @@ type typeTTSRequest struct {
 func TTS(filePath string, text string, languageCode string) error {
 	const audioType = "opus"
 	aiSettings := db.Settings()
-	model := aiSettings["openaiTtsModel"]
+	model := aiSettings["ttsModel"]
 	if model == "" {
 		model = ttsModel
 	}
-	token := aiSettings["openaiTtsToken"]
+	token := aiSettings["ttsToken"]
 	if token == "" {
-		token = aiSettings["openaiToken"]
+		token = aiSettings["llmToken"]
 		if token == "" {
-			token = sys.Options.OpenaiToken
+			token = sys.Options.AiToken
 		}
 	}
-	url := aiSettings["openaiTtsUrl"]
+	url := aiSettings["ttsUrl"]
 	if url == "" {
 		url = ttsUrl
 	}
-	voice := aiSettings["openaiTtsVoice"]
+	voice := aiSettings["ttsVoice"]
 	if voice == "" {
 		voice = ttsVoice
 	}

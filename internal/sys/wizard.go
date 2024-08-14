@@ -21,7 +21,6 @@ func Wizard() error {
 
 	Options.MediaPath = sys.WizardPrompt("Media temporary folder path")
 	Options.Cache = sys.WizardPrompt("Cache folder path")
-	Options.GoogleToken = sys.WizardPrompt("Google api key")
 	Options.TelegramToken = sys.WizardPrompt("Telegram token")
 	Options.MetaUrl = sys.WizardPrompt("Meta graph api url")
 	if Options.MetaUrl != "" {
@@ -29,10 +28,8 @@ func Wizard() error {
 		Options.MetaAuth = sys.WizardPrompt("Meta auth")
 		Options.MetaToken = sys.WizardPrompt("Meta token")
 	}
-	Options.OpenaiToken = sys.WizardPrompt("OpenAI LLM key")
-	if Options.OpenaiToken != "" {
-		Options.OpenaiModel = sys.WizardPrompt("OpenAI LLM model")
-	}
+	Options.AiToken = sys.WizardPrompt("AI API key")
+	Options.AiProvider = sys.WizardPrompt("AI Provider [openai|google|anythingLLM]")
 	asterisk := sys.WizardPrompt("Enable Asterisk AGI server? (N/y)")
 	if len(asterisk) > 0 && strings.ToLower(asterisk[0:1]) == "y" {
 		Options.Asterisk = true

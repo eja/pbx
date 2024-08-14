@@ -29,11 +29,11 @@ type TTSRequest struct {
 
 func TTS(filePath string, text string, languageCode string) error {
 	aiSettings := db.Settings()
-	apiKey := aiSettings["googleToken"]
+	apiKey := aiSettings["llmToken"]
 	if apiKey == "" {
-		apiKey = sys.Options.GoogleToken
+		apiKey = sys.Options.AiToken
 	}
-	gender := aiSettings["googleTtsGender"]
+	gender := aiSettings["ttsGender"]
 	if gender == "" {
 		gender = "FEMALE"
 	}

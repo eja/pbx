@@ -11,6 +11,8 @@ import (
 	"pbx/internal/sys"
 )
 
+const llmModel = "gemini-1.5-flash"
+
 type RequestPayload struct {
 	Contents []struct {
 		Role  string `json:"role"`
@@ -54,13 +56,13 @@ type UsageMetadata struct {
 
 func Chat(messages []sys.TypeChatMessage, system string) (string, error) {
 	aiSettings := db.Settings()
-	apiKey := aiSettings["googleToken"]
+	apiKey := aiSettings["llmToken"]
 	if apiKey == "" {
-		apiKey = sys.Options.GoogleToken
+		apiKey = sys.Options.AiToken
 	}
-	model := aiSettings["googleModel"]
+	model := aiSettings["llmModel"]
 	if model == "" {
-		model = sys.Options.GoogleModel
+		model = llmModel
 	}
 
 	payload := RequestPayload{

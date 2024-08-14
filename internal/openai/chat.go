@@ -13,6 +13,7 @@ import (
 )
 
 const llmUrl = "https://api.openai.com/v1/chat/completions"
+const llmModel = "gpt-4o-mini"
 
 type typeChatResponse struct {
 	ID      string `json:"id"`
@@ -29,17 +30,17 @@ type typeChatResponse struct {
 
 func Chat(messages []sys.TypeChatMessage, system string) (string, error) {
 	aiSettings := db.Settings()
-	url := aiSettings["openaiUrl"]
+	url := aiSettings["llmUrl"]
 	if url == "" {
 		url = llmUrl
 	}
-	model := aiSettings["openaiModel"]
+	model := aiSettings["llmModel"]
 	if model == "" {
-		model = sys.Options.OpenaiModel
+		model = llmModel
 	}
-	token := aiSettings["openaiToken"]
+	token := aiSettings["llmToken"]
 	if token == "" {
-		token = sys.Options.OpenaiToken
+		token = sys.Options.AiToken
 	}
 
 	// Populate the system prompt
