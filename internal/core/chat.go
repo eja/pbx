@@ -77,7 +77,7 @@ func Chat(platform, userId, message, language string) (string, error) {
 				{Role: "user", Content: message},
 			}
 		}
-		if aiSettings["llmProvider"] == "google" {
+		if aiSettings["llmProvider"] == "google" || (aiSettings["llmProvider"] == "" && sys.Options.AiProvider == "google") {
 			assistant, err = google.Chat(history[userId], system)
 		} else {
 			assistant, err = openai.Chat(history[userId], system)

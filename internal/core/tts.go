@@ -24,8 +24,7 @@ func TTS(text, language, fileAudioOutput string) error {
 			if err = google.TTS(fileAudioOutput, text, i18n.LanguageCodeToLocale(language)); err != nil {
 				return err
 			}
-		}
-		if aiSettings["ttsProvider"] == "openai" {
+		} else {
 			if err = openai.TTS(fileAudioOutput, text, i18n.LanguageCodeToLocale(language)); err != nil {
 				return err
 			}

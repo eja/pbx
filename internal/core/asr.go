@@ -34,9 +34,9 @@ func ASR(fileAudioInput, language string) (string, error) {
 		if err != nil {
 			return "", err
 		}
-	}
 
-	if aiSettings["asrProvider"] == "openai" {
+	} else {
+
 		fileAudioInputWhisper := fileAudioInput
 		if probeInput["codec_name"] != "pcm_s16le" || probeInput["sample_rate"] != "16000" || probeInput["channels"] != "1" {
 			fileAudioInputWhisper = fileAudioInput + ".whisper"
