@@ -29,7 +29,7 @@ type TTSRequest struct {
 
 func TTS(filePath string, text string, languageCode string) error {
 	aiSettings := db.Settings()
-	apiKey := aiSettings["llmToken"]
+	apiKey := aiSettings["ttsToken"]
 	if apiKey == "" {
 		apiKey = sys.Options.AiToken
 	}
