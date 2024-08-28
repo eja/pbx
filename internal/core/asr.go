@@ -3,8 +3,8 @@
 package core
 
 import (
+	"pbx/internal/av"
 	"pbx/internal/db"
-	"pbx/internal/ff"
 	"pbx/internal/google"
 	"pbx/internal/i18n"
 	"pbx/internal/openai"
@@ -14,7 +14,7 @@ import (
 func ASR(fileAudioInput, language string) (string, error) {
 	aiSettings := db.Settings()
 	transcript := ""
-	probeInput, err := ff.ProbeAudio(fileAudioInput)
+	probeInput, err := av.ProbeAudio(fileAudioInput)
 	if err != nil {
 		return "", err
 	}
@@ -26,7 +26,7 @@ func ASR(fileAudioInput, language string) (string, error) {
 		}
 		if probeInput["codec_name"] != "opus" {
 			fileAudioInputGoogle = fileAudioInput + ".google"
-			if err := ff.MpegAudioOpus(fileAudioInput, fileAudioInputGoogle); err != nil {
+			if err := av.MpegAudioOpus(fileAudioInput, fileAudioInputGoogle); err != nil {
 				return "", err
 			}
 		}
@@ -40,7 +40,7 @@ func ASR(fileAudioInput, language string) (string, error) {
 		fileAudioInputWhisper := fileAudioInput
 		if probeInput["codec_name"] != "pcm_s16le" || probeInput["sample_rate"] != "16000" || probeInput["channels"] != "1" {
 			fileAudioInputWhisper = fileAudioInput + ".whisper"
-			if err := ff.MpegAudioWhisper(fileAudioInput, fileAudioInputWhisper); err != nil {
+			if err := av.MpegAudioWhisper(fileAudioInput, fileAudioInputWhisper); err != nil {
 				return "", err
 			}
 		}

@@ -15,8 +15,8 @@ import (
 	"strings"
 
 	"github.com/eja/tibula/log"
+	"pbx/internal/av"
 	"pbx/internal/db"
-	"pbx/internal/ff"
 	"pbx/internal/sys"
 )
 
@@ -217,14 +217,14 @@ func SendAudio(phone string, mediaFile string) error {
 	mediaPath := filepath.Join(sys.Options.MediaPath, phone)
 	fileAudioOutput := mediaPath + ".audio.meta.out"
 
-	probeOutput, err := ff.ProbeAudio(mediaFile)
+	probeOutput, err := av.ProbeAudio(mediaFile)
 	if err != nil {
 		return fmt.Errorf("probing audio: %w", err)
 	}
 	if probeOutput["codecName"] == "opus" && probeOutput["sampleRate"] == "48000" && probeOutput["channelLayout"] == "mono" {
 		fileAudioOutput = mediaFile
 	} else {
-		err = ff.MpegAudioMeta(mediaFile, fileAudioOutput)
+		err = av.MpegAudioMeta(mediaFile, fileAudioOutput)
 		if err != nil {
 			return fmt.Errorf("converting audio: %w", err)
 		}

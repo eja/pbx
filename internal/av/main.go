@@ -1,6 +1,6 @@
 // Copyright (C) 2023-2024 by Ubaldo Porcheddu <ubaldo@eja.it>
 
-package ff
+package av
 
 import (
 	"encoding/json"
@@ -11,14 +11,14 @@ import (
 	"github.com/eja/tibula/log"
 )
 
-func ffmpeg(args []string) error {
+func FFmpeg(args []string) error {
 	baseArgs := []string{"-y", "-nostdin", "-hide_banner"}
 	cmd := exec.Command("ffmpeg", append(baseArgs, args...)...)
 	log.Trace("[FF]", "ffmpeg", args)
 	return cmd.Run()
 }
 
-func ffprobe(args []string) ([]byte, error) {
+func FFprobe(args []string) ([]byte, error) {
 	baseArgs := []string{"-y", "-nostdin", "-hide_banner", "-v", "error"}
 	cmd := exec.Command("ffprobe", append(baseArgs, args...)...)
 	log.Trace("[FF]", "ffprobe", args)
@@ -26,35 +26,35 @@ func ffprobe(args []string) ([]byte, error) {
 }
 
 func MpegAudioOpus(fileIn string, fileOut string) error {
-	return ffmpeg([]string{
+	return FFmpeg([]string{
 		"-i", fileIn,
 		"-vn", "-ar", "48000", "-ac", "1", "-c:a", "libopus", "-f", "ogg", fileOut,
 	})
 }
 
 func MpegAudioMeta(fileIn string, fileOut string) error {
-	return ffmpeg([]string{
+	return FFmpeg([]string{
 		"-i", fileIn,
 		"-vn", "-ar", "48000", "-b:a", "12k", "-ac", "1", "-c:a", "libopus", "-f", "ogg", fileOut,
 	})
 }
 
 func MpegAudioWhisper(fileIn string, fileOut string) error {
-	return ffmpeg([]string{
+	return FFmpeg([]string{
 		"-i", fileIn,
 		"-vn", "-ar", "16000", "-ac", "1", "-c:a", "pcm_s16le", "-f", "wav", fileOut,
 	})
 }
 
 func MpegAudioAsterisk(fileIn string, fileOut string) error {
-	return ffmpeg([]string{
+	return FFmpeg([]string{
 		"-i", fileIn,
 		"-vn", "-ar", "8000", "-ac", "1", "-c:a", "pcm_s16le", "-f", "wav", fileOut,
 	})
 }
 
 func ProbeAudio(file string) (map[string]interface{}, error) {
-	output, err := ffprobe([]string{
+	output, err := FFprobe([]string{
 		"-print_format", "json", "-show_format", "-show_streams", file,
 	})
 	if err != nil {
@@ -87,7 +87,7 @@ func AddMetaData(fileName string, key string, value string) error {
 	if err := os.Rename(fileName, tmpFileName); err != nil {
 		return err
 	}
-	if err := ffmpeg([]string{
+	if err := FFmpeg([]string{
 		"-i", tmpFileName,
 		"-metadata", key + "=" + strconv.Quote(value), "-codec", "copy", fileName,
 	}); err != nil {

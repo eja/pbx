@@ -13,9 +13,9 @@ import (
 	"time"
 
 	"github.com/eja/tibula/log"
+	"pbx/internal/av"
 	"pbx/internal/core"
 	"pbx/internal/db"
-	"pbx/internal/ff"
 	"pbx/internal/sys"
 )
 
@@ -100,26 +100,29 @@ func session(conn net.Conn) (err error) {
 			return
 		}
 
+		mixMonitorTime := time.Now()
 		if _, err = send(conn, "EXEC MixMonitor "+monitorFile); err != nil {
 			return
 		}
 
-		if vad {
-			if _, err = send(conn, "SET MUSIC on"); err != nil {
-				return
+		/*
+			if vad {
+				if _, err = send(conn, "SET MUSIC on"); err != nil {
+					return
+				}
+				start := now()
+				if _, err = send(conn, "EXEC WaitForNoise 50,1,2"); err != nil {
+					return
+				}
+				if now()-start <= 2 {
+					vad = false
+				}
 			}
-			start := now()
-			if _, err = send(conn, "EXEC WaitForNoise 50,1,2"); err != nil {
-				return
-			}
-			if now()-start <= 2 {
-				vad = false
-			}
-		}
+		*/
 
 		if message, err := core.Chat(platform, phone, "/welcome", language); err != nil {
 			return err
-		} else if err := play(conn, phone, message, language, vad); err != nil {
+		} else if err := play(conn, phone, message, language, vad, mixMonitorTime); err != nil {
 			return err
 		}
 
@@ -129,13 +132,7 @@ func session(conn net.Conn) (err error) {
 			hangup := false
 			ttsLanguage := language
 
-			if _, err = send(conn, `STREAM FILE beep ""`); err != nil {
-				return
-			}
-			if _, err = send(conn, "EXEC WaitForNoise 50"); err != nil {
-				return
-			}
-			if question, err = record(conn, phone, language); err != nil {
+			if question, err = record(conn, phone, language, vad); err != nil {
 				return
 			}
 
@@ -161,7 +158,7 @@ func session(conn net.Conn) (err error) {
 					}
 					if strings.HasPrefix(lower, "sip:") {
 						if message != "" {
-							if err = play(conn, phone, message, ttsLanguage, vad); err != nil {
+							if err = play(conn, phone, message, ttsLanguage, vad, mixMonitorTime); err != nil {
 								return
 							}
 						}
@@ -175,7 +172,7 @@ func session(conn net.Conn) (err error) {
 				message, err = core.TagsProcess(platform, language, phone, message, tags)
 
 				if message != "" {
-					if err = play(conn, phone, message, ttsLanguage, vad); err != nil {
+					if err = play(conn, phone, message, ttsLanguage, vad, mixMonitorTime); err != nil {
 						return
 					}
 				}
@@ -195,23 +192,52 @@ func now() int64 {
 	return time.Now().Unix()
 }
 
-func record(conn net.Conn, phone, language string) (string, error) {
-	asteriskFileName := fmt.Sprintf("%s/record.%s.%d", sys.Options.MediaPath, phone, now())
-	if msg, err := send(conn, fmt.Sprintf("RECORD FILE %s wav16 # %d 1 s=2", asteriskFileName, recordingTimeout)); err != nil {
-		return msg, err
+func record(conn net.Conn, phone, language string, vad bool) (string, error) {
+	fileName := ""
+	silence := 2
+	if vad {
+		silence = 1
+	}
+	if _, err := send(conn, `STREAM FILE beep ""`); err != nil {
+		return "", err
 	}
 
-	return core.ASR(asteriskFileName+".wav16", language)
+	for {
+		asteriskFileName := fmt.Sprintf("%s/record.%s.%d", sys.Options.MediaPath, phone, now())
+		fileName = asteriskFileName + ".wav16"
+
+		if _, err := send(conn, "EXEC WaitForNoise 30"); err != nil {
+			return "", err
+		}
+		if msg, err := send(conn, fmt.Sprintf("RECORD FILE %s wav16 # %d 1 s=%d", asteriskFileName, recordingTimeout, silence)); err != nil {
+			return msg, err
+		}
+
+		if vad {
+			vadActivity, err := core.VAD(fileName)
+			if err != nil {
+				return "", err
+			}
+			log.Trace(tag, "vad", vadActivity)
+			if len(vadActivity) > 0 {
+				break
+			}
+		} else {
+			break
+		}
+	}
+
+	return core.ASR(fileName, language)
 }
 
-func play(conn net.Conn, phone string, message string, language string, vad bool) (err error) {
+func play(conn net.Conn, phone string, message string, language string, vad bool, mixMonitorTime time.Time) (err error) {
 	fileOutputName := fmt.Sprintf("%s/tts.%x.wav", sys.Options.Cache, md5.Sum([]byte(message)))
 	fileOutputTmp := fmt.Sprintf("%s/%s.tts.%d", sys.Options.MediaPath, phone, now())
 	if _, err = os.Stat(fileOutputName); err != nil {
 		if err = core.TTS(message, language, fileOutputTmp); err != nil {
 			return
 		}
-		if err = ff.MpegAudioAsterisk(fileOutputTmp, fileOutputName); err != nil {
+		if err = av.MpegAudioAsterisk(fileOutputTmp, fileOutputName); err != nil {
 			return
 		}
 	} else {
@@ -224,7 +250,17 @@ func play(conn net.Conn, phone string, message string, language string, vad bool
 	asteriskFileName := strings.TrimSuffix(fileOutputName, ".wav")
 
 	if vad {
-		_, err = send(conn, fmt.Sprintf("EXEC BackgroundDetect %s,5,50", asteriskFileName))
+		probeInput, err := av.ProbeAudio(fileOutputName)
+		if err != nil {
+			return err
+		}
+		playTimeStart := int(time.Now().Unix())
+		if _, err := send(conn, fmt.Sprintf("EXEC BackgroundDetect %s,30,30", asteriskFileName)); err != nil {
+			return err
+		}
+		playTimeStop := int(time.Now().Unix())
+		playTimeDiff := playTimeStop - playTimeStart
+		log.Trace(tag, "vad play", playTimeStart, playTimeStop, playTimeDiff, probeInput["duration"], mixMonitorTime.Unix())
 	} else {
 		_, err = send(conn, fmt.Sprintf("CONTROL STREAM FILE %s # 1000 6 4 5 0", asteriskFileName))
 	}

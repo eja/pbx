@@ -47,7 +47,7 @@
       "sizeEdit": 0
     },
     {
-      "value": "|Off\r\ngoogle|Google\r\nopenai|OpenAI\r\nanythingLLM|AnythingLLM",
+      "value": "|Off\r\ngoogle|Google\r\nopenai|OpenAI\r\nquivr|Quivr",
       "powerEdit": 0,
       "powerList": 0,
       "type": "select",
