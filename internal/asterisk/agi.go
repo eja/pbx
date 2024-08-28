@@ -89,6 +89,7 @@ func session(conn net.Conn) (err error) {
 		return fmt.Errorf("user not authorized")
 	} else {
 		vad := sys.Number(aiSettings["asteriskVad"]) > 0
+		talking := false
 		monitorFile := fmt.Sprintf("%s/monitor.%s.%s.wav", sys.Options.MediaPath, phone, agi.uniqueId)
 
 		if agi.extension == "h" {
@@ -122,8 +123,11 @@ func session(conn net.Conn) (err error) {
 
 		if message, err := core.Chat(platform, phone, "/welcome", language); err != nil {
 			return err
-		} else if err := play(conn, phone, message, language, vad, mixMonitorTime); err != nil {
-			return err
+		} else {
+			talking, err = play(conn, phone, message, language, vad, mixMonitorTime)
+			if err != nil {
+				return err
+			}
 		}
 
 		for {
@@ -132,7 +136,7 @@ func session(conn net.Conn) (err error) {
 			hangup := false
 			ttsLanguage := language
 
-			if question, err = record(conn, phone, language, vad); err != nil {
+			if question, err = record(conn, phone, language, vad, talking); err != nil {
 				return
 			}
 
@@ -158,7 +162,7 @@ func session(conn net.Conn) (err error) {
 					}
 					if strings.HasPrefix(lower, "sip:") {
 						if message != "" {
-							if err = play(conn, phone, message, ttsLanguage, vad, mixMonitorTime); err != nil {
+							if talking, err = play(conn, phone, message, ttsLanguage, vad, mixMonitorTime); err != nil {
 								return
 							}
 						}
@@ -172,7 +176,7 @@ func session(conn net.Conn) (err error) {
 				message, err = core.TagsProcess(platform, language, phone, message, tags)
 
 				if message != "" {
-					if err = play(conn, phone, message, ttsLanguage, vad, mixMonitorTime); err != nil {
+					if talking, err = play(conn, phone, message, ttsLanguage, vad, mixMonitorTime); err != nil {
 						return
 					}
 				}
@@ -192,28 +196,33 @@ func now() int64 {
 	return time.Now().Unix()
 }
 
-func record(conn net.Conn, phone, language string, vad bool) (string, error) {
+func record(conn net.Conn, phone, language string, vad, talking bool) (string, error) {
 	fileName := ""
 	silence := 2
 	if vad {
 		silence = 1
 	}
-	if _, err := send(conn, `STREAM FILE beep ""`); err != nil {
-		return "", err
+	if !talking {
+		if _, err := send(conn, `STREAM FILE beep ""`); err != nil {
+			return "", err
+		}
 	}
 
 	for {
 		asteriskFileName := fmt.Sprintf("%s/record.%s.%d", sys.Options.MediaPath, phone, now())
 		fileName = asteriskFileName + ".wav16"
 
-		if _, err := send(conn, "EXEC WaitForNoise 30"); err != nil {
-			return "", err
+		if !talking {
+			if _, err := send(conn, "EXEC WaitForNoise 30"); err != nil {
+				return "", err
+			}
 		}
 		if msg, err := send(conn, fmt.Sprintf("RECORD FILE %s wav16 # %d 1 s=%d", asteriskFileName, recordingTimeout, silence)); err != nil {
 			return msg, err
 		}
 
 		if vad {
+			talking = false
 			vadActivity, err := core.VAD(fileName)
 			if err != nil {
 				return "", err
@@ -230,7 +239,7 @@ func record(conn net.Conn, phone, language string, vad bool) (string, error) {
 	return core.ASR(fileName, language)
 }
 
-func play(conn net.Conn, phone string, message string, language string, vad bool, mixMonitorTime time.Time) (err error) {
+func play(conn net.Conn, phone string, message string, language string, vad bool, mixMonitorTime time.Time) (talking bool, err error) {
 	fileOutputName := fmt.Sprintf("%s/tts.%x.wav", sys.Options.Cache, md5.Sum([]byte(message)))
 	fileOutputTmp := fmt.Sprintf("%s/%s.tts.%d", sys.Options.MediaPath, phone, now())
 	if _, err = os.Stat(fileOutputName); err != nil {
@@ -252,15 +261,20 @@ func play(conn net.Conn, phone string, message string, language string, vad bool
 	if vad {
 		probeInput, err := av.ProbeAudio(fileOutputName)
 		if err != nil {
-			return err
+			return false, err
 		}
-		playTimeStart := int(time.Now().Unix())
+		log.Trace(tag, probeInput)
+		playTimeFile := sys.Float(probeInput["duration"])
+		playTimeStart := time.Now().UnixNano()
 		if _, err := send(conn, fmt.Sprintf("EXEC BackgroundDetect %s,30,30", asteriskFileName)); err != nil {
-			return err
+			return false, err
 		}
-		playTimeStop := int(time.Now().Unix())
-		playTimeDiff := playTimeStop - playTimeStart
-		log.Trace(tag, "vad play", playTimeStart, playTimeStop, playTimeDiff, probeInput["duration"], mixMonitorTime.Unix())
+		playTimeStop := time.Now().UnixNano()
+		playTimeDiff := sys.Float(playTimeStop-playTimeStart) / 1e9
+		if playTimeDiff < playTimeFile {
+			log.Trace(tag, "talking detected")
+			talking = true
+		}
 	} else {
 		_, err = send(conn, fmt.Sprintf("CONTROL STREAM FILE %s # 1000 6 4 5 0", asteriskFileName))
 	}
