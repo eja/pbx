@@ -66,6 +66,11 @@ func session(conn net.Conn) (err error) {
 		asteriskToken = sys.Options.AsteriskToken
 	}
 
+	asteriskMusic := false
+	if sys.Number(aiSettings["asteriskMoh"]) > 0 {
+		asteriskMusic = true
+	}
+
 	language := aiSettings["language"]
 	if agi.language != "en" {
 		language = agi.language
@@ -141,8 +146,10 @@ func session(conn net.Conn) (err error) {
 			}
 
 			if question != "" {
-				if _, err = send(conn, "SET MUSIC on"); err != nil {
-					return
+				if asteriskMusic {
+					if _, err = send(conn, "SET MUSIC on"); err != nil {
+						return
+					}
 				}
 				if answer, err = core.Chat(platform, phone, question, language); err != nil {
 					return
