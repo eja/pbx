@@ -3,6 +3,7 @@
 package core
 
 import (
+	"github.com/eja/tibula/log"
 	"pbx/internal/av"
 	"pbx/internal/db"
 	"pbx/internal/google"
@@ -50,5 +51,6 @@ func ASR(fileAudioInput, language string) (string, error) {
 		}
 	}
 
+	log.Debug(tag, "asr", language, transcript)
 	return transcript, nil
 }

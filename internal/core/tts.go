@@ -42,5 +42,6 @@ func TTS(text, language, fileAudioOutput string) error {
 			log.Trace(tag, "tts using cache for", ttsCacheFile)
 		}
 	}
+	log.Debug(tag, "tts", language, text)
 	return nil
 }

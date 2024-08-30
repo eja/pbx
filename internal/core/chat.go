@@ -30,7 +30,7 @@ func Chat(platform, userId, message, language string) (string, error) {
 	timeZoneDiff := time.Duration(sys.Number(aiSettings["timezone"]))
 	timeZoneNow := time.Now().Add(timeZoneDiff * time.Hour).Format("Monday 02 of January 2006, 03:04 pm")
 
-	log.Debug(tag, "chat request:", userId, message, language)
+	log.Debug(tag, "chat request:", language, userId, message)
 
 	if !historyInit {
 		history = make(map[string][]sys.TypeChatMessage)
