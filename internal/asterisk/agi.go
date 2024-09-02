@@ -166,6 +166,9 @@ func session(conn net.Conn) (err error) {
 					}
 					if len(lower) == 2 {
 						ttsLanguage = lower
+						if language == "" {
+							language = ttsLanguage
+						}
 					}
 					if strings.HasPrefix(lower, "sip:") {
 						if message != "" {
@@ -175,6 +178,18 @@ func session(conn net.Conn) (err error) {
 						}
 						message = ""
 						if _, err = send(conn, fmt.Sprintf("EXEC DIAL PJSIP/%s", item[4:])); err != nil {
+							return
+						}
+						hangup = true
+					}
+					if strings.HasPrefix(lower, "exten:") {
+						if message != "" {
+							if talking, err = play(conn, phone, message, ttsLanguage, vad, mixMonitorTime); err != nil {
+								return
+							}
+						}
+						message = ""
+						if _, err = send(conn, fmt.Sprintf("EXEC GOTO %s", item[6:])); err != nil {
 							return
 						}
 						hangup = true
