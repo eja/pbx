@@ -126,10 +126,11 @@ func session(conn net.Conn) (err error) {
 			}
 		*/
 
+		dtmf := ""
 		if message, err := core.Chat(platform, phone, "/welcome", language); err != nil {
 			return err
 		} else {
-			talking, err = play(conn, phone, message, language, vad, mixMonitorTime)
+			talking, dtmf, err = play(conn, phone, message, language, vad, mixMonitorTime)
 			if err != nil {
 				return err
 			}
@@ -141,8 +142,13 @@ func session(conn net.Conn) (err error) {
 			hangup := false
 			ttsLanguage := language
 
-			if question, err = record(conn, phone, language, vad, talking); err != nil {
-				return
+			if dtmf != "" {
+				question = dtmf
+				dtmf = ""
+			} else {
+				if question, err = record(conn, phone, language, vad, talking); err != nil {
+					return
+				}
 			}
 
 			if question != "" {
@@ -172,7 +178,7 @@ func session(conn net.Conn) (err error) {
 					}
 					if strings.HasPrefix(lower, "sip:") {
 						if message != "" {
-							if talking, err = play(conn, phone, message, ttsLanguage, vad, mixMonitorTime); err != nil {
+							if talking, _, err = play(conn, phone, message, ttsLanguage, vad, mixMonitorTime); err != nil {
 								return
 							}
 						}
@@ -182,14 +188,14 @@ func session(conn net.Conn) (err error) {
 						}
 						hangup = true
 					}
-					if strings.HasPrefix(lower, "exten:") {
+					if strings.HasPrefix(lower, "dial:") {
 						if message != "" {
-							if talking, err = play(conn, phone, message, ttsLanguage, vad, mixMonitorTime); err != nil {
+							if talking, _, err = play(conn, phone, message, ttsLanguage, vad, mixMonitorTime); err != nil {
 								return
 							}
 						}
 						message = ""
-						if _, err = send(conn, fmt.Sprintf("EXEC GOTO %s", item[6:])); err != nil {
+						if _, err = send(conn, fmt.Sprintf("EXEC DIAL %s", item[5:])); err != nil {
 							return
 						}
 						hangup = true
@@ -198,7 +204,7 @@ func session(conn net.Conn) (err error) {
 				message, err = core.TagsProcess(platform, language, phone, message, tags)
 
 				if message != "" {
-					if talking, err = play(conn, phone, message, ttsLanguage, vad, mixMonitorTime); err != nil {
+					if talking, dtmf, err = play(conn, phone, message, ttsLanguage, vad, mixMonitorTime); err != nil {
 						return
 					}
 				}
@@ -261,7 +267,7 @@ func record(conn net.Conn, phone, language string, vad, talking bool) (string, e
 	return core.ASR(fileName, language)
 }
 
-func play(conn net.Conn, phone string, message string, language string, vad bool, mixMonitorTime time.Time) (talking bool, err error) {
+func play(conn net.Conn, phone string, message string, language string, vad bool, mixMonitorTime time.Time) (talking bool, dtmf string, err error) {
 	fileOutputName := fmt.Sprintf("%s/tts.%x.wav", sys.Options.Cache, md5.Sum([]byte(message)))
 	fileOutputTmp := fmt.Sprintf("%s/%s.tts.%d", sys.Options.MediaPath, phone, now())
 	if _, err = os.Stat(fileOutputName); err != nil {
@@ -283,13 +289,29 @@ func play(conn net.Conn, phone string, message string, language string, vad bool
 	if vad {
 		probeInput, err := av.ProbeAudio(fileOutputName)
 		if err != nil {
-			return false, err
+			return false, "", err
 		}
 		log.Trace(tag, probeInput)
 		playTimeFile := sys.Float(probeInput["duration"])
 		playTimeStart := time.Now().UnixNano()
-		if _, err := send(conn, fmt.Sprintf("EXEC BackgroundDetect %s,30,30", asteriskFileName)); err != nil {
-			return false, err
+		if msg, err := send(conn, fmt.Sprintf("EXEC BackgroundDetect %s,1,30", asteriskFileName)); err != nil {
+			return false, "", err
+		} else {
+			dtmf = dtmfExtract(msg)
+			if dtmf != "" {
+				for {
+					if msg, err := send(conn, fmt.Sprintf("EXEC WaitExten 1.5")); err != nil {
+						return false, "", err
+					} else {
+						val := dtmfExtract(msg)
+						if val == "" {
+							break
+						} else {
+							dtmf += val
+						}
+					}
+				}
+			}
 		}
 		playTimeStop := time.Now().UnixNano()
 		playTimeDiff := sys.Float(playTimeStop-playTimeStart) / 1e9
@@ -302,6 +324,14 @@ func play(conn net.Conn, phone string, message string, language string, vad bool
 	}
 
 	return
+}
+
+func dtmfExtract(msg string) string {
+	val := sys.Number(msg[11:])
+	if val > 0 {
+		return string(val)
+	}
+	return ""
 }
 
 func processHeader(line string, agi *AgiType) {
