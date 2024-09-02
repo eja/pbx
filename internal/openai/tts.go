@@ -56,6 +56,8 @@ func TTS(filePath string, text string, languageCode string) error {
 		Locale: languageCode,
 	}
 
+	fmt.Println(requestBody)
+
 	jsonValue, _ := json.Marshal(requestBody)
 
 	req, err := http.NewRequest("POST", url, bytes.NewBuffer(jsonValue))

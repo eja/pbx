@@ -52,7 +52,9 @@ func ASR(filePath string, languageCode string) (string, error) {
 	var body bytes.Buffer
 	writer := multipart.NewWriter(&body)
 	writer.WriteField("model", model)
-	writer.WriteField("language", languageCode)
+	if languageCode != "" {
+		writer.WriteField("language", languageCode)
+	}
 	filePart, err := writer.CreatePart(map[string][]string{
 		"Content-Disposition": {fmt.Sprintf("form-data; name=\"file\"; filename=\"%s.%s\"", filepath.Base(filePath), audioType)},
 		"Content-Type":        {fmt.Sprintf("audio/%s", audioType)},

@@ -91,74 +91,69 @@ func SipUpdate(address, username, password, trunk, webrtc string) (err error) {
 		origin = sys.Options.AsteriskAri
 	}
 
-	auth := AriPayload{
-		Fields: []AriField{
-			{Attribute: "username", Value: username},
-			{Attribute: "password", Value: password},
-		},
-	}
-	if _, err = ari("put", token, origin, "auth", username, auth); err != nil {
-		return
-	}
-
-	aor := AriPayload{
-		Fields: []AriField{
-			{Attribute: "remove_existing", Value: "yes"},
-			{Attribute: "contact", Value: fmt.Sprintf("sip:%s@%s", username, address)},
-			{Attribute: "max_contacts", Value: "1"},
-		},
-	}
-	if _, err = ari("put", token, origin, "aor", username, aor); err != nil {
-		return
-	}
-
-	if _, err = ari("get", token, origin, "endpoint", username, AriPayload{}); err == nil {
-		if _, err = ari("delete", token, origin, "endpoint", username, AriPayload{}); err != nil {
+	if sys.Number(trunk) > 0 {
+		registration := AriPayload{
+			Fields: []AriField{
+				{Attribute: "endpoint", Value: username},
+				{Attribute: "context", Value: "agi"},
+			},
+		}
+		if _, err = ari("put", token, origin, "endpoint", username, registration); err != nil {
 			return
 		}
-	}
-
-	endpoint := AriPayload{
-		Fields: []AriField{
-			{Attribute: "context", Value: "agi"},
-			{Attribute: "aors", Value: username},
-			{Attribute: "from_user", Value: username},
-			{Attribute: "from_domain", Value: address},
-			{Attribute: "callerid", Value: "asreceived"},
-			{Attribute: "allow", Value: "!all,ulaw,alaw"},
-			{Attribute: "set_var", Value: fmt.Sprintf("set_var=AGI=agi://%s/%s", sys.Options.AsteriskAgi, token)},
-		},
-	}
-	if sys.Number(webrtc) > 0 {
-		endpoint.Fields = append(endpoint.Fields, AriField{Attribute: "webrtc", Value: "yes"})
-	}
-	if sys.Number(trunk) > 0 {
-		endpoint.Fields = append(endpoint.Fields, AriField{Attribute: "auth", Value: ""})
-		endpoint.Fields = append(endpoint.Fields, AriField{Attribute: "outbound_auth", Value: username})
 	} else {
-		endpoint.Fields = append(endpoint.Fields, AriField{Attribute: "auth", Value: username})
-		endpoint.Fields = append(endpoint.Fields, AriField{Attribute: "outbound_auth", Value: ""})
-	}
-	if _, err = ari("put", token, origin, "endpoint", username, endpoint); err != nil {
-		return
-	}
 
-	/*
-		if sys.Number(trunk) > 0 {
-			registration := AriPayload{
-				Fields: []AriField{
-					{Attribute: "outbound_auth", Value: username},
-					{Attribute: "endpoint", Value: username},
-					{Attribute: "line", Value: "yes"},
-					{Attribute: "contact_user", Value: username},
-					{Attribute: "server_uri", Value: fmt.Sprintf("sip:%s", address)},
-					{Attribute: "client_uri", Value: fmt.Sprintf("sip:%s@%s", username, address)},
-				},
-			}
-			if _, err = ari("put", token, origin, "registration", username, registration); err != nil {
+		auth := AriPayload{
+			Fields: []AriField{
+				{Attribute: "username", Value: username},
+				{Attribute: "password", Value: password},
+			},
+		}
+		if _, err = ari("put", token, origin, "auth", username, auth); err != nil {
+			return
+		}
+
+		aor := AriPayload{
+			Fields: []AriField{
+				{Attribute: "remove_existing", Value: "yes"},
+				{Attribute: "contact", Value: fmt.Sprintf("sip:%s@%s", username, address)},
+				{Attribute: "max_contacts", Value: "1"},
+			},
+		}
+		if _, err = ari("put", token, origin, "aor", username, aor); err != nil {
+			return
+		}
+
+		if _, err = ari("get", token, origin, "endpoint", username, AriPayload{}); err == nil {
+			if _, err = ari("delete", token, origin, "endpoint", username, AriPayload{}); err != nil {
 				return
 			}
 		}
-	*/
+
+		endpoint := AriPayload{
+			Fields: []AriField{
+				{Attribute: "context", Value: "agi"},
+				{Attribute: "aors", Value: username},
+				{Attribute: "from_user", Value: username},
+				{Attribute: "from_domain", Value: address},
+				{Attribute: "callerid", Value: "asreceived"},
+				{Attribute: "allow", Value: "!all,ulaw,alaw"},
+				{Attribute: "set_var", Value: fmt.Sprintf("set_var=AGI=agi://%s/%s", sys.Options.AsteriskAgi, token)},
+			},
+		}
+		if sys.Number(webrtc) > 0 {
+			endpoint.Fields = append(endpoint.Fields, AriField{Attribute: "webrtc", Value: "yes"})
+		}
+		if sys.Number(trunk) > 0 {
+			endpoint.Fields = append(endpoint.Fields, AriField{Attribute: "auth", Value: ""})
+			endpoint.Fields = append(endpoint.Fields, AriField{Attribute: "outbound_auth", Value: username})
+		} else {
+			endpoint.Fields = append(endpoint.Fields, AriField{Attribute: "auth", Value: username})
+			endpoint.Fields = append(endpoint.Fields, AriField{Attribute: "outbound_auth", Value: ""})
+		}
+		if _, err = ari("put", token, origin, "endpoint", username, endpoint); err != nil {
+			return
+		}
+	}
 	return
 }
