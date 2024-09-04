@@ -130,9 +130,18 @@ func session(conn net.Conn) (err error) {
 		if message, err := core.Chat(platform, phone, "/welcome", language); err != nil {
 			return err
 		} else {
+			start := now()
 			talking, dtmf, err = play(conn, phone, message, language, vad, mixMonitorTime)
 			if err != nil {
 				return err
+			}
+			if vad && talking && (now()-start <= 1) {
+				vad = false
+				log.Debug(tag, "VAD disabled as line is too noisy")
+				talking, dtmf, err = play(conn, phone, message, language, vad, mixMonitorTime)
+				if err != nil {
+					return err
+				}
 			}
 		}
 
