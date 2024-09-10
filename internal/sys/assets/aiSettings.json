@@ -1,4 +1,5 @@
 {
+  "type": "module",
   "module": {
     "parentName": "ai",
     "power": 5,
@@ -47,7 +48,7 @@
       "sizeEdit": 0
     },
     {
-      "value": "|Off\r\ngoogle|Google\r\nopenai|OpenAI\r\n",
+      "value": "|Off\r\ngoogle|Google\r\nopenai|OpenAI\r\nassistant|OpenAI Assistant\r\n",
       "powerEdit": 0,
       "powerList": 0,
       "type": "select",

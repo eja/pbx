@@ -20,10 +20,6 @@ import (
 const asrModel = "whisper-1"
 const asrUrl = "https://api.openai.com/v1/audio/transcriptions"
 
-type typeASRResponse struct {
-	Text string `json:"text"`
-}
-
 func ASR(filePath string, languageCode string) (string, error) {
 	const audioType = "ogg"
 	aiSettings := db.Settings()

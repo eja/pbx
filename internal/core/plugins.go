@@ -15,6 +15,7 @@ type TypeAiChatPlugins map[string]func(userId, language, action, output string) 
 var AiChatPlugins = TypeAiChatPlugins{
 	"reset": func(userId, language, action, output string) string {
 		delete(history, userId)
+		delete(historyThread, userId)
 		return output
 	},
 	"mail": func(userId, language, action, output string) string {

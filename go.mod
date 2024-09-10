@@ -2,7 +2,7 @@ module pbx
 
 go 1.20
 
-require github.com/eja/tibula v0.0.0-20240904141238-996c6302229f
+require github.com/eja/tibula v0.0.0-20240910084425-becb1838c82e
 
 require (
 	github.com/go-sql-driver/mysql v1.7.1 // indirect

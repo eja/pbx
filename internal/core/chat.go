@@ -19,6 +19,7 @@ const historyTimeout = 300
 
 var history map[string][]sys.TypeChatMessage
 var historyTime map[string]time.Time
+var historyThread map[string]string
 var historyInit bool
 
 func Chat(platform, userId, message, language string) (string, error) {
@@ -32,12 +33,6 @@ func Chat(platform, userId, message, language string) (string, error) {
 
 	log.Debug(tag, "chat request:", language, userId, message)
 
-	if !historyInit {
-		history = make(map[string][]sys.TypeChatMessage)
-		historyTime = make(map[string]time.Time)
-		historyInit = true
-	}
-
 	if rows, err := db.SystemPrompt(platform); err != nil {
 		return "", err
 	} else {
@@ -45,8 +40,12 @@ func Chat(platform, userId, message, language string) (string, error) {
 			system += row["prompt"] + "\n"
 		}
 	}
+
+	system += fmt.Sprintf("Now is %s.\n", timeZoneNow)
+	if platform == "pbx" {
+		system += fmt.Sprintf("Users's phone number is %s.\n", userId)
+	}
 	system += fmt.Sprintf("The user usually speaks in %s, so please answer in that language or the language of the question if not instructed otherwise.\n", i18n.LanguageCodeToInternal(language))
-	system += fmt.Sprintf("Now is %s (UTC).", timeZoneNow)
 	system += "Always add a new line containing the language code, 2 chars, between square brackets that you have used to answer the question at the end of your response, like this: \n\n[en]\n"
 
 	if strings.HasPrefix(message, "/") {
@@ -67,32 +66,49 @@ func Chat(platform, userId, message, language string) (string, error) {
 	}
 
 	if response == "" {
-		if hist, ok := history[userId]; ok && len(hist) > 0 && (time.Now().Sub(historyTime[userId]).Seconds() < historyTimeout) {
-			history[userId] = append(history[userId], sys.TypeChatMessage{
-				Role:    "user",
-				Content: message,
-			})
-		} else {
-			history[userId] = []sys.TypeChatMessage{
-				{Role: "user", Content: message},
-			}
-		}
-		if aiSettings["llmProvider"] == "google" || (aiSettings["llmProvider"] == "" && sys.Options.AiProvider == "google") {
-			assistant, err = google.Chat(history[userId], system)
-		} else {
-			assistant, err = openai.Chat(history[userId], system)
+		if !historyInit {
+			history = make(map[string][]sys.TypeChatMessage)
+			historyTime = make(map[string]time.Time)
+			historyThread = make(map[string]string)
+			historyInit = true
 		}
 
-		if err != nil {
-			log.Error(tag, err)
-			return "", err
+		if aiSettings["llmProvider"] == "assistant" {
+			if response, thread, err := openai.Assistant(message, system, historyThread[userId]); err != nil {
+				return "", err
+			} else {
+				historyThread[userId] = thread
+				return response, nil
+			}
+
+		} else {
+			if hist, ok := history[userId]; ok && len(hist) > 0 && (time.Now().Sub(historyTime[userId]).Seconds() < historyTimeout) {
+				history[userId] = append(history[userId], sys.TypeChatMessage{
+					Role:    "user",
+					Content: message,
+				})
+			} else {
+				history[userId] = []sys.TypeChatMessage{
+					{Role: "user", Content: message},
+				}
+			}
+			if aiSettings["llmProvider"] == "google" || (aiSettings["llmProvider"] == "" && sys.Options.AiProvider == "google") {
+				assistant, err = google.Chat(history[userId], system)
+			} else {
+				assistant, err = openai.Chat(history[userId], system)
+			}
+
+			if err != nil {
+				log.Error(tag, err)
+				return "", err
+			}
+			historyTime[userId] = time.Now()
+			history[userId] = append(history[userId], sys.TypeChatMessage{
+				Role:    "assistant",
+				Content: assistant,
+			})
+			response = assistant
 		}
-		historyTime[userId] = time.Now()
-		history[userId] = append(history[userId], sys.TypeChatMessage{
-			Role:    "assistant",
-			Content: assistant,
-		})
-		response = assistant
 	}
 
 	log.Debug(tag, "chat response:", language, userId, response)

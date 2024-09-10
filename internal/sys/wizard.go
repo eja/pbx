@@ -29,7 +29,7 @@ func Wizard() error {
 		Options.MetaToken = sys.WizardPrompt("Meta token")
 	}
 	Options.AiToken = sys.WizardPrompt("AI API key")
-	Options.AiProvider = sys.WizardPrompt("AI Provider [openai|google|anythingLLM]")
+	Options.AiProvider = sys.WizardPrompt("AI Provider [openai|google|assistant]")
 	asterisk := sys.WizardPrompt("Enable Asterisk AGI server? (N/y)")
 	if len(asterisk) > 0 && strings.ToLower(asterisk[0:1]) == "y" {
 		Options.Asterisk = true

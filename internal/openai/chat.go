@@ -15,19 +15,6 @@ import (
 const llmUrl = "https://api.openai.com/v1/chat/completions"
 const llmModel = "gpt-4o-mini"
 
-type typeChatResponse struct {
-	ID      string `json:"id"`
-	Object  string `json:"object"`
-	Created int64  `json:"created"`
-	Model   string `json:"model"`
-	Choices []struct {
-		Index        int `json:"index"`
-		Message      sys.TypeChatMessage
-		Logprobs     interface{} `json:"logprobs"`
-		FinishReason string      `json:"finish_reason"`
-	} `json:"choices"`
-}
-
 func Chat(messages []sys.TypeChatMessage, system string) (string, error) {
 	aiSettings := db.Settings()
 	url := aiSettings["llmUrl"]
