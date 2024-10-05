@@ -74,10 +74,24 @@ func Chat(platform, userId, message, language string) (string, error) {
 		}
 
 		if aiSettings["llmProvider"] == "assistant" {
+
+			memoryEnabled := false
+			memoryThread := ""
+			if sys.Bool(aiSettings["userRestricted"]) {
+				if row, err := db.UserGet(userId); err == nil && sys.Bool(row["threadEnabled"]) {
+					memoryEnabled = true
+					memoryThread := row["thread"]
+					historyThread[userId] = memoryThread
+				}
+			}
 			if response, thread, err := openai.Assistant(message, system, historyThread[userId]); err != nil {
+				log.Error(tag, err)
 				return "", err
 			} else {
 				historyThread[userId] = thread
+				if memoryEnabled && memoryThread == "" {
+					db.UserUpdate(userId, "thread", thread)
+				}
 				return response, nil
 			}
 
@@ -92,12 +106,12 @@ func Chat(platform, userId, message, language string) (string, error) {
 					{Role: "user", Content: message},
 				}
 			}
+
 			if aiSettings["llmProvider"] == "google" || (aiSettings["llmProvider"] == "" && sys.Options.AiProvider == "google") {
 				assistant, err = google.Chat(history[userId], system)
 			} else {
 				assistant, err = openai.Chat(history[userId], system)
 			}
-
 			if err != nil {
 				log.Error(tag, err)
 				return "", err

@@ -32,3 +32,4 @@ type TypeChatMessage struct {
 var String = sys.String
 var Number = sys.Number
 var Float = sys.Float
+var Bool = sys.Bool

@@ -1,5 +1,4 @@
 {
-  "type": "module",
   "module": {
     "parentName": "ai",
     "power": 60,
@@ -26,7 +25,10 @@
       "type": "text",
       "translate": 0,
       "powerSearch": 5,
-      "name": "id"
+      "name": "id",
+      "sizeSearch": 0,
+      "sizeList": 0,
+      "sizeEdit": 0
     },
     {
       "value": "",
@@ -35,7 +37,10 @@
       "type": "text",
       "translate": 0,
       "powerSearch": 20,
-      "name": "name"
+      "name": "name",
+      "sizeSearch": 0,
+      "sizeList": 0,
+      "sizeEdit": 0
     },
     {
       "value": "SELECT code,internal from aiLanguages",
@@ -44,7 +49,10 @@
       "type": "sqlMatrix",
       "translate": 0,
       "powerSearch": 5,
-      "name": "language"
+      "name": "language",
+      "sizeSearch": 0,
+      "sizeList": 0,
+      "sizeEdit": 0
     },
     {
       "value": "",
@@ -53,7 +61,10 @@
       "type": "textArea",
       "translate": 0,
       "powerSearch": 0,
-      "name": "note"
+      "name": "note",
+      "sizeSearch": 0,
+      "sizeList": 0,
+      "sizeEdit": 0
     },
     {
       "value": "",
@@ -62,7 +73,10 @@
       "type": "datetime",
       "translate": 0,
       "powerSearch": 60,
-      "name": "expiration"
+      "name": "expiration",
+      "sizeSearch": 0,
+      "sizeList": 0,
+      "sizeEdit": 0
     },
     {
       "value": "",
@@ -71,7 +85,10 @@
       "type": "hidden",
       "translate": 0,
       "powerSearch": 0,
-      "name": "welcome"
+      "name": "welcome",
+      "sizeSearch": 0,
+      "sizeList": 0,
+      "sizeEdit": 0
     },
     {
       "value": "0|none\r\n1|input\r\n2|all",
@@ -80,7 +97,10 @@
       "type": "select",
       "translate": 0,
       "powerSearch": 65,
-      "name": "audio"
+      "name": "audio",
+      "sizeSearch": 0,
+      "sizeList": 0,
+      "sizeEdit": 0
     },
     {
       "value": "SELECT ejaId,username FROM ejaUsers WHERE ejaId IN (SELECT value FROM ejaSession WHERE ejaSession.name='ejaOwners') ORDER BY username",
@@ -89,7 +109,34 @@
       "type": "sqlMatrix",
       "translate": 0,
       "powerSearch": 0,
-      "name": "ejaOwner"
+      "name": "ejaOwner",
+      "sizeSearch": 0,
+      "sizeList": 0,
+      "sizeEdit": 0
+    },
+    {
+      "value": "",
+      "powerEdit": 70,
+      "powerList": 70,
+      "type": "boolean",
+      "translate": 0,
+      "powerSearch": 0,
+      "name": "threadEnabled",
+      "sizeSearch": 0,
+      "sizeList": 0,
+      "sizeEdit": 0
+    },
+    {
+      "value": "",
+      "powerEdit": 0,
+      "powerList": 0,
+      "type": "hidden",
+      "translate": 0,
+      "powerSearch": 0,
+      "name": "thread",
+      "sizeSearch": 0,
+      "sizeList": 0,
+      "sizeEdit": 0
     }
   ],
   "translation": [
@@ -139,8 +186,14 @@
       "ejaModuleName": "aiUsers",
       "word": "note",
       "translation": "Note"
+    },
+    {
+      "ejaLanguage": "en",
+      "ejaModuleName": "aiUsers",
+      "word": "threadEnabled",
+      "translation": "Thread"
     }
   ],
   "name": "aiUsers",
-  "data": null
+  "type": "module"
 }

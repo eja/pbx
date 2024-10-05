@@ -1,5 +1,5 @@
-github.com/eja/tibula v0.0.0-20240910084425-becb1838c82e h1:/VsC+TNz2k3lhYQksEkxCZRfDFbbEn4q8nKf71KClng=
-github.com/eja/tibula v0.0.0-20240910084425-becb1838c82e/go.mod h1:poUDfEk3hfr4SP4CVRQ+RhRv2fRapNM7l8brrtaSjfE=
+github.com/eja/tibula v0.0.0-20241002101933-71aa1b31eadf h1:KudPXR0x8oUb1h0o+wuOI57yx+VRP/opB62BRC9jayM=
+github.com/eja/tibula v0.0.0-20241002101933-71aa1b31eadf/go.mod h1:poUDfEk3hfr4SP4CVRQ+RhRv2fRapNM7l8brrtaSjfE=
 github.com/go-sql-driver/mysql v1.7.1 h1:lUIinVbN1DY0xBg0eMOzmmtGoHwWBbvnWubQUrtU8EI=
 github.com/go-sql-driver/mysql v1.7.1/go.mod h1:OXbVy3sEdcQ2Doequ6Z5BW6fXNQTmx+9S1MCJN5yJMI=
 github.com/mattn/go-sqlite3 v1.14.19 h1:fhGleo2h1p8tVChob4I9HpmVFIAkKGpiukdrgQbWfGI=
