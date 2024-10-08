@@ -16,7 +16,7 @@ import (
 
 func ASR(filePath, language string) (string, error) {
 	aiSettings := db.Settings()
-	apiKey := aiSettings["llmToken"]
+	apiKey := aiSettings["asrToken"]
 	if apiKey == "" {
 		apiKey = sys.Options.AiToken
 	}
