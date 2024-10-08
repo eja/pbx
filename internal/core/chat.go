@@ -73,6 +73,17 @@ func Chat(platform, userId, message, language string) (string, error) {
 			historyInit = true
 		}
 
+		if hist, ok := history[userId]; ok && len(hist) > 0 && (time.Now().Sub(historyTime[userId]).Seconds() < historyTimeout) {
+			history[userId] = append(history[userId], sys.TypeChatMessage{
+				Role:    "user",
+				Content: message,
+			})
+		} else {
+			history[userId] = []sys.TypeChatMessage{
+				{Role: "user", Content: message},
+			}
+		}
+
 		if aiSettings["llmProvider"] == "assistant" {
 
 			memoryEnabled := false
@@ -84,7 +95,7 @@ func Chat(platform, userId, message, language string) (string, error) {
 					historyThread[userId] = memoryThread
 				}
 			}
-			if response, thread, err := openai.Assistant(message, system, historyThread[userId]); err != nil {
+			if resp, thread, err := openai.Assistant(message, system, historyThread[userId]); err != nil {
 				log.Error(tag, err)
 				return "", err
 			} else {
@@ -92,20 +103,10 @@ func Chat(platform, userId, message, language string) (string, error) {
 				if memoryEnabled && memoryThread == "" {
 					db.UserUpdate(userId, "thread", thread)
 				}
-				return response, nil
+				response = resp
 			}
 
 		} else {
-			if hist, ok := history[userId]; ok && len(hist) > 0 && (time.Now().Sub(historyTime[userId]).Seconds() < historyTimeout) {
-				history[userId] = append(history[userId], sys.TypeChatMessage{
-					Role:    "user",
-					Content: message,
-				})
-			} else {
-				history[userId] = []sys.TypeChatMessage{
-					{Role: "user", Content: message},
-				}
-			}
 
 			if aiSettings["llmProvider"] == "google" || (aiSettings["llmProvider"] == "" && sys.Options.AiProvider == "google") {
 				assistant, err = google.Chat(history[userId], system)
@@ -116,13 +117,14 @@ func Chat(platform, userId, message, language string) (string, error) {
 				log.Error(tag, err)
 				return "", err
 			}
-			historyTime[userId] = time.Now()
-			history[userId] = append(history[userId], sys.TypeChatMessage{
-				Role:    "assistant",
-				Content: assistant,
-			})
 			response = assistant
 		}
+
+		historyTime[userId] = time.Now()
+		history[userId] = append(history[userId], sys.TypeChatMessage{
+			Role:    "assistant",
+			Content: response,
+		})
 	}
 
 	log.Debug(tag, "chat response:", language, userId, response)
