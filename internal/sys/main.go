@@ -19,7 +19,7 @@ func Configure() error {
 	flag.StringVar(&Options.MetaToken, "meta-token", "", "Meta token")
 	flag.StringVar(&Options.TelegramToken, "telegram-token", "", "Telegram token")
 	flag.StringVar(&Options.AiToken, "ai-token", "", "AI token")
-	flag.StringVar(&Options.AiProvider, "ai-provider", "openai", "AI provider [openai|google|anythingLLM]")
+	flag.StringVar(&Options.AiProvider, "ai-provider", "openai", "AI provider [openai|google|assistant]")
 	flag.StringVar(&Options.AsteriskAgi, "asterisk-agi", "127.0.0.1:4573", "Asterisk AGI address")
 	flag.StringVar(&Options.AsteriskAri, "asterisk-ari", "http://localhost:8088", "Asterisk ARI url")
 	flag.StringVar(&Options.AsteriskToken, "asterisk-token", "", "Asterisk token")
