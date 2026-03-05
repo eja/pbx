@@ -37,7 +37,7 @@ func Chat(messages []sys.TypeChatMessage, system string) (string, error) {
 	}
 
 	// Define the request payload
-	payload, err := json.Marshal(map[string]interface{}{
+	payload, err := json.Marshal(map[string]any{
 		"stream":   false,
 		"model":    model,
 		"messages": append([]sys.TypeChatMessage{messageSystem}, messages...),

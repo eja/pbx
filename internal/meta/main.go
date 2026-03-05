@@ -7,7 +7,6 @@ import (
 	"encoding/json"
 	"fmt"
 	"io"
-	"io/ioutil"
 	"mime/multipart"
 	"net/http"
 	"os"
@@ -44,7 +43,7 @@ func settings(item string) string {
 	return value
 }
 
-func metaRequest(method string, url string, body interface{}, contentType string) ([]byte, error) {
+func metaRequest(method string, url string, body any, contentType string) ([]byte, error) {
 	var buf bytes.Buffer
 	if contentType == "json" && body != nil {
 		if err := json.NewEncoder(&buf).Encode(body); err != nil {
@@ -80,7 +79,7 @@ func metaRequest(method string, url string, body interface{}, contentType string
 		return nil, fmt.Errorf("request failed with status: %d", resp.StatusCode)
 	}
 
-	data, err := ioutil.ReadAll(resp.Body)
+	data, err := io.ReadAll(resp.Body)
 	if err != nil {
 		return nil, fmt.Errorf("reading response body: %w", err)
 	}
@@ -88,7 +87,7 @@ func metaRequest(method string, url string, body interface{}, contentType string
 	return data, nil
 }
 
-func metaPost(data interface{}) error {
+func metaPost(data any) error {
 	url := fmt.Sprintf("%s/%s/messages", settings("metaUrl"), settings("metaUser"))
 	_, err := metaRequest("POST", url, data, "json")
 	return err
@@ -117,7 +116,7 @@ func MediaGet(mediaId string, fileName string) error {
 		return err
 	}
 
-	if err := ioutil.WriteFile(fileName, responseData, 0644); err != nil {
+	if err := os.WriteFile(fileName, responseData, 0644); err != nil {
 		return fmt.Errorf("writing file: %w", err)
 	}
 
@@ -174,13 +173,13 @@ func metaMediaUpload(fileName string, fileType string) (mediaId string, err erro
 }
 
 func SendText(phone string, text string) error {
-	messageData := map[string]interface{}{
+	messageData := map[string]any{
 		"messaging_product": "whatsapp",
 		"preview_url":       false,
 		"recipient_type":    "individual",
 		"to":                phone,
 		"type":              "text",
-		"text": map[string]interface{}{
+		"text": map[string]any{
 			"body": text,
 		},
 	}
@@ -189,7 +188,7 @@ func SendText(phone string, text string) error {
 }
 
 func SendStatus(messageId string, status string) error {
-	statusData := map[string]interface{}{
+	statusData := map[string]any{
 		"messaging_product": "whatsapp",
 		"message_id":        messageId,
 		"status":            status,
@@ -199,12 +198,12 @@ func SendStatus(messageId string, status string) error {
 }
 
 func metaReaction(recipient string, messageId string, emoji string) error {
-	reactionData := map[string]interface{}{
+	reactionData := map[string]any{
 		"messaging_product": "whatsapp",
 		"recipient_type":    "individual",
 		"to":                recipient,
 		"type":              "reaction",
-		"reaction": map[string]interface{}{
+		"reaction": map[string]any{
 			"message_id": messageId,
 			"emoji":      emoji,
 		},
@@ -235,12 +234,12 @@ func SendAudio(phone string, mediaFile string) error {
 		return fmt.Errorf("uploading audio: %w", err)
 	}
 
-	messageData := map[string]interface{}{
+	messageData := map[string]any{
 		"messaging_product": "whatsapp",
 		"recipient_type":    "individual",
 		"to":                phone,
 		"type":              "audio",
-		"audio": map[string]interface{}{
+		"audio": map[string]any{
 			"id": mediaUploadId,
 		},
 	}

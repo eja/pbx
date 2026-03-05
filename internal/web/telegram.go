@@ -27,10 +27,10 @@ type typeTelegramMessage struct {
 		Text  string `json:"text,omitempty"`
 		Voice struct {
 			FileId string `json:"file_id"`
-		} `json:"voice,omitempty"`
+		} `json:"voice"`
 		Context struct {
 			Forwarded bool `json:"forwarded"`
-		} `json:"context,omitempty"`
+		} `json:"context"`
 	} `json:"message"`
 }
 

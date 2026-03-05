@@ -28,8 +28,8 @@ type typeChatResponse struct {
 	Choices []struct {
 		Index        int `json:"index"`
 		Message      sys.TypeChatMessage
-		Logprobs     interface{} `json:"logprobs"`
-		FinishReason string      `json:"finish_reason"`
+		Logprobs     any    `json:"logprobs"`
+		FinishReason string `json:"finish_reason"`
 	} `json:"choices"`
 }
 

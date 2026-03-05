@@ -7,7 +7,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"io"
-	"io/ioutil"
+
 	"mime/multipart"
 	"net/http"
 	"os"
@@ -80,7 +80,7 @@ func ASR(filePath string, languageCode string) (string, error) {
 	}
 	defer response.Body.Close()
 
-	responseBody, err := ioutil.ReadAll(response.Body)
+	responseBody, err := io.ReadAll(response.Body)
 	if err != nil {
 		return "", err
 	}

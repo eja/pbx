@@ -7,8 +7,9 @@ import (
 	"encoding/base64"
 	"encoding/json"
 	"fmt"
-	"io/ioutil"
+	"io"
 	"net/http"
+	"os"
 
 	"pbx/internal/db"
 	"pbx/internal/sys"
@@ -21,18 +22,18 @@ func ASR(filePath, language string) (string, error) {
 		apiKey = sys.Options.AiToken
 	}
 
-	audioBytes, err := ioutil.ReadFile(filePath)
+	audioBytes, err := os.ReadFile(filePath)
 	if err != nil {
 		return "", fmt.Errorf("failed to read audio file: %v", err)
 	}
 
 	audioBase64 := base64.StdEncoding.EncodeToString(audioBytes)
 
-	payload := map[string]interface{}{
+	payload := map[string]any{
 		"audio": map[string]string{
 			"content": audioBase64,
 		},
-		"config": map[string]interface{}{
+		"config": map[string]any{
 			"encoding":        "WEBM_OPUS",
 			"sampleRateHertz": 48000,
 			"languageCode":    language,
@@ -60,7 +61,7 @@ func ASR(filePath, language string) (string, error) {
 	}
 	defer resp.Body.Close()
 
-	respBytes, err := ioutil.ReadAll(resp.Body)
+	respBytes, err := io.ReadAll(resp.Body)
 	if err != nil {
 		return "", fmt.Errorf("failed to read response body: %v", err)
 	}
@@ -69,28 +70,28 @@ func ASR(filePath, language string) (string, error) {
 		return "", fmt.Errorf("received non-200 response: %s", string(respBytes))
 	}
 
-	var respData map[string]interface{}
+	var respData map[string]any
 	err = json.Unmarshal(respBytes, &respData)
 	if err != nil {
 		return "", fmt.Errorf("failed to unmarshal response JSON: %v", err)
 	}
 
-	results, ok := respData["results"].([]interface{})
+	results, ok := respData["results"].([]any)
 	if !ok {
 		return "", nil
 	}
 
-	firstResult, ok := results[0].(map[string]interface{})
+	firstResult, ok := results[0].(map[string]any)
 	if !ok {
 		return "", fmt.Errorf("invalid result format")
 	}
 
-	alternatives, ok := firstResult["alternatives"].([]interface{})
+	alternatives, ok := firstResult["alternatives"].([]any)
 	if !ok || len(alternatives) == 0 {
 		return "", fmt.Errorf("no alternatives found in the result")
 	}
 
-	firstAlternative, ok := alternatives[0].(map[string]interface{})
+	firstAlternative, ok := alternatives[0].(map[string]any)
 	if !ok {
 		return "", fmt.Errorf("invalid alternative format")
 	}

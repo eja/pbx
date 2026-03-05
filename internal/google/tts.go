@@ -7,8 +7,9 @@ import (
 	"encoding/base64"
 	"encoding/json"
 	"fmt"
-	"io/ioutil"
+	"io"
 	"net/http"
+	"os"
 
 	"pbx/internal/db"
 	"pbx/internal/sys"
@@ -64,7 +65,7 @@ func TTS(filePath string, text string, languageCode string) error {
 	}
 	defer resp.Body.Close()
 
-	respBody, err := ioutil.ReadAll(resp.Body)
+	respBody, err := io.ReadAll(resp.Body)
 	if err != nil {
 		return fmt.Errorf("failed to read response body: %v", err)
 	}
@@ -86,7 +87,7 @@ func TTS(filePath string, text string, languageCode string) error {
 		return fmt.Errorf("failed to decode audio content: %v", err)
 	}
 
-	err = ioutil.WriteFile(filePath, audioData, 0644)
+	err = os.WriteFile(filePath, audioData, 0644)
 	if err != nil {
 		return fmt.Errorf("failed to write audio file: %v", err)
 	}

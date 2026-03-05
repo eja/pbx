@@ -6,7 +6,8 @@ import (
 	"bytes"
 	"encoding/json"
 	"fmt"
-	"io/ioutil"
+	"io"
+
 	"net/http"
 	"regexp"
 
@@ -41,7 +42,7 @@ func Assistant(message, system, threadIn string) (response, thread string, err e
 		if err != nil {
 			return "", "", err
 		} else {
-			var jsonResponse map[string]interface{}
+			var jsonResponse map[string]any
 			if err = json.Unmarshal(data, &jsonResponse); err != nil {
 				return
 			}
@@ -121,7 +122,7 @@ func assistantPost(url, token string, payload []byte) (response []byte, err erro
 		return response, fmt.Errorf("failed http request: %s", resp.Status)
 	}
 
-	return ioutil.ReadAll(resp.Body)
+	return io.ReadAll(resp.Body)
 }
 
 func assistantReplaceAnnotation(s string, start, stop int, replace rune) string {

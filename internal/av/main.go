@@ -55,7 +55,7 @@ func MpegAudioAsterisk(fileIn string, fileOut string) error {
 	})
 }
 
-func ProbeAudio(file string) (map[string]interface{}, error) {
+func ProbeAudio(file string) (map[string]any, error) {
 	output, err := FFprobe([]string{
 		"-print_format", "json", "-show_format", "-show_streams", file,
 	})
@@ -63,16 +63,16 @@ func ProbeAudio(file string) (map[string]interface{}, error) {
 		return nil, err
 	}
 
-	var data map[string]interface{}
+	var data map[string]any
 	err = json.Unmarshal(output, &data)
 	if err != nil {
 		return nil, err
 	}
 
-	var audioStream map[string]interface{}
-	if streams, ok := data["streams"].([]interface{}); ok {
+	var audioStream map[string]any
+	if streams, ok := data["streams"].([]any); ok {
 		for _, stream := range streams {
-			if streamMap, ok := stream.(map[string]interface{}); ok {
+			if streamMap, ok := stream.(map[string]any); ok {
 				if codecType, ok := streamMap["codec_type"].(string); ok && codecType == "audio" {
 					audioStream = streamMap
 					break

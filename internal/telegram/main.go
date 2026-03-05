@@ -16,8 +16,8 @@ import (
 )
 
 type typeTelegramMediaData struct {
-	OK     bool                   `json:"ok"`
-	Result map[string]interface{} `json:"result"`
+	OK     bool           `json:"ok"`
+	Result map[string]any `json:"result"`
 }
 
 func settings(item string) string {

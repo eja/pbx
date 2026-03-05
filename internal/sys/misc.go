@@ -6,7 +6,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"io"
-	"io/ioutil"
+
 	"os"
 )
 
@@ -34,7 +34,7 @@ func FileCopy(sourcePath, destinationPath string) error {
 	return nil
 }
 
-func FileReadJson(filename string) (map[string]interface{}, error) {
+func FileReadJson(filename string) (map[string]any, error) {
 	// Open the JSON file
 	file, err := os.Open(filename)
 	if err != nil {
@@ -43,13 +43,13 @@ func FileReadJson(filename string) (map[string]interface{}, error) {
 	defer file.Close()
 
 	// Read the file contents
-	byteValue, err := ioutil.ReadAll(file)
+	byteValue, err := io.ReadAll(file)
 	if err != nil {
 		return nil, fmt.Errorf("error reading file: %v", err)
 	}
 
 	// Create a map to unmarshal JSON data into
-	var data map[string]interface{}
+	var data map[string]any
 
 	// Unmarshal JSON data into the map
 	err = json.Unmarshal(byteValue, &data)

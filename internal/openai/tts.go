@@ -6,8 +6,9 @@ import (
 	"bytes"
 	"encoding/json"
 	"fmt"
-	"io/ioutil"
+	"io"
 	"net/http"
+	"os"
 
 	"pbx/internal/db"
 	"pbx/internal/sys"
@@ -67,12 +68,12 @@ func TTS(filePath string, text string, languageCode string) error {
 	}
 	defer resp.Body.Close()
 
-	body, err := ioutil.ReadAll(resp.Body)
+	body, err := io.ReadAll(resp.Body)
 	if err != nil {
 		return fmt.Errorf("failed to read response body: %v", err)
 	}
 
-	err = ioutil.WriteFile(filePath, body, 0644)
+	err = os.WriteFile(filePath, body, 0644)
 	if err != nil {
 		return fmt.Errorf("failed to write file: %v", err)
 	}

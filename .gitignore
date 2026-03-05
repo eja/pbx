@@ -3,6 +3,6 @@ pbx.exe
 pbx.json
 tibula.db
 
-dist/
+bin/
 
 !cmd/pbx
