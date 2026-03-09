@@ -40,6 +40,8 @@ func Router() error {
 		} else {
 			eja.Values = data
 		}
+		eja.Action = "edit"
+		eja.ActionType = "Edit"
 
 		return eja
 	}

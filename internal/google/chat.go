@@ -12,7 +12,7 @@ import (
 	"pbx/internal/sys"
 )
 
-const llmModel = "gemini-1.5-flash"
+const llmModel = "gemini-flash-lite-latest"
 
 type RequestPayload struct {
 	Contents []struct {
