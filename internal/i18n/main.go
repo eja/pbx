@@ -8,8 +8,7 @@ import (
 )
 
 func DefaultLanguage() string {
-	db, _ := db.Open()
-	language, err := db.Value("SELECT language FROM aiSettings WHERE ejaId=1")
+	language, err := db.DefaultLanguage()
 	if err != nil || language == "" {
 		language = sys.Options.Language
 	}
@@ -17,11 +16,10 @@ func DefaultLanguage() string {
 }
 
 func Translate(language string, label string) string {
-	db, _ := db.Open()
 	if language == "" {
 		language = DefaultLanguage()
 	}
-	value, err := db.Value("SELECT translation FROM aiTranslations WHERE label=? AND language=?", label, language)
+	value, err := db.Translate(label, language)
 	if err != nil || value == "" {
 		return "{" + label + "}"
 	} else {
@@ -30,12 +28,11 @@ func Translate(language string, label string) string {
 }
 
 func LanguageCodeToLocale(language string) string {
-	db, _ := db.Open()
 	if language == "" {
 		language = DefaultLanguage()
 	}
 
-	if locale, err := db.Value("SELECT locale FROM aiLanguages WHERE code = ?", language); err != nil {
+	if locale, err := db.LanguageCodeToLocale(language); err != nil {
 		return ""
 	} else {
 		return locale
@@ -43,12 +40,11 @@ func LanguageCodeToLocale(language string) string {
 }
 
 func LanguageCodeToInternal(language string) string {
-	db, _ := db.Open()
 	if language == "" {
 		language = DefaultLanguage()
 	}
 
-	if value, err := db.Value("SELECT internal FROM aiLanguages WHERE code = ?", language); err != nil {
+	if value, err := db.LanguageCodeToInternal(language); err != nil {
 		return ""
 	} else {
 		return value

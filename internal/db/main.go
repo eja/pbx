@@ -4,42 +4,24 @@ package db
 
 import (
 	"fmt"
-
-	"pbx/internal/sys"
-
-	tibula "github.com/eja/tibula/db"
 )
 
-var sharedSession tibula.TypeSession
-
-func Open() (tibula.TypeSession, error) {
-	if sharedSession == (tibula.TypeSession{}) {
-		sharedSession = tibula.Session()
-	}
-	err := sharedSession.Open(sys.Options.DbType, sys.Options.DbName, sys.Options.DbUser, sys.Options.DbPass, sys.Options.DbHost, sys.Options.DbPort)
-	return sharedSession, err
-}
-
-func UserGet(id string) (tibula.TypeRow, error) {
-	db, _ := Open()
-	return db.Row("SELECT * FROM aiUsers WHERE id = ? AND expiration > CURRENT_TIMESTAMP LIMIT 1", id)
+func UserGet(id string) (tibulaTypeRow, error) {
+	return tibulaRow("SELECT * FROM aiUsers WHERE id = ? AND expiration > CURRENT_TIMESTAMP LIMIT 1", id)
 }
 
 func UserUpdate(id string, field string, value string) (err error) {
-	db, _ := Open()
 	query := fmt.Sprintf("UPDATE aiUsers SET %s = ? WHERE id = ?", field)
-	_, err = db.Run(query, value, id)
+	_, err = tibulaRun(query, value, id)
 	return
 }
 
-func SystemPrompt(platform string) (tibula.TypeRows, error) {
-	db, _ := Open()
-	return db.Rows("SELECT prompt FROM aiPrompts WHERE active > 0 AND (platform='' OR platform='all' OR platform=?) ORDER BY power ASC", platform)
+func SystemPrompt(platform string) (tibulaTypeRows, error) {
+	return tibulaRows("SELECT prompt FROM aiPrompts WHERE active > 0 AND (platform='' OR platform='all' OR platform=?) ORDER BY power ASC", platform)
 }
 
 func ChatAction(platform, action, language string) (function, response string) {
-	db, _ := Open()
-	values, err := db.Row(`SELECT function, response FROM aiActions WHERE 
+	values, err := tibulaRow(`SELECT function, response FROM aiActions WHERE 
 			active>0 AND 
 			action=? AND 
 			(language=? OR language='') AND 
@@ -53,19 +35,33 @@ func ChatAction(platform, action, language string) (function, response string) {
 	return
 }
 
-func Settings() (values tibula.TypeRow) {
-	db, _ := Open()
-	values, _ = db.Get(1, db.ModuleGetIdByName("aiSettings"), 1)
+func Settings() (values tibulaTypeRow) {
+	values, _ = tibulaRow(`SELECT * FROM aiSettings WHERE ejaId=1`)
 	return
 }
 
 func Log(source, message string) error {
-	db, _ := Open()
 	settings := Settings()
-	if sys.Number(settings["logs"]) > 0 {
-		if _, err := db.Run(`INSERT INTO aiLogs (ejaOwner, ejaLog, source, message) VALUES (1,?,?,?)`, db.Now(), source, message); err != nil {
+	if tibulaNumber(settings["logs"]) > 0 {
+		if _, err := tibulaRun(`INSERT INTO aiLogs (ejaOwner, ejaLog, source, message) VALUES (1,?,?,?)`, tibulaNow(), source, message); err != nil {
 			return err
 		}
 	}
 	return nil
+}
+
+func DefaultLanguage() (string, error) {
+	return tibulaValue("SELECT language FROM aiSettings WHERE ejaId=1")
+}
+
+func Translate(label, language string) (string, error) {
+	return tibulaValue("SELECT translation FROM aiTranslations WHERE label=? AND language=? LIMIT 1", label, language)
+}
+
+func LanguageCodeToLocale(language string) (string, error) {
+	return tibulaValue("SELECT locale FROM aiLanguages WHERE code = ? LIMIT 1", language)
+}
+
+func LanguageCodeToInternal(language string) (string, error) {
+	return tibulaValue("SELECT internal FROM aiLanguages WHERE code = ? LIMIT 1", language)
 }
