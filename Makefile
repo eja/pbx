@@ -1,11 +1,11 @@
 .PHONY: clean test pbx
 
-BIN_DIR := bin
+BUILD_DIR := build
 
 all: lint pbx
 
 clean:
-	@rm -rf $(BIN_DIR)
+	@rm -rf $(BUILD_DIR)
 
 lint:
 	@gofmt -w .
@@ -18,5 +18,5 @@ test:
 	@go test -v ./test
 
 pbx:
-	@mkdir -p $(BIN_DIR)
-	@go build -ldflags "-s -w" -o $(BIN_DIR)/$@ ./cmd/$@/...
+	@mkdir -p $(BUILD_DIR)
+	@go build -ldflags "-s -w" -o $(BUILD_DIR)/$@ ./cmd/$@/...

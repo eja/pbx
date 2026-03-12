@@ -1,14 +1,14 @@
-// Copyright (C) 2023-2024 by Ubaldo Porcheddu <ubaldo@eja.it>
+// Copyright (C) by Ubaldo Porcheddu <ubaldo@eja.it>
 
 package main
 
 import (
-	"os"
-	"pbx/internal/asterisk"
-	"pbx/internal/sys"
-	"pbx/internal/web"
+	"log"
 
-	"github.com/eja/tibula/log"
+	"github.com/eja/pbx/asterisk"
+	"github.com/eja/pbx/sys"
+	"github.com/eja/pbx/web"
+
 	tibulaSys "github.com/eja/tibula/sys"
 	tibulaWeb "github.com/eja/tibula/web"
 )
@@ -36,11 +36,6 @@ func main() {
 		}
 		if err := web.Router(); err != nil {
 			log.Fatal(err)
-		}
-		if _, err := os.Stat(sys.Options.MediaPath); os.IsNotExist(err) {
-			if err := os.MkdirAll(sys.Options.MediaPath, 0755); err != nil {
-				log.Fatal("Cannot create media folder", err)
-			}
 		}
 		if sys.Options.Asterisk {
 			go asterisk.Start()

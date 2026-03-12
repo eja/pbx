@@ -1,4 +1,4 @@
-module pbx
+module github.com/eja/pbx
 
 go 1.26.0
 
