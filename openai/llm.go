@@ -44,8 +44,6 @@ func LLM(messages []sys.TypeChatMessage, system string) (string, error) {
 		return "", fmt.Errorf("Error marshaling JSON: %v", err)
 	}
 
-	fmt.Println(string(payload))
-
 	req, err := http.NewRequest("POST", url, bytes.NewBuffer(payload))
 	if err != nil {
 		return "", fmt.Errorf("Error creating request: %v", err)
@@ -65,8 +63,6 @@ func LLM(messages []sys.TypeChatMessage, system string) (string, error) {
 	if err := json.NewDecoder(resp.Body).Decode(&response); err != nil {
 		return "", fmt.Errorf("Error decoding JSON response: %v", err)
 	}
-
-	fmt.Println(response)
 
 	if len(response.Choices) > 0 {
 		assistantMessage := response.Choices[0].Message
