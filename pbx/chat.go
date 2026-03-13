@@ -21,7 +21,7 @@ var historyTime map[string]time.Time
 var historyThread map[string]string
 var historyInit bool
 
-var Process func(userId, system, message, language string, history []sys.TypeChatMessage) (string, error)
+var ChatProcess func(userId, system, message, language string, history []sys.TypeChatMessage, tools map[string]openai.LLMTool) (string, error)
 
 func Chat(platform, userId, message, language string) (string, error) {
 	var response, system, assistant string
@@ -54,8 +54,8 @@ func Chat(platform, userId, message, language string) (string, error) {
 		parameters := strings.Split(message, " ")
 		var actionFunction, actionResponse = db.ChatAction(platform, parameters[0], language)
 		if actionFunction != "" {
-			if AiChatPlugins[actionFunction] != nil {
-				response = AiChatPlugins[actionFunction](userId, language, message, actionResponse)
+			if Plugins[actionFunction] != nil {
+				response = Plugins[actionFunction](userId, language, message, actionResponse)
 			} else {
 				log.Warn(tag, "chat plugin not found", message)
 			}
@@ -85,41 +85,16 @@ func Chat(platform, userId, message, language string) (string, error) {
 			}
 		}
 
-		if aiSettings["llmProvider"] == "assistant" {
-
-			memoryEnabled := false
-			memoryThread := ""
-			if sys.Bool(aiSettings["userRestricted"]) {
-				if row, err := db.UserGet(userId); err == nil && sys.Bool(row["threadEnabled"]) {
-					memoryEnabled = true
-					memoryThread := row["thread"]
-					historyThread[userId] = memoryThread
-				}
-			}
-			if resp, thread, err := openai.Assistant(message, system, historyThread[userId]); err != nil {
-				log.Error(tag, err)
-				return "", err
-			} else {
-				historyThread[userId] = thread
-				if memoryEnabled && memoryThread == "" {
-					db.UserUpdate(userId, "thread", thread)
-				}
-				response = resp
-			}
-
+		if ChatProcess != nil {
+			assistant, err = ChatProcess(userId, system, message, language, history[userId], Tools)
 		} else {
-
-			if Process != nil {
-				assistant, err = Process(userId, system, message, language, history[userId])
-			} else {
-				assistant, err = openai.LLM(history[userId], system)
-			}
-			if err != nil {
-				log.Error(tag, err)
-				return "", err
-			}
-			response = assistant
+			assistant, err = openai.LLM(history[userId], system, Tools)
 		}
+		if err != nil {
+			log.Error(tag, err)
+			return "", err
+		}
+		response = assistant
 
 		historyTime[userId] = time.Now()
 		history[userId] = append(history[userId], sys.TypeChatMessage{

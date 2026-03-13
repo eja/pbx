@@ -10,9 +10,9 @@ import (
 	"github.com/eja/tibula/log"
 )
 
-type TypeAiChatPlugins map[string]func(userId, language, action, output string) string
+type PluginMap map[string]func(userId, language, action, output string) string
 
-var AiChatPlugins = TypeAiChatPlugins{
+var Plugins = PluginMap{
 	"reset": func(userId, language, action, output string) string {
 		delete(history, userId)
 		delete(historyThread, userId)

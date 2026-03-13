@@ -85,7 +85,7 @@ func ASR(filePath string, languageCode string) (string, error) {
 		return "", err
 	}
 
-	var openAIResponse typeASRResponse
+	var openAIResponse asrResponse
 	err = json.Unmarshal(responseBody, &openAIResponse)
 	if err != nil {
 		return "", err

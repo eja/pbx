@@ -41,7 +41,7 @@ func TTS(filePath string, text string, languageCode string) error {
 		voice = ttsVoice
 	}
 
-	requestBody := typeTTSRequest{
+	requestBody := ttsRequest{
 		Model:  model,
 		Input:  text,
 		Voice:  voice,

@@ -27,6 +27,10 @@ type typeConfigPbx struct {
 type TypeChatMessage struct {
 	Role    string `json:"role"`
 	Content string `json:"content"`
+
+	Name       string `json:"name,omitempty"`
+	ToolCallID string `json:"tool_call_id,omitempty"`
+	ToolCalls  any    `json:"tool_calls,omitempty"`
 }
 
 var String = sys.String
