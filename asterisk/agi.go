@@ -111,21 +111,6 @@ func session(conn net.Conn) (err error) {
 			return
 		}
 
-		/*
-			if vad {
-				if _, err = send(conn, "SET MUSIC on"); err != nil {
-					return
-				}
-				start := now()
-				if _, err = send(conn, "EXEC WaitForNoise 50,1,2"); err != nil {
-					return
-				}
-				if now()-start <= 2 {
-					vad = false
-				}
-			}
-		*/
-
 		dtmf := ""
 		if message, err := pbx.Chat(platform, phone, "/welcome", language); err != nil {
 			return err
@@ -245,32 +230,16 @@ func record(conn net.Conn, phone, language string, vad, talking bool) (string, e
 		}
 	}
 
-	for {
-		asteriskFileName := fmt.Sprintf("%s/record.%s.%d", sys.Options.MediaPath, phone, now())
-		fileName = asteriskFileName + ".wav16"
+	asteriskFileName := fmt.Sprintf("%s/record.%s.%d", sys.Options.MediaPath, phone, now())
+	fileName = asteriskFileName + ".wav16"
 
-		if !talking {
-			if _, err := send(conn, "EXEC WaitForNoise 30"); err != nil {
-				return "", err
-			}
+	if !talking {
+		if _, err := send(conn, "EXEC WaitForNoise 30"); err != nil {
+			return "", err
 		}
-		if msg, err := send(conn, fmt.Sprintf("RECORD FILE %s wav16 # %d 1 s=%d", asteriskFileName, recordingTimeout, silence)); err != nil {
-			return msg, err
-		}
-
-		if vad {
-			talking = false
-			vadActivity, err := pbx.VAD(fileName)
-			if err != nil {
-				return "", err
-			}
-			log.Trace(tag, "vad", vadActivity)
-			if len(vadActivity) > 0 {
-				break
-			}
-		} else {
-			break
-		}
+	}
+	if msg, err := send(conn, fmt.Sprintf("RECORD FILE %s wav16 # %d 1 s=%d", asteriskFileName, recordingTimeout, silence)); err != nil {
+		return msg, err
 	}
 
 	return pbx.ASR(fileName, language)

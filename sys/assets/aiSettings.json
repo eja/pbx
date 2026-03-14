@@ -11,7 +11,7 @@
   ],
   "field": [
     {
-      "value": "|Off\r\ngoogle|Google\r\nopenai|OpenAI\r\n",
+      "value": "google|Google\r\nopenai|OpenAI\r\n",
       "powerEdit": 0,
       "powerList": 0,
       "type": "select",
@@ -23,7 +23,7 @@
       "sizeEdit": 0
     },
     {
-      "value": "|Off\r\ngoogle|Google\r\nopenai|OpenAI",
+      "value": "google|Google\r\nopenai|OpenAI\r\n",
       "powerEdit": 0,
       "powerList": 0,
       "type": "select",
@@ -88,7 +88,7 @@
       "powerList": 0,
       "type": "text",
       "translate": 0,
-      "powerSearch": 204,
+      "powerSearch": 203,
       "name": "llmModel",
       "sizeSearch": 0,
       "sizeList": 0,
@@ -112,7 +112,7 @@
       "powerList": 0,
       "type": "text",
       "translate": 0,
-      "powerSearch": 202,
+      "powerSearch": 201,
       "name": "llmUrl",
       "sizeSearch": 0,
       "sizeList": 0,
@@ -124,7 +124,7 @@
       "powerList": 0,
       "type": "text",
       "translate": 0,
-      "powerSearch": 205,
+      "powerSearch": 202,
       "name": "llmToken",
       "sizeSearch": 0,
       "sizeList": 0,
@@ -390,6 +390,42 @@
       "translate": 0,
       "powerSearch": 254,
       "name": "asteriskMoh",
+      "sizeSearch": 0,
+      "sizeList": 0,
+      "sizeEdit": 0
+    },
+    {
+      "value": "",
+      "powerEdit": 0,
+      "powerList": 0,
+      "type": "label",
+      "translate": 0,
+      "powerSearch": 210,
+      "name": "mcpLabel",
+      "sizeSearch": 0,
+      "sizeList": 0,
+      "sizeEdit": 0
+    },
+    {
+      "value": "",
+      "powerEdit": 0,
+      "powerList": 0,
+      "type": "text",
+      "translate": 0,
+      "powerSearch": 211,
+      "name": "mcpUrl",
+      "sizeSearch": 0,
+      "sizeList": 0,
+      "sizeEdit": 0
+    },
+    {
+      "value": "",
+      "powerEdit": 0,
+      "powerList": 0,
+      "type": "text",
+      "translate": 0,
+      "powerSearch": 212,
+      "name": "mcpToken",
       "sizeSearch": 0,
       "sizeList": 0,
       "sizeEdit": 0
@@ -700,6 +736,18 @@
       "ejaModuleName": "aiSettings",
       "word": "asteriskMoh",
       "translation": "Music On Hold"
+    },
+    {
+      "ejaLanguage": "en",
+      "ejaModuleName": "aiSettings",
+      "word": "mcpUrl",
+      "translation": "API URL"
+    },
+    {
+      "ejaLanguage": "en",
+      "ejaModuleName": "aiSettings",
+      "word": "mcpToken",
+      "translation": "Token"
     }
   ],
   "name": "aiSettings",

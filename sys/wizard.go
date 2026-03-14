@@ -30,6 +30,8 @@ func Wizard() error {
 	}
 	Options.AiToken = sys.WizardPrompt("AI API key")
 	Options.AiProvider = sys.WizardPrompt("AI Provider [openai|google]")
+	Options.McpUrl = sys.WizardPrompt("MCP url")
+	Options.McpToken = sys.WizardPrompt("MCP token")
 	asterisk := sys.WizardPrompt("Enable Asterisk AGI server? (N/y)")
 	if len(asterisk) > 0 && strings.ToLower(asterisk[0:1]) == "y" {
 		Options.Asterisk = true

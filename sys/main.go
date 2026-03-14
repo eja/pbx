@@ -27,6 +27,8 @@ func Configure() error {
 	flag.StringVar(&Options.Cache, "cache", "/tmp/", "Cache path")
 	flag.StringVar(&Options.MailSender, "mail-sender", "", "Mail sender")
 	flag.BoolVar(&Options.Asterisk, "asterisk", false, "start the asterisk agi service")
+	flag.StringVar(&Options.McpUrl, "mcp-url", "", "Model Context Protocol url")
+	flag.StringVar(&Options.McpToken, "mcp-token", "", "Model Context Protocol token")
 
 	if err := sys.Configure(); err != nil {
 		return err
