@@ -8,22 +8,24 @@ import (
 
 type typeConfigPbx struct {
 	sys.TypeConfig
-	MediaPath     string `json:"media_path"`
-	MetaUrl       string `json:"meta_url"`
-	MetaUser      string `json:"meta_user"`
-	MetaAuth      string `json:"meta_auth"`
-	MetaToken     string `json:"meta_token"`
-	TelegramToken string `json:"telegram_token"`
-	AiToken       string `json:"ai_token"`
-	AiProvider    string `json:"ai_provider"`
-	Asterisk      bool   `json:"asterisk"`
-	AsteriskAgi   string `json:"asterisk_agi"`
-	AsteriskAri   string `json:"asterisk_ari"`
-	AsteriskToken string `json:"asterisk_token"`
-	Cache         string `json:"cache"`
-	MailSender    string `json:"mail_sender"`
-	McpUrl        string `json:"mcp_url"`
-	McpToken      string `json:"mcp_token"`
+	MediaPath     string `json:"media_path,omitempty"`
+	MetaUrl       string `json:"meta_url,omitempty"`
+	MetaUser      string `json:"meta_user,omitempty"`
+	MetaAuth      string `json:"meta_auth,omitempty"`
+	MetaToken     string `json:"meta_token,omitempty"`
+	TelegramToken string `json:"telegram_token,omitempty"`
+	AiToken       string `json:"ai_token,omitempty"`
+	LlmUrl        string `json:"llm_url,omitempty"`
+	Asterisk      bool   `json:"asterisk,omitempty"`
+	AsteriskAgi   string `json:"asterisk_agi,omitempty"`
+	AsteriskAri   string `json:"asterisk_ari,omitempty"`
+	AsteriskToken string `json:"asterisk_token,omitempty"`
+	Cache         string `json:"cache,omitempty"`
+	MailSender    string `json:"mail_sender,omitempty"`
+	McpUrl        string `json:"mcp_url,omitempty"`
+	McpToken      string `json:"mcp_token,omitempty"`
+	Chat          bool   `json:"chat,omitempty"`
+	ChatAudio     bool   `json:"chat_audio,omitempty"`
 }
 
 type TypeChatMessage struct {

@@ -14,21 +14,23 @@ var Options typeConfigPbx
 
 func Configure() error {
 	flag.StringVar(&Options.MediaPath, "media-path", "/tmp/", "Media temporary folder")
-	flag.StringVar(&Options.MetaUrl, "meta-url", "", "Meta graph api url")
+	flag.StringVar(&Options.MetaUrl, "meta-url", "", "Meta graph API URL")
 	flag.StringVar(&Options.MetaUser, "meta-user", "", "Meta user id")
 	flag.StringVar(&Options.MetaAuth, "meta-auth", "", "Meta auth")
 	flag.StringVar(&Options.MetaToken, "meta-token", "", "Meta token")
 	flag.StringVar(&Options.TelegramToken, "telegram-token", "", "Telegram token")
 	flag.StringVar(&Options.AiToken, "ai-token", "", "AI token")
-	flag.StringVar(&Options.AiProvider, "ai-provider", "openai", "AI provider [openai|google|assistant]")
+	flag.StringVar(&Options.LlmUrl, "llm-url", "", "LLM API url")
 	flag.StringVar(&Options.AsteriskAgi, "asterisk-agi", "127.0.0.1:4573", "Asterisk AGI address")
-	flag.StringVar(&Options.AsteriskAri, "asterisk-ari", "http://localhost:8088", "Asterisk ARI url")
+	flag.StringVar(&Options.AsteriskAri, "asterisk-ari", "http://localhost:8088", "Asterisk ARI URL")
 	flag.StringVar(&Options.AsteriskToken, "asterisk-token", "", "Asterisk token")
 	flag.StringVar(&Options.Cache, "cache", "/tmp/", "Cache path")
 	flag.StringVar(&Options.MailSender, "mail-sender", "", "Mail sender")
 	flag.BoolVar(&Options.Asterisk, "asterisk", false, "start the asterisk agi service")
-	flag.StringVar(&Options.McpUrl, "mcp-url", "", "Model Context Protocol url")
+	flag.StringVar(&Options.McpUrl, "mcp-url", "", "Model Context Protocol URL")
 	flag.StringVar(&Options.McpToken, "mcp-token", "", "Model Context Protocol token")
+	flag.BoolVar(&Options.Chat, "chat", false, "Enable web chat")
+	flag.BoolVar(&Options.ChatAudio, "chat-audio", false, "Enable web chat with audio support")
 
 	if err := sys.Configure(); err != nil {
 		return err

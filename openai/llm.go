@@ -65,7 +65,10 @@ type mcpContent struct {
 
 func LLM(messages []sys.TypeChatMessage, system string, tools map[string]LLMTool) (string, error) {
 	aiSettings := db.Settings()
-	url := aiSettings["llmUrl"]
+	url := sys.Options.LlmUrl
+	if url == "" {
+		url = aiSettings["llmUrl"]
+	}
 	if url == "" {
 		url = llmUrl
 	}

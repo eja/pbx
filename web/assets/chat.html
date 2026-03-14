@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>chat</title>
+    <link rel="icon" type="image/png" href="/static/img/icon.png" />
+    <link href="/static/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/static/css/bootstrap-icons.css" rel="stylesheet">
+		<style>
+				audio {
+						width: 100%;
+						min-width: 200px;
+						height: 40px;
+						display: block;
+				}
+				@keyframes pulse-green {
+						0% { box-shadow: 0 0 0 0 rgba(25, 135, 84, 0.7); }
+						70% { box-shadow: 0 0 0 10px rgba(25, 135, 84, 0); }
+						100% { box-shadow: 0 0 0 0 rgba(25, 135, 84, 0); }
+				}
+				.btn-blink-active {
+						animation: pulse-green 2s infinite;
+				}
+        .btn {
+          border-color: var(--bs-border-color) !important;
+         Xbackground-color: transparent;
+         Xcolor: var(--bs-body-color);
+        }
+		</style>
+    <script src="/pbx/vad/ort.wasm.min.js"></script>
+    <script src="/pbx/vad/bundle.min.js"></script>
+</head>
+<body class="d-flex flex-column vh-100 bg-light">
+
+    <main id="chat-window" class="flex-grow-1 overflow-auto p-3 d-flex flex-column gap-3">
+    </main>
+
+    <footer class="p-3">
+        <div class="input-group">
+            <button class="btn btn-outline-danger" id="btn-restart" type="button">
+                <i class="bi bi-arrow-counterclockwise" id="icon-restart"></i>
+            </button>
+            <button class="btn btn-outline-success d-none" id="btn-phone" type="button">
+                <i class="bi bi-headset" id="icon-phone"></i>
+            </button>
+            <button class="btn btn-outline-warning d-none" id="btn-record" type="button">
+                <i class="bi bi-mic-fill" id="icon-mic"></i>
+            </button>
+            <input type="text" class="form-control" id="input-text" placeholder="Type a message..." autocomplete="off">
+            <button class="btn btn-outline-info" id="btn-send" type="button">
+                <i class="bi bi-send-fill"></i>
+            </button>
+        </div>
+    </footer>
+
+    <script src="/static/js/bootstrap.min.js"></script>
+    <script src="/pbx/script.js"></script>
+</body>
+</html>

@@ -3,15 +3,32 @@
 package web
 
 import (
+	"embed"
 	"fmt"
+	"io/fs"
+	"net/http"
 
 	"github.com/eja/pbx/asterisk"
 	"github.com/eja/pbx/pbx"
+	"github.com/eja/pbx/sys"
 	"github.com/eja/tibula/api"
 	"github.com/eja/tibula/web"
 )
 
+//go:embed assets/*
+var embeddedFiles embed.FS
+
 func Router() error {
+	assetFS, err := fs.Sub(embeddedFiles, "assets")
+	if err != nil {
+		panic(err)
+	}
+	fileServer := http.FileServer(http.FS(assetFS))
+	web.Router.Handle("/pbx/", http.StripPrefix("/pbx/", fileServer))
+
+	if sys.Options.Chat || sys.Options.ChatAudio {
+		web.Router.HandleFunc("/chat", chatRouter)
+	}
 	web.Router.HandleFunc("/meta", metaRouter)
 	web.Router.HandleFunc("/tg", telegramRouter)
 

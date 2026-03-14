@@ -29,7 +29,7 @@ func Wizard() error {
 		Options.MetaToken = sys.WizardPrompt("Meta token")
 	}
 	Options.AiToken = sys.WizardPrompt("AI API key")
-	Options.AiProvider = sys.WizardPrompt("AI Provider [openai|google]")
+	Options.LlmUrl = sys.WizardPrompt("LLM Url")
 	Options.McpUrl = sys.WizardPrompt("MCP url")
 	Options.McpToken = sys.WizardPrompt("MCP token")
 	asterisk := sys.WizardPrompt("Enable Asterisk AGI server? (N/y)")
@@ -38,6 +38,16 @@ func Wizard() error {
 		Options.AsteriskAgi = sys.WizardPrompt("Asterisk AGI address (localhost:4573)")
 		Options.AsteriskToken = sys.WizardPrompt("Asterisk token")
 		Options.AsteriskAri = sys.WizardPrompt("Asterisk ARI url")
+	}
+	Options.Chat = true
+	chat := sys.WizardPrompt("Enable Web Chat? (Y/n)")
+	if len(chat) > 0 && strings.ToLower(chat[0:1]) == "n" {
+		Options.Chat = false
+	} else {
+		chatAudio := sys.WizardPrompt("Enable Web Audio Chat? (N/y)")
+		if len(chatAudio) > 0 && strings.ToLower(chatAudio[0:1]) == "y" {
+			Options.ChatAudio = true
+		}
 	}
 	Options.MailSender = sys.WizardPrompt("Mail Sender")
 

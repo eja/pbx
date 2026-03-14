@@ -740,6 +740,12 @@
     {
       "ejaLanguage": "en",
       "ejaModuleName": "aiSettings",
+      "word": "mcpLabel",
+      "translation": "MCP"
+    },
+    {
+      "ejaLanguage": "en",
+      "ejaModuleName": "aiSettings",
       "word": "mcpUrl",
       "translation": "API URL"
     },
