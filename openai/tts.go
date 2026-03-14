@@ -19,7 +19,7 @@ const ttsVoice = "alloy"
 const ttsUrl = "https://api.openai.com/v1/audio/speech"
 
 func TTS(filePath string, text string, languageCode string) error {
-	const audioType = "opus"
+	const audioType = "wav"
 	aiSettings := db.Settings()
 	model := aiSettings["ttsModel"]
 	if model == "" {
@@ -48,8 +48,6 @@ func TTS(filePath string, text string, languageCode string) error {
 		Format: audioType,
 		Locale: languageCode,
 	}
-
-	fmt.Println(requestBody)
 
 	jsonValue, _ := json.Marshal(requestBody)
 
