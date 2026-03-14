@@ -127,7 +127,7 @@ func chatRouter(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	llmResponse, err := pbx.Chat("chat", chatID, userInput, lang)
+	llmResponse, err := pbx.Text(chatID, lang, userInput)
 	if err != nil {
 		log.Error(tag, "Chat internal error:", err)
 		http.Error(w, "LLM Processing error: "+err.Error(), http.StatusInternalServerError)
