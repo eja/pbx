@@ -25,7 +25,7 @@
       "type": "text",
       "translate": 0,
       "powerSearch": 5,
-      "name": "id",
+      "name": "uuid",
       "sizeSearch": 0,
       "sizeList": 0,
       "sizeEdit": 0
@@ -43,12 +43,12 @@
       "sizeEdit": 0
     },
     {
-      "value": "SELECT code,internal from aiLanguages",
-      "powerEdit": 5,
-      "powerList": 5,
+      "value": "SELECT code,internal from aiLanguages ORDER BY internal",
+      "powerEdit": 30,
+      "powerList": 30,
       "type": "sqlMatrix",
       "translate": 0,
-      "powerSearch": 5,
+      "powerSearch": 30,
       "name": "language",
       "sizeSearch": 0,
       "sizeList": 0,
@@ -116,24 +116,12 @@
     },
     {
       "value": "",
-      "powerEdit": 70,
-      "powerList": 70,
-      "type": "boolean",
-      "translate": 0,
-      "powerSearch": 0,
-      "name": "threadEnabled",
-      "sizeSearch": 0,
-      "sizeList": 0,
-      "sizeEdit": 0
-    },
-    {
-      "value": "",
-      "powerEdit": 0,
+      "powerEdit": 10,
       "powerList": 0,
-      "type": "hidden",
+      "type": "password",
       "translate": 0,
       "powerSearch": 0,
-      "name": "thread",
+      "name": "password",
       "sizeSearch": 0,
       "sizeList": 0,
       "sizeEdit": 0
@@ -145,12 +133,6 @@
       "ejaModuleName": "aiUsers",
       "word": "language",
       "translation": "Language"
-    },
-    {
-      "ejaLanguage": "en",
-      "ejaModuleName": "aiUsers",
-      "word": "id",
-      "translation": "ID"
     },
     {
       "ejaLanguage": "en",
@@ -190,8 +172,14 @@
     {
       "ejaLanguage": "en",
       "ejaModuleName": "aiUsers",
-      "word": "threadEnabled",
-      "translation": "Thread"
+      "word": "password",
+      "translation": "Password"
+    },
+    {
+      "ejaLanguage": "en",
+      "ejaModuleName": "aiUsers",
+      "word": "uuid",
+      "translation": "Username"
     }
   ],
   "name": "aiUsers",

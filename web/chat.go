@@ -13,6 +13,7 @@ import (
 	"strings"
 	"time"
 
+	"github.com/eja/pbx/db"
 	"github.com/eja/pbx/pbx"
 	"github.com/eja/pbx/sys"
 	"github.com/eja/tibula/log"
@@ -28,7 +29,31 @@ func generateChatID() string {
 
 func chatRouter(w http.ResponseWriter, r *http.Request) {
 	const tag = "[chat]"
+	chatID := ""
+	language := ""
 	w.Header().Set("Access-Control-Allow-Origin", "*")
+
+	aiSettings := db.Settings()
+	if sys.Number(aiSettings["userRestricted"]) > 0 {
+		user, pass, ok := r.BasicAuth()
+		if ok {
+			row, err := db.UserGetWithPassword(user, pass)
+			if err != nil || row["uuid"] == "" {
+				ok = false
+			} else {
+				if row["language"] != "" {
+					language = row["language"]
+				}
+			}
+		}
+		if !ok {
+			w.Header().Set("WWW-Authenticate", `Basic realm="Restricted Area"`)
+			http.Error(w, "Unauthorized", http.StatusUnauthorized)
+			return
+		}
+		chatID = user
+
+	}
 
 	if r.Method == http.MethodOptions {
 		w.WriteHeader(http.StatusOK)
@@ -38,8 +63,10 @@ func chatRouter(w http.ResponseWriter, r *http.Request) {
 	if r.Method == http.MethodGet {
 		query := r.URL.Query()
 		if query.Get("uuid") == "" {
-			newID := generateChatID()
-			query.Set("uuid", newID)
+			if chatID == "" {
+				chatID = generateChatID()
+			}
+			query.Set("uuid", chatID)
 			if sys.Options.ChatAudio {
 				query.Set("audio", "on")
 			}
@@ -63,13 +90,13 @@ func chatRouter(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	chatID := r.URL.Query().Get("uuid")
 	if chatID == "" {
-		http.Error(w, "Missing uuid parameter", http.StatusBadRequest)
-		return
+		chatID = r.URL.Query().Get("uuid")
+		if chatID == "" {
+			http.Error(w, "Missing uuid parameter", http.StatusBadRequest)
+			return
+		}
 	}
-
-	lang := r.URL.Query().Get("language")
 
 	contentType := r.Header.Get("Content-Type")
 	var userInput string
@@ -112,7 +139,7 @@ func chatRouter(w http.ResponseWriter, r *http.Request) {
 		}
 		tmpIn.Close()
 
-		userInput, err = pbx.ASR(tmpIn.Name(), lang)
+		userInput, err = pbx.ASR(tmpIn.Name(), language)
 		if err != nil {
 			log.Error(tag, "ASR internal error:", err)
 			http.Error(w, "STT error: "+err.Error(), http.StatusInternalServerError)
@@ -127,7 +154,7 @@ func chatRouter(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	llmResponse, err := pbx.Text(chatID, lang, userInput)
+	llmResponse, err := pbx.Text(chatID, language, userInput)
 	if err != nil {
 		log.Error(tag, "Chat internal error:", err)
 		http.Error(w, "LLM Processing error: "+err.Error(), http.StatusInternalServerError)
@@ -143,7 +170,7 @@ func chatRouter(w http.ResponseWriter, r *http.Request) {
 		tmpOut.Close()
 		defer os.Remove(tmpOut.Name())
 
-		if err := pbx.TTS(llmResponse, lang, tmpOut.Name()); err != nil {
+		if err := pbx.TTS(llmResponse, language, tmpOut.Name()); err != nil {
 			log.Error(tag, "TTS internal error:", err)
 			http.Error(w, "TTS error: "+err.Error(), http.StatusInternalServerError)
 			return

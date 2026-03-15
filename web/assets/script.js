@@ -251,8 +251,10 @@ async function checkAudio() {
 	}
 }
 
-function chatRestart() {
+async function chatRestart() {
   if (confirm("Restart chat?")) {
+			inputText.value = "/reset"
+			await sendText()
       document.location.href="?";
   }
 }

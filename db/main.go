@@ -6,8 +6,14 @@ import (
 	"fmt"
 )
 
-func UserGet(id string) (tibulaTypeRow, error) {
-	return tibulaRow("SELECT * FROM aiUsers WHERE id = ? AND expiration > CURRENT_TIMESTAMP LIMIT 1", id)
+func UserGet(uuid string) (tibulaTypeRow, error) {
+	return tibulaRow(`SELECT * FROM aiUsers WHERE uuid = ? AND (expiration IS NULL OR expiration = "" OR expiration > ?) LIMIT 1`,
+		uuid, tibulaNow())
+}
+
+func UserGetWithPassword(uuid, password string) (tibulaTypeRow, error) {
+	return tibulaRow(`SELECT * FROM aiUsers WHERE uuid = ? AND password =? AND (expiration IS NULL OR expiration = "" OR expiration > ?) LIMIT 1`,
+		uuid, tibulaPassword(password), tibulaNow())
 }
 
 func UserUpdate(id string, field string, value string) (err error) {
