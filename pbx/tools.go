@@ -5,10 +5,9 @@ package pbx
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/eja/pbx/openai"
 )
 
-var Tools = map[string]openai.LLMTool{
+var Tools = map[string]LLMTool{
 	"calculate": {
 		Description: "Perform basic mathematical operations (add, subtract, multiply, divide) on two numbers",
 		Parameters: map[string]any{

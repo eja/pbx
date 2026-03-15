@@ -9,7 +9,6 @@ import (
 
 	"github.com/eja/pbx/db"
 	"github.com/eja/pbx/i18n"
-	"github.com/eja/pbx/openai"
 	"github.com/eja/pbx/sys"
 	"github.com/eja/tibula/log"
 )
@@ -21,7 +20,7 @@ var historyTime map[string]time.Time
 var historyThread map[string]string
 var historyInit bool
 
-var ChatProcess func(userId, system, message, language string, history []sys.TypeChatMessage, tools map[string]openai.LLMTool) (string, error)
+var ChatProcess func(userId, system, message, language string, history []sys.TypeChatMessage, tools map[string]LLMTool) (string, error)
 
 func Chat(platform, userId, message, language string) (string, error) {
 	var response, system, assistant string
@@ -88,7 +87,7 @@ func Chat(platform, userId, message, language string) (string, error) {
 		if ChatProcess != nil {
 			assistant, err = ChatProcess(userId, system, message, language, history[userId], Tools)
 		} else {
-			assistant, err = openai.LLM(history[userId], system, Tools)
+			assistant, err = LLM(history[userId], system, Tools)
 		}
 		if err != nil {
 			log.Error(tag, err)
