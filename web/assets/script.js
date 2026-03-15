@@ -72,10 +72,11 @@ function appendMessage(sender, type, content) {
         let classes = "p-2 ps-3 pe-3 rounded-2 shadow-sm mw-75 text-break ";
         if (sender === 'me') {
             wrapper.className = classes + "align-self-end bg-primary text-white";
+						wrapper.textContent = content;
         } else {
             wrapper.className = classes + "align-self-start bg-white border text-dark";
+						wrapper.innerHTML = marked.parse(content).trim().replace(/^<p>/, "").replace(/<\/p>$/, "").replace(/<p><\/p>$/,"");
         }
-        wrapper.textContent = content;
     } else {
         let classes = "mw-75 ";
         if (sender === 'me') {

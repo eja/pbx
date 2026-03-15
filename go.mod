@@ -2,7 +2,10 @@ module github.com/eja/pbx
 
 go 1.26.0
 
-require github.com/eja/tibula v0.0.0-20260216155140-2197a48a2a51
+require (
+	github.com/eja/tibula v0.0.0-20260216155140-2197a48a2a51
+	github.com/yuin/goldmark v1.7.16
+)
 
 require (
 	github.com/dustin/go-humanize v1.0.1 // indirect

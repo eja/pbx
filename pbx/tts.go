@@ -15,7 +15,12 @@ import (
 	"github.com/eja/tibula/log"
 )
 
-func TTS(text, language, fileAudioOutput string) error {
+func TTS(rawText, language, fileAudioOutput string) error {
+	text, err := sys.MarkdownToText([]byte(rawText))
+	if err != nil {
+		return err
+	}
+
 	aiSettings := db.Settings()
 	ttsHash := fmt.Sprintf("%x", md5.Sum([]byte(text)))
 	ttsCacheFile := sys.Options.Cache + "/tts." + ttsHash
