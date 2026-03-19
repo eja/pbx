@@ -33,9 +33,10 @@ type llmToolFunction struct {
 }
 
 type llmToolCall struct {
-	ID       string              `json:"id"`
-	Type     string              `json:"type"`
-	Function llmToolCallFunction `json:"function"`
+	ID           string              `json:"id"`
+	Type         string              `json:"type"`
+	Function     llmToolCallFunction `json:"function"`
+	ExtraContent any                 `json:"extra_content,omitempty"`
 }
 
 type llmToolCallFunction struct {
@@ -44,11 +45,12 @@ type llmToolCallFunction struct {
 }
 
 type llmRequestMessage struct {
-	Role       string        `json:"role"`
-	Content    string        `json:"content"`
-	Name       string        `json:"name,omitempty"`
-	ToolCallID string        `json:"tool_call_id,omitempty"`
-	ToolCalls  []llmToolCall `json:"tool_calls,omitempty"`
+	Role         string        `json:"role"`
+	Content      string        `json:"content"`
+	Name         string        `json:"name,omitempty"`
+	ToolCallID   string        `json:"tool_call_id,omitempty"`
+	ToolCalls    []llmToolCall `json:"tool_calls,omitempty"`
+	ExtraContent any           `json:"extra_content,omitempty"`
 }
 
 type llmResponseMessage struct {
@@ -216,10 +218,11 @@ func LLM(messages []sys.TypeChatMessage, system string, tools map[string]LLMTool
 			}
 
 			reqMessages = append(reqMessages, llmRequestMessage{
-				Role:       "tool",
-				ToolCallID: tc.ID,
-				Name:       funcName,
-				Content:    result,
+				Role:         "tool",
+				ToolCallID:   tc.ID,
+				Name:         funcName,
+				Content:      result,
+				ExtraContent: tc.ExtraContent,
 			})
 		}
 	}
