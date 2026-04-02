@@ -7,17 +7,16 @@ import (
 	"strings"
 
 	"github.com/eja/pbx/sys"
-	"github.com/eja/tibula/log"
 )
 
 func TagsProcess(platform, language, userId, message string, tags []string) (response string, err error) {
-	log.Trace(tag, "processing", tags, message)
+	log().Debug("tags processing", "tags", tags, "message", message)
 	response = message
 	for _, item := range tags {
 		lower := strings.ToLower(item)
 		if strings.HasPrefix(lower, "ntfy:") {
 			if err = sys.Ntfy(item[5:], userId, message, ""); err != nil {
-				log.Warn(tag, "ntfy sending problem", err)
+				log().Warn("ntfy sending problem", "error", err)
 				if response, err = Chat(platform, userId, "/ntfy_error", language); err != nil {
 					return
 				}

@@ -16,7 +16,6 @@ import (
 	"github.com/eja/pbx/media"
 	"github.com/eja/pbx/pbx"
 	"github.com/eja/pbx/sys"
-	"github.com/eja/tibula/log"
 )
 
 const recordingTimeout = 30 * 1000
@@ -77,7 +76,7 @@ func session(conn net.Conn) (err error) {
 	}
 
 	if agi.token != asteriskToken {
-		log.Warn(tag, "wrong authorization token")
+		log().Warn("AGI, wrong authorization token")
 	} else {
 		if sys.Number(aiSettings["userRestricted"]) == 0 {
 			authorized = true
@@ -122,7 +121,7 @@ func session(conn net.Conn) (err error) {
 			}
 			if vad && talking && (now()-start <= 1) {
 				vad = false
-				log.Debug(tag, "VAD disabled as line is too noisy")
+				log().Debug("AGI, VAD disabled as line is too noisy")
 				talking, dtmf, err = play(conn, phone, message, language, vad, mixMonitorTime)
 				if err != nil {
 					return err
@@ -256,7 +255,7 @@ func play(conn net.Conn, phone string, message string, language string, vad bool
 			return
 		}
 	} else {
-		log.Trace(tag, "using tts transcoded cache for", phone, message)
+		log().Debug("AGI, using tts transcoded cache", "phone", phone, "message", message)
 	}
 
 	if err != nil {
@@ -269,7 +268,7 @@ func play(conn net.Conn, phone string, message string, language string, vad bool
 		if err != nil {
 			return false, "", err
 		}
-		log.Trace(tag, probeInput)
+		log().Debug("AGI play", "input", probeInput)
 		playTimeFile := sys.Float(probeInput["duration"])
 		playTimeStart := time.Now().UnixNano()
 		if msg, err := send(conn, fmt.Sprintf("EXEC BackgroundDetect %s,1,30", asteriskFileName)); err != nil {
@@ -294,7 +293,7 @@ func play(conn net.Conn, phone string, message string, language string, vad bool
 		playTimeStop := time.Now().UnixNano()
 		playTimeDiff := sys.Float(playTimeStop-playTimeStart) / 1e9
 		if playTimeDiff < playTimeFile {
-			log.Trace(tag, "talking detected")
+			log().Debug("AGI, talking detected")
 			talking = true
 		}
 	} else {
@@ -347,13 +346,12 @@ func send(conn net.Conn, tx string) (rx string, err error) {
 		return
 	}
 
-	log.Trace(tag, "tx", tx)
-	log.Trace(tag, "rx", rx)
+	log().Debug("AGI", "tx", tx, "rx", rx)
 
 	if strings.HasPrefix(rx, "200") {
 		return strings.TrimSpace(rx), nil
 	} else {
-		return rx, fmt.Errorf("%s rx/tx error", tag)
+		return rx, fmt.Errorf("AGI rx/tx error")
 	}
 }
 
@@ -364,7 +362,7 @@ func Start() error {
 	}
 	defer listener.Close()
 
-	log.Info(tag, "ready on", sys.Options.AsteriskAgi)
+	log().Info("AGI ready", "address", sys.Options.AsteriskAgi)
 	for {
 		conn, err := listener.Accept()
 		if err != nil {
@@ -373,7 +371,7 @@ func Start() error {
 
 		go func(conn net.Conn) {
 			if err := session(conn); err != nil {
-				log.Warn(err)
+				log().Warn("AGI error", "error", err)
 			}
 		}(conn)
 	}

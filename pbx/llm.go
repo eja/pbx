@@ -12,7 +12,6 @@ import (
 
 	"github.com/eja/pbx/db"
 	"github.com/eja/pbx/sys"
-	"github.com/eja/tibula/log"
 )
 
 type LLMTool struct {
@@ -95,7 +94,7 @@ func LLM(messages []sys.TypeChatMessage, system string, tools map[string]LLMTool
 	if mcpURL != "" {
 		mcpPrompts, err := fetchMCPPrompts(mcpURL, mcpToken)
 		if err != nil {
-			log.Warn(tag, "[llm] failed to fetch MCP prompts", err)
+			log().Warn("LLM, failed to fetch MCP prompts", "error", err)
 		} else {
 			for promptName := range mcpPrompts {
 				promptText, err := getMCPPrompt(mcpURL, mcpToken, promptName, nil)
@@ -111,7 +110,7 @@ func LLM(messages []sys.TypeChatMessage, system string, tools map[string]LLMTool
 
 		mcpTools, err := fetchMCPTools(mcpURL, mcpToken)
 		if err != nil {
-			log.Warn(tag, "[llm] failed to fetch MCP tools", err)
+			log().Warn("LLM, failed to fetch MCP tools", "error", err)
 		} else {
 			for name, t := range mcpTools {
 				finalTools["mcp_"+name] = t

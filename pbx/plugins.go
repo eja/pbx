@@ -7,7 +7,6 @@ import (
 	"strings"
 
 	"github.com/eja/pbx/sys"
-	"github.com/eja/tibula/log"
 )
 
 type PluginMap map[string]func(userId, language, action, output string) string
@@ -41,7 +40,7 @@ var Plugins = PluginMap{
 		body = sb.String()
 		if output != "" {
 			if err := sys.Mail(sys.Options.MailSender, output, subject, body, file); err != nil {
-				log.Warn("mail error", err)
+				log().Warn("mail error", "error", err)
 			}
 		}
 		return output
@@ -69,7 +68,7 @@ var Plugins = PluginMap{
 		body = sb.String()
 		if output != "" {
 			if err := sys.Ntfy(output, subject, body, file); err != nil {
-				log.Warn("mail error", err)
+				log().Warn("mail error", "error", err)
 			}
 		}
 		return output

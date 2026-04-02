@@ -16,7 +16,6 @@ import (
 	"github.com/eja/pbx/db"
 	"github.com/eja/pbx/pbx"
 	"github.com/eja/pbx/sys"
-	"github.com/eja/tibula/log"
 )
 
 func generateChatID() string {
@@ -141,7 +140,7 @@ func chatRouter(w http.ResponseWriter, r *http.Request) {
 
 		userInput, err = pbx.ASR(tmpIn.Name(), language)
 		if err != nil {
-			log.Error(tag, "ASR internal error:", err)
+			log().Error("Chat, ASR internal error", "error", err)
 			http.Error(w, "STT error: "+err.Error(), http.StatusInternalServerError)
 			return
 		}
@@ -156,7 +155,7 @@ func chatRouter(w http.ResponseWriter, r *http.Request) {
 
 	llmResponse, err := pbx.Text(chatID, language, userInput)
 	if err != nil {
-		log.Error(tag, "Chat internal error:", err)
+		log().Error("Chat, internal error", "error", err)
 		http.Error(w, "LLM Processing error: "+err.Error(), http.StatusInternalServerError)
 		return
 	}
@@ -171,7 +170,7 @@ func chatRouter(w http.ResponseWriter, r *http.Request) {
 		defer os.Remove(tmpOut.Name())
 
 		if err := pbx.TTS(llmResponse, language, tmpOut.Name()); err != nil {
-			log.Error(tag, "TTS internal error:", err)
+			log().Error("Chat, TTS internal error", "error", err)
 			http.Error(w, "TTS error: "+err.Error(), http.StatusInternalServerError)
 			return
 		}

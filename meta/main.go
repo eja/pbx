@@ -7,17 +7,22 @@ import (
 	"encoding/json"
 	"fmt"
 	"io"
+	"log/slog"
 	"mime/multipart"
 	"net/http"
 	"os"
 	"path/filepath"
 	"strings"
+	"sync"
 
 	"github.com/eja/pbx/db"
 	"github.com/eja/pbx/media"
 	"github.com/eja/pbx/sys"
-	"github.com/eja/tibula/log"
 )
+
+var log = sync.OnceValue(func() *slog.Logger {
+	return slog.Default().With("app", "pbx", "pkg", "meta")
+})
 
 func settings(item string) string {
 	value := ""
@@ -120,7 +125,7 @@ func MediaGet(mediaId string, fileName string) error {
 		return fmt.Errorf("writing file: %w", err)
 	}
 
-	log.Trace("[FB]", "media content saved to", fileName)
+	log().Debug("META, media content saved", "file", fileName)
 	return nil
 }
 
@@ -168,7 +173,7 @@ func metaMediaUpload(fileName string, fileType string) (mediaId string, err erro
 		return "", fmt.Errorf("parsing response: %w", err)
 	}
 
-	log.Trace("[FB]", "media upload", fileName, fileType)
+	log().Debug("Meta, media upload", "name", fileName, "type", fileType)
 	return response.ID, nil
 }
 

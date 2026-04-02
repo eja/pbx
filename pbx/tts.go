@@ -12,7 +12,6 @@ import (
 	"github.com/eja/pbx/i18n"
 	"github.com/eja/pbx/openai"
 	"github.com/eja/pbx/sys"
-	"github.com/eja/tibula/log"
 )
 
 func TTS(rawText, language, fileAudioOutput string) error {
@@ -44,9 +43,9 @@ func TTS(rawText, language, fileAudioOutput string) error {
 		if err := sys.FileCopy(ttsCacheFile, fileAudioOutput); err != nil {
 			return err
 		} else {
-			log.Trace(tag, "tts using cache for", ttsCacheFile)
+			log().Debug("TTS, using cache", "file", ttsCacheFile)
 		}
 	}
-	log.Debug(tag, "tts", language, text)
+	log().Debug("TTS, processed", "language", language, "text", text)
 	return nil
 }

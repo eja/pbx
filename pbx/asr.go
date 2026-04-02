@@ -9,7 +9,6 @@ import (
 	"github.com/eja/pbx/media"
 	"github.com/eja/pbx/openai"
 	"github.com/eja/pbx/sys"
-	"github.com/eja/tibula/log"
 )
 
 func ASR(fileAudioInput, language string) (string, error) {
@@ -51,6 +50,6 @@ func ASR(fileAudioInput, language string) (string, error) {
 		}
 	}
 
-	log.Debug(tag, "asr", language, transcript)
+	log().Debug("ASR", "language", language, "transcript", transcript)
 	return transcript, nil
 }

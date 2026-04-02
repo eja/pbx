@@ -12,7 +12,6 @@ import (
 	"github.com/eja/pbx/pbx"
 	"github.com/eja/pbx/sys"
 	"github.com/eja/pbx/telegram"
-	"github.com/eja/tibula/log"
 )
 
 type typeTelegramMessage struct {
@@ -43,11 +42,11 @@ func telegramRouter(w http.ResponseWriter, r *http.Request) {
 		if err != nil {
 			errMessage := "Error decoding request body"
 			http.Error(w, errMessage, http.StatusBadRequest)
-			log.Warn("[TG]", errMessage)
+			log().Warn("Telegram, json decoding problem", "error", errMessage)
 			return
 		}
 
-		log.Trace("[TG]", "incoming message", telegramMessage)
+		log().Debug("Telegram, incoming message", "message", telegramMessage)
 		userId := fmt.Sprintf("TG.%d", telegramMessage.Message.From.Id)
 		chatId := fmt.Sprintf("%d", telegramMessage.Message.Chat.Id)
 		chatLanguage := telegramMessage.Message.From.LanguageCode
@@ -75,10 +74,10 @@ func telegramRouter(w http.ResponseWriter, r *http.Request) {
 				response, err := pbx.Text(userId, user["language"], text)
 				if err != nil {
 					response = i18n.Translate(user["language"], "error")
-					log.Warn("[TG]", userId, chatId, err)
+					log().Warn("Telegram, process text problem", "user", userId, "chat", chatId, "error", err)
 				}
 				if err := telegram.SendText(chatId, response); err != nil {
-					log.Warn("[TG]", userId, chatId, err)
+					log().Warn("Telegram, send text problem", "user", userId, "chat", chatId, "error", err)
 				}
 			}
 
@@ -93,25 +92,25 @@ func telegramRouter(w http.ResponseWriter, r *http.Request) {
 						sys.Number(user["audio"]) > 1,
 					)
 					if err != nil {
-						log.Warn("[TG]", userId, chatId, err)
+						log().Warn("Telegram, process audio problem", "user", userId, "chat", chatId, "error", err)
 						if err := telegram.SendText(chatId, i18n.Translate(chatLanguage, "error")); err != nil {
-							log.Warn("[TG]", userId, chatId, err)
+							log().Warn("Telegram, process text problem", "user", userId, "chat", chatId, "error", err)
 						}
 					}
 					if response != "" {
 						if err := telegram.SendText(chatId, response); err != nil {
-							log.Warn("[TG]", userId, chatId, err)
+							log().Warn("Telegram, process text problem", "user", userId, "chat", chatId, "error", err)
 						}
 					}
 				} else {
 					if err := telegram.SendText(chatId, i18n.Translate(user["language"], "audio_disabled")); err != nil {
-						log.Warn("[TG]", userId, chatId, err)
+						log().Warn("Telegram, process text problem", "user", userId, "chat", chatId, "error", err)
 					}
 				}
 			}
 		} else {
 			if err := telegram.SendText(chatId, i18n.Translate(chatLanguage, "user_unknown")); err != nil {
-				log.Warn("[TG]", userId, chatId, err)
+				log().Warn("Telegram, process text problem", "user", userId, "chat", chatId, "error", err)
 			}
 		}
 	}
