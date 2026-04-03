@@ -5,7 +5,6 @@ package pbx
 import (
 	"fmt"
 	"log/slog"
-	"sync"
 
 	"github.com/eja/pbx/db"
 	"github.com/eja/pbx/meta"
@@ -15,10 +14,6 @@ import (
 
 const maxAudioInputTime = 60
 const maxAudioOutputSize = 50 * 1000
-
-var log = sync.OnceValue(func() *slog.Logger {
-	return slog.Default().With("app", "pbx", "pkg", "pbx")
-})
 
 func Text(userId string, language string, text string) (response string, err error) {
 	platform := "chat"
@@ -41,7 +36,7 @@ func Audio(platform string, userId string, language string, chatId string, media
 	aiSettings := db.Settings()
 	if tts && aiSettings["ttsProvider"] == "" {
 		tts = false
-		log().Warn("tts provider empty")
+		slog.Warn("tts provider empty")
 
 	}
 	mediaPath := fmt.Sprintf("%s/%s", sys.Options.MediaPath, mediaId)

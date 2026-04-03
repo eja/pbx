@@ -5,6 +5,7 @@ package pbx
 import (
 	"crypto/md5"
 	"fmt"
+	"log/slog"
 	"os"
 
 	"github.com/eja/pbx/db"
@@ -43,9 +44,9 @@ func TTS(rawText, language, fileAudioOutput string) error {
 		if err := sys.FileCopy(ttsCacheFile, fileAudioOutput); err != nil {
 			return err
 		} else {
-			log().Debug("TTS, using cache", "file", ttsCacheFile)
+			slog.Debug("TTS, using cache", "file", ttsCacheFile)
 		}
 	}
-	log().Debug("TTS, processed", "language", language, "text", text)
+	slog.Debug("TTS, processed", "language", language, "text", text)
 	return nil
 }

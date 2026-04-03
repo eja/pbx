@@ -3,7 +3,7 @@ module github.com/eja/pbx
 go 1.26.0
 
 require (
-	github.com/eja/tibula v0.0.0-20260402121047-3b235898359e
+	github.com/eja/tibula v0.0.0-20260402162631-5d3ebdeb6d35
 	github.com/mark3labs/mcp-go v0.45.0
 	github.com/yuin/goldmark v1.7.16
 )

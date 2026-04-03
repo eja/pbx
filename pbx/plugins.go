@@ -4,6 +4,7 @@ package pbx
 
 import (
 	"fmt"
+	"log/slog"
 	"strings"
 
 	"github.com/eja/pbx/sys"
@@ -40,7 +41,7 @@ var Plugins = PluginMap{
 		body = sb.String()
 		if output != "" {
 			if err := sys.Mail(sys.Options.MailSender, output, subject, body, file); err != nil {
-				log().Warn("mail error", "error", err)
+				slog.Warn("mail error", "error", err)
 			}
 		}
 		return output
@@ -68,7 +69,7 @@ var Plugins = PluginMap{
 		body = sb.String()
 		if output != "" {
 			if err := sys.Ntfy(output, subject, body, file); err != nil {
-				log().Warn("mail error", "error", err)
+				slog.Warn("mail error", "error", err)
 			}
 		}
 		return output

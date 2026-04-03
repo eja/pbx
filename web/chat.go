@@ -8,6 +8,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"io"
+	"log/slog"
 	"net/http"
 	"os"
 	"strings"
@@ -140,7 +141,7 @@ func chatRouter(w http.ResponseWriter, r *http.Request) {
 
 		userInput, err = pbx.ASR(tmpIn.Name(), language)
 		if err != nil {
-			log().Error("Chat, ASR internal error", "error", err)
+			slog.Error("Chat, ASR internal error", "error", err)
 			http.Error(w, "STT error: "+err.Error(), http.StatusInternalServerError)
 			return
 		}
@@ -155,7 +156,7 @@ func chatRouter(w http.ResponseWriter, r *http.Request) {
 
 	llmResponse, err := pbx.Text(chatID, language, userInput)
 	if err != nil {
-		log().Error("Chat, internal error", "error", err)
+		slog.Error("Chat, internal error", "error", err)
 		http.Error(w, "LLM Processing error: "+err.Error(), http.StatusInternalServerError)
 		return
 	}
@@ -170,7 +171,7 @@ func chatRouter(w http.ResponseWriter, r *http.Request) {
 		defer os.Remove(tmpOut.Name())
 
 		if err := pbx.TTS(llmResponse, language, tmpOut.Name()); err != nil {
-			log().Error("Chat, TTS internal error", "error", err)
+			slog.Error("Chat, TTS internal error", "error", err)
 			http.Error(w, "TTS error: "+err.Error(), http.StatusInternalServerError)
 			return
 		}

@@ -4,6 +4,7 @@ package pbx
 
 import (
 	"fmt"
+	"log/slog"
 	"strings"
 	"time"
 
@@ -30,7 +31,7 @@ func Chat(platform, userId, message, language string) (string, error) {
 	timeZoneDiff := time.Duration(sys.Number(aiSettings["timezone"]))
 	timeZoneNow := time.Now().Add(timeZoneDiff * time.Hour).Format("Monday 02 of January 2006, 03:04 pm")
 
-	log().Debug("chat request", "language", language, "user", userId, "message", message)
+	slog.Debug("chat request", "language", language, "user", userId, "message", message)
 
 	if rows, err := db.SystemPrompt(platform); err != nil {
 		return "", err
@@ -55,7 +56,7 @@ func Chat(platform, userId, message, language string) (string, error) {
 			if Plugins[actionFunction] != nil {
 				response = Plugins[actionFunction](userId, language, message, actionResponse)
 			} else {
-				log().Warn("chat plugin not found", "message", message)
+				slog.Warn("chat plugin not found", "message", message)
 			}
 		} else if actionResponse != "" {
 			response = actionResponse
@@ -89,7 +90,7 @@ func Chat(platform, userId, message, language string) (string, error) {
 			assistant, err = LLM(history[userId], system, Tools)
 		}
 		if err != nil {
-			log().Error("chat error", "error", err)
+			slog.Error("chat error", "error", err)
 			return "", err
 		}
 		response = assistant
@@ -101,7 +102,7 @@ func Chat(platform, userId, message, language string) (string, error) {
 		})
 	}
 
-	log().Debug("chat response", "language", language, "user", userId, "response", response)
+	slog.Debug("chat response", "language", language, "user", userId, "response", response)
 	if !action {
 		db.Log(userId, response)
 	}

@@ -3,6 +3,7 @@
 package pbx
 
 import (
+	"log/slog"
 	"regexp"
 	"strings"
 
@@ -10,13 +11,13 @@ import (
 )
 
 func TagsProcess(platform, language, userId, message string, tags []string) (response string, err error) {
-	log().Debug("tags processing", "tags", tags, "message", message)
+	slog.Debug("tags processing", "tags", tags, "message", message)
 	response = message
 	for _, item := range tags {
 		lower := strings.ToLower(item)
 		if strings.HasPrefix(lower, "ntfy:") {
 			if err = sys.Ntfy(item[5:], userId, message, ""); err != nil {
-				log().Warn("ntfy sending problem", "error", err)
+				slog.Warn("ntfy sending problem", "error", err)
 				if response, err = Chat(platform, userId, "/ntfy_error", language); err != nil {
 					return
 				}

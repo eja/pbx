@@ -8,24 +8,19 @@ import (
 	"os"
 	"os/exec"
 	"strconv"
-	"sync"
 )
-
-var log = sync.OnceValue(func() *slog.Logger {
-	return slog.Default().With("app", "pbx", "pkg", "media")
-})
 
 func FFmpeg(args []string) error {
 	baseArgs := []string{"-y", "-nostdin", "-hide_banner"}
 	cmd := exec.Command("ffmpeg", append(baseArgs, args...)...)
-	log().Debug("ffmpeg", args)
+	slog.Debug("ffmpeg", args)
 	return cmd.Run()
 }
 
 func FFprobe(args []string) ([]byte, error) {
 	baseArgs := []string{"-y", "-nostdin", "-hide_banner", "-v", "error"}
 	cmd := exec.Command("ffprobe", append(baseArgs, args...)...)
-	log().Debug("ffprobe", args)
+	slog.Debug("ffprobe", args)
 	return cmd.Output()
 }
 

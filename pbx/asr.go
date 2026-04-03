@@ -3,6 +3,8 @@
 package pbx
 
 import (
+	"log/slog"
+
 	"github.com/eja/pbx/db"
 	"github.com/eja/pbx/google"
 	"github.com/eja/pbx/i18n"
@@ -50,6 +52,6 @@ func ASR(fileAudioInput, language string) (string, error) {
 		}
 	}
 
-	log().Debug("ASR", "language", language, "transcript", transcript)
+	slog.Debug("ASR", "language", language, "transcript", transcript)
 	return transcript, nil
 }

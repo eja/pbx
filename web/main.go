@@ -6,9 +6,7 @@ import (
 	"embed"
 	"fmt"
 	"io/fs"
-	"log/slog"
 	"net/http"
-	"sync"
 
 	"github.com/eja/pbx/asterisk"
 	"github.com/eja/pbx/pbx"
@@ -19,10 +17,6 @@ import (
 
 //go:embed assets/*
 var embeddedFiles embed.FS
-
-var log = sync.OnceValue(func() *slog.Logger {
-	return slog.Default().With("app", "pbx", "pkg", "web")
-})
 
 func Router() error {
 	assetFS, err := fs.Sub(embeddedFiles, "assets")

@@ -4,6 +4,7 @@ package web
 
 import (
 	"encoding/json"
+	"log/slog"
 	"net/http"
 
 	"github.com/eja/pbx/db"
@@ -50,11 +51,11 @@ func metaRouter(w http.ResponseWriter, r *http.Request) {
 		if err != nil {
 			errMessage := "Error decoding request body"
 			http.Error(w, errMessage, http.StatusBadRequest)
-			log().Warn("Meta error", "error", errMessage)
+			slog.Warn("Meta error", "error", errMessage)
 			return
 		}
 
-		log().Debug("Meta, incoming message", "message", metaMessage)
+		slog.Debug("Meta, incoming message", "message", metaMessage)
 		if len(metaMessage.Entry) > 0 {
 			changes := metaMessage.Entry[0].Changes
 			if len(changes) > 0 {
@@ -79,7 +80,7 @@ func metaRouter(w http.ResponseWriter, r *http.Request) {
 
 					if err == nil && user != nil {
 						if err := meta.SendStatus(chatId, "read"); err != nil {
-							log().Warn("Meta, send status error", "user", userId, "chat", chatId, "error", err)
+							slog.Warn("Meta, send status error", "user", userId, "chat", chatId, "error", err)
 						}
 
 						if sys.Number(user["welcome"]) < 1 {
@@ -92,10 +93,10 @@ func metaRouter(w http.ResponseWriter, r *http.Request) {
 							response, err := pbx.Text(userId, user["language"], message.Text.Body)
 							if err != nil {
 								response = i18n.Translate(user["language"], "error")
-								log().Warn("Meta, process text error", "user", userId, "chat", chatId, "error", err)
+								slog.Warn("Meta, process text error", "user", userId, "chat", chatId, "error", err)
 							}
 							if err := meta.SendText(userId, response); err != nil {
-								log().Warn("Meta, send text error", "user", userId, "error", err)
+								slog.Warn("Meta, send text error", "user", userId, "error", err)
 							}
 						} else if message.Audio != nil {
 							if sys.Number(user["audio"]) > 0 {
@@ -108,25 +109,25 @@ func metaRouter(w http.ResponseWriter, r *http.Request) {
 									sys.Number(user["audio"]) > 1,
 								)
 								if err != nil {
-									log().Warn("Meta, process audio error", "user", userId, "chat", chatId, "error", err)
+									slog.Warn("Meta, process audio error", "user", userId, "chat", chatId, "error", err)
 									if err := meta.SendText(userId, i18n.Translate(user["language"], "error")); err != nil {
-										log().Warn("Meta, send text error", "user", userId, "chat", chatId, "error", err)
+										slog.Warn("Meta, send text error", "user", userId, "chat", chatId, "error", err)
 									}
 								}
 								if response != "" {
 									if err := meta.SendText(userId, response); err != nil {
-										log().Warn("Meta, send text error", "user", userId, "chat", chatId, "error", err)
+										slog.Warn("Meta, send text error", "user", userId, "chat", chatId, "error", err)
 									}
 								}
 							} else {
 								if err := meta.SendText(userId, i18n.Translate(user["language"], "audio_disabled")); err != nil {
-									log().Warn("Meta, send text error", "user", userId, "chat", chatId, "error", err)
+									slog.Warn("Meta, send text error", "user", userId, "chat", chatId, "error", err)
 								}
 							}
 						}
 					} else {
 						if err := meta.SendText(userId, i18n.Translate("", "user_unknown")); err != nil {
-							log().Warn("Meta, send text error", "user", userId, "chat", chatId, "error", err)
+							slog.Warn("Meta, send text error", "user", userId, "chat", chatId, "error", err)
 						}
 					}
 				}

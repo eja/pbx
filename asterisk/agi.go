@@ -6,6 +6,7 @@ import (
 	"bufio"
 	"crypto/md5"
 	"fmt"
+	"log/slog"
 	"net"
 	"net/url"
 	"os"
@@ -76,7 +77,7 @@ func session(conn net.Conn) (err error) {
 	}
 
 	if agi.token != asteriskToken {
-		log().Warn("AGI, wrong authorization token")
+		slog.Warn("AGI, wrong authorization token")
 	} else {
 		if sys.Number(aiSettings["userRestricted"]) == 0 {
 			authorized = true
@@ -121,7 +122,7 @@ func session(conn net.Conn) (err error) {
 			}
 			if vad && talking && (now()-start <= 1) {
 				vad = false
-				log().Debug("AGI, VAD disabled as line is too noisy")
+				slog.Debug("AGI, VAD disabled as line is too noisy")
 				talking, dtmf, err = play(conn, phone, message, language, vad, mixMonitorTime)
 				if err != nil {
 					return err
@@ -255,7 +256,7 @@ func play(conn net.Conn, phone string, message string, language string, vad bool
 			return
 		}
 	} else {
-		log().Debug("AGI, using tts transcoded cache", "phone", phone, "message", message)
+		slog.Debug("AGI, using tts transcoded cache", "phone", phone, "message", message)
 	}
 
 	if err != nil {
@@ -268,7 +269,7 @@ func play(conn net.Conn, phone string, message string, language string, vad bool
 		if err != nil {
 			return false, "", err
 		}
-		log().Debug("AGI play", "input", probeInput)
+		slog.Debug("AGI play", "input", probeInput)
 		playTimeFile := sys.Float(probeInput["duration"])
 		playTimeStart := time.Now().UnixNano()
 		if msg, err := send(conn, fmt.Sprintf("EXEC BackgroundDetect %s,1,30", asteriskFileName)); err != nil {
@@ -293,7 +294,7 @@ func play(conn net.Conn, phone string, message string, language string, vad bool
 		playTimeStop := time.Now().UnixNano()
 		playTimeDiff := sys.Float(playTimeStop-playTimeStart) / 1e9
 		if playTimeDiff < playTimeFile {
-			log().Debug("AGI, talking detected")
+			slog.Debug("AGI, talking detected")
 			talking = true
 		}
 	} else {
@@ -346,7 +347,7 @@ func send(conn net.Conn, tx string) (rx string, err error) {
 		return
 	}
 
-	log().Debug("AGI", "tx", tx, "rx", rx)
+	slog.Debug("AGI", "tx", tx, "rx", rx)
 
 	if strings.HasPrefix(rx, "200") {
 		return strings.TrimSpace(rx), nil
@@ -362,7 +363,7 @@ func Start() error {
 	}
 	defer listener.Close()
 
-	log().Info("AGI ready", "address", sys.Options.AsteriskAgi)
+	slog.Info("AGI ready", "address", sys.Options.AsteriskAgi)
 	for {
 		conn, err := listener.Accept()
 		if err != nil {
@@ -371,7 +372,7 @@ func Start() error {
 
 		go func(conn net.Conn) {
 			if err := session(conn); err != nil {
-				log().Warn("AGI error", "error", err)
+				slog.Warn("AGI error", "error", err)
 			}
 		}(conn)
 	}
