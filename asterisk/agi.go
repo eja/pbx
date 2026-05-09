@@ -234,7 +234,7 @@ func record(conn net.Conn, phone, language string, vad, talking bool) (string, e
 	fileName = asteriskFileName + ".wav16"
 
 	if !talking {
-		if _, err := send(conn, "EXEC WaitForNoise 30"); err != nil {
+		if _, err := send(conn, "EXEC WaitForNoise 1"); err != nil {
 			return "", err
 		}
 	}

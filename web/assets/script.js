@@ -7,6 +7,7 @@ const btnRecord = document.getElementById('btn-record');
 const iconMic = document.getElementById('icon-mic');
 const btnPhone = document.getElementById('btn-phone');
 const btnRestart = document.getElementById('btn-restart');
+const spinner = document.getElementById('loading-spinner');
 
 let manualContext = null;
 let manualSource = null;
@@ -114,6 +115,7 @@ async function sendText() {
     if (!text) return;
     appendMessage('me', 'text', text);
     inputText.value = '';
+    spinner.classList.remove('d-none');
     try {
         const response = await fetch(window.location.href, {
             method: 'POST',
@@ -124,13 +126,15 @@ async function sendText() {
         appendMessage('bot', 'text', data.text);
     } catch (err) {
         appendMessage('bot', 'text', 'Error');
+    } finally {
+        spinner.classList.add('d-none');
     }
 }
 
 async function sendAudio(blob) {
     const formData = new FormData();
     formData.append("audio", blob, "rec.wav");
-
+    spinner.classList.remove('d-none');
     try {
         const response = await fetch(window.location.href, { method: 'POST', body: formData });
         const serverBlob = await response.blob();
@@ -138,6 +142,8 @@ async function sendAudio(blob) {
         appendMessage('bot', 'audio', serverUrl);
     } catch (err) {
         appendMessage('bot', 'text', 'Upload failed');
+    } finally {
+        spinner.classList.add('d-none');
     }
 }
 

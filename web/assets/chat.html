@@ -6,32 +6,42 @@
     <link rel="icon" type="image/png" href="/static/img/icon.png" />
     <link href="/static/css/bootstrap.min.css" rel="stylesheet">
     <link href="/static/css/bootstrap-icons.css" rel="stylesheet">
-		<style>
-				audio {
-						width: 100%;
-						min-width: 200px;
-						height: 40px;
-						display: block;
-				}
-				@keyframes pulse-green {
-						0% { box-shadow: 0 0 0 0 rgba(25, 135, 84, 0.7); }
-						70% { box-shadow: 0 0 0 10px rgba(25, 135, 84, 0); }
-						100% { box-shadow: 0 0 0 0 rgba(25, 135, 84, 0); }
-				}
-				.btn-blink-active {
-						animation: pulse-green 2s infinite;
-				}
+    <style>
+        audio {
+            width: 100%;
+            min-width: 200px;
+            height: 40px;
+            display: block;
+        }
+        @keyframes pulse-green {
+            0% { box-shadow: 0 0 0 0 rgba(25, 135, 84, 0.7); }
+            70% { box-shadow: 0 0 0 10px rgba(25, 135, 84, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(25, 135, 84, 0); }
+        }
+        .btn-blink-active {
+            animation: pulse-green 2s infinite;
+        }
         .btn {
           border-color: var(--bs-border-color) !important;
-         Xbackground-color: transparent;
-         Xcolor: var(--bs-body-color);
         }
-		</style>
+        #loading-spinner.active-overlay {
+            background: rgba(255, 255, 255, 0.7);
+            width: 100vw;
+            height: 100vh;
+            display: flex !important;
+            align-items: center;
+            justify-content: center;
+        }
+    </style>
 </head>
 <body class="d-flex flex-column vh-100 bg-light">
+    <div id="loading-spinner" class="d-none position-fixed top-50 start-50 translate-middle" style="z-index: 9999;">
+      <div class="spinner-border text-primary" role="status" style="width: 3rem; height: 3rem;">
+        <span class="visually-hidden">Loading...</span>
+      </div>
+    </div>
 
-    <main id="chat-window" class="flex-grow-1 overflow-auto p-3 d-flex flex-column gap-3">
-    </main>
+    <main id="chat-window" class="flex-grow-1 overflow-auto p-3 d-flex flex-column gap-3"></main>
 
     <footer class="p-3">
         <div class="input-group">
@@ -54,7 +64,7 @@
     <script src="/static/js/bootstrap.min.js"></script>
     <script src="/pbx/vad/ort.wasm.min.js"></script>
     <script src="/pbx/vad/bundle.min.js"></script>
-		<script src="/pbx/marked.min.js"></script>
+    <script src="/pbx/marked.min.js"></script>
     <script src="/pbx/script.js"></script>
 </body>
 </html>
