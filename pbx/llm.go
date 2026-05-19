@@ -87,7 +87,13 @@ func LLM(messages []sys.TypeChatMessage, system string, tools map[string]LLMTool
 		token = sys.Options.AiToken
 	}
 	mcpURL := aiSettings["mcpUrl"]
+	if mcpURL == "" {
+		mcpURL = sys.Options.McpUrl
+	}
 	mcpToken := aiSettings["mcpToken"]
+	if mcpToken == "" {
+		mcpToken = sys.Options.McpToken
+	}
 
 	finalTools := make(map[string]LLMTool)
 	maps.Copy(finalTools, tools)

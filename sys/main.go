@@ -31,6 +31,7 @@ func Configure() error {
 	flag.StringVar(&Options.McpToken, "mcp-token", "", "Model Context Protocol token")
 	flag.BoolVar(&Options.Chat, "chat", false, "Enable web chat")
 	flag.BoolVar(&Options.ChatAudio, "chat-audio", false, "Enable web chat with audio support")
+	flag.Usage = Help
 
 	if err := sys.Configure(); err != nil {
 		return err
