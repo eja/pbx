@@ -10,6 +10,7 @@ import (
 	"log/slog"
 	"maps"
 	"net/http"
+	"strings"
 
 	"github.com/eja/pbx/db"
 	"github.com/eja/pbx/sys"
@@ -106,11 +107,7 @@ func LLM(messages []sys.TypeChatMessage, system string, tools map[string]LLMTool
 			for promptName := range mcpPrompts {
 				promptText, err := getMCPPrompt(mcpURL, mcpToken, promptName, nil)
 				if err == nil && promptText != "" {
-					if system != "" {
-						system = system + "\n\n" + promptText
-					} else {
-						system = promptText
-					}
+					system = strings.ReplaceAll(system, "</system_prompt>", fmt.Sprintf("<pbx_mcp_prompt>%s</pbx_mcp_prompt></system_prompt>", promptText))
 				}
 			}
 		}

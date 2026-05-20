@@ -6,6 +6,7 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	"log/slog"
 	"strings"
 	"sync"
 
@@ -142,6 +143,9 @@ func callMCPTool(serverURL, token, toolName, args string) (string, error) {
 			sb.WriteString(t.Text)
 		}
 	}
+
+	slog.Debug("MCP Call", "url", serverURL, "tool", toolName, "args", args, "result", result)
+
 	return sb.String(), nil
 }
 

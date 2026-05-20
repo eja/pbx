@@ -33,20 +33,23 @@ func Chat(platform, userId, message, language string) (string, error) {
 
 	slog.Debug("chat request", "language", language, "user", userId, "message", message)
 
+	system = "<system_prompt>"
 	if rows, err := db.SystemPrompt(platform); err != nil {
 		return "", err
 	} else {
 		for _, row := range rows {
-			system += row["prompt"] + "\n"
+			system += fmt.Sprintf("<%s>%s</%s>\n", row["label"], row["prompt"], row["label"])
 		}
 	}
 
+	system += "<pbx_core>"
 	system += fmt.Sprintf("Now is %s.\n", timeZoneNow)
 	if platform == "pbx" {
 		system += fmt.Sprintf("Users's phone number is %s.\n", userId)
 	}
 	system += fmt.Sprintf("The user usually speaks in %s, so please answer in that language or the language of the question if not instructed otherwise.\n", i18n.LanguageCodeToInternal(language))
 	system += "Always add a new line containing the language code, 2 chars, between square brackets that you have used to answer the question at the end of your response, like this: \n\n[en]\n"
+	system += "</pbx_core>\n</system_prompt>"
 
 	if strings.HasPrefix(message, "/") {
 		action = true

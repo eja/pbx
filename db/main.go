@@ -23,7 +23,7 @@ func UserUpdate(id string, field string, value string) (err error) {
 }
 
 func SystemPrompt(platform string) (tibulaTypeRows, error) {
-	return tibulaRows("SELECT prompt FROM aiPrompts WHERE active > 0 AND (platform='' OR platform='all' OR platform=?) ORDER BY power ASC", platform)
+	return tibulaRows("SELECT label,prompt FROM aiPrompts WHERE active > 0 AND (platform='' OR platform='all' OR platform=?) ORDER BY power ASC", platform)
 }
 
 func ChatAction(platform, action, language string) (function, response string) {
