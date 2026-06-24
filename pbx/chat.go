@@ -13,8 +13,6 @@ import (
 	"github.com/eja/pbx/sys"
 )
 
-const historyTimeout = 300
-
 var history map[string][]sys.TypeChatMessage
 var historyTime map[string]time.Time
 var historyThread map[string]string
@@ -76,7 +74,7 @@ func Chat(platform, userId, message, language string) (string, error) {
 			historyInit = true
 		}
 
-		if hist, ok := history[userId]; ok && len(hist) > 0 && (time.Now().Sub(historyTime[userId]).Seconds() < historyTimeout) {
+		if hist, ok := history[userId]; ok && len(hist) > 0 {
 			history[userId] = append(history[userId], sys.TypeChatMessage{
 				Role:    "user",
 				Content: message,
