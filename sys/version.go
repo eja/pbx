@@ -3,4 +3,4 @@
 package sys
 
 const Name = "pbx"
-const Version = "4.6.24"
+const Version = "4.6.25"

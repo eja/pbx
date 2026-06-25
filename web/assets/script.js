@@ -125,7 +125,7 @@ async function sendText() {
         const data = await response.json();
         appendMessage('bot', 'text', data.text);
     } catch (err) {
-        appendMessage('bot', 'text', 'Error');
+        appendMessage('bot', 'text', '<span class="text-danger fw-bold">&#9888;&#65039; System Error &#9888;&#65039;</span>');
     } finally {
         spinner.classList.add('d-none');
     }
