@@ -260,13 +260,22 @@ async function checkAudio() {
 async function chatRestart() {
   if (confirm("Restart chat?")) {
 			inputText.value = "/reset"
-			await sendText()
       document.location.href="?";
   }
 }
 
 btnRestart.addEventListener('click', chatRestart)
 btnSend.addEventListener('click', sendText);
-inputText.addEventListener('keypress', (e) => { if (e.key === 'Enter') sendText(); });
 checkAudio();
+
+inputText.addEventListener('keydown', (e) => {
+  if (e.key === 'Enter') {
+    if (!e.shiftKey) {
+      e.preventDefault();
+      sendText();
+    } else {
+      inputText.style.height = (inputText.scrollHeight+25) + 'px';
+    }
+  }
+});
 
