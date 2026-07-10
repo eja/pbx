@@ -8,6 +8,8 @@ const iconMic = document.getElementById('icon-mic');
 const btnPhone = document.getElementById('btn-phone');
 const btnRestart = document.getElementById('btn-restart');
 const spinner = document.getElementById('loading-spinner');
+const btnUpload = document.getElementById('btn-upload');
+const fileInput = document.getElementById('file-input');
 
 let manualContext = null;
 let manualSource = null;
@@ -73,10 +75,11 @@ function appendMessage(sender, type, content) {
         let classes = "p-2 ps-3 pe-3 rounded-2 shadow-sm mw-75 text-break ";
         if (sender === 'me') {
             wrapper.className = classes + "align-self-end bg-primary text-white";
-						wrapper.textContent = content;
+            wrapper.style.whiteSpace = "pre-wrap";
+            wrapper.textContent = content;
         } else {
             wrapper.className = classes + "align-self-start bg-white border text-dark";
-						wrapper.innerHTML = marked.parse(content).trim().replace(/^<p>/, "").replace(/<\/p>$/, "").replace(/<p><\/p>$/,"");
+            wrapper.innerHTML = marked.parse(content).trim().replace(/^<p>/, "").replace(/<\/p>$/, "").replace(/<p><\/p>$/,"");
         }
     } else {
         let classes = "mw-75 ";
@@ -242,11 +245,10 @@ btnPhone.addEventListener('click', async () => {
 });
 
 async function checkAudio() {
-		if (document.location.search.indexOf("audio=on") > 0) {
-						try {
-										const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-
-										stream.getTracks().forEach(track => track.stop());
+    if (document.location.search.indexOf("audio=on") > 0) {
+        try {
+            const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+            stream.getTracks().forEach(track => track.stop());
         
         if (btnPhone) btnPhone.classList.remove('d-none');
         if (btnRecord) btnRecord.classList.remove('d-none');
@@ -254,12 +256,12 @@ async function checkAudio() {
     } catch (err) {
         console.log("Mic access denied or not available.");
     }
-	}
+  }
 }
 
 async function chatRestart() {
   if (confirm("Restart chat?")) {
-			inputText.value = "/reset"
+      inputText.value = "/reset"
       document.location.href="?";
   }
 }
@@ -279,3 +281,52 @@ inputText.addEventListener('keydown', (e) => {
   }
 });
 
+btnUpload.addEventListener('click', () => {
+    fileInput.click();
+});
+
+fileInput.addEventListener('change', async (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    spinner.classList.remove('d-none');
+    try {
+        let text = '';
+        if (file.name.endsWith('.pdf')) {
+            const arrayBuffer = await file.arrayBuffer();
+            const pdfjsLib = await import('/pbx/pdf.min.mjs');
+            pdfjsLib.GlobalWorkerOptions.workerSrc = '/pbx/pdf.worker.min.mjs';
+            const pdfDoc = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
+            let extractedText = '';
+            
+            for (let i = 1; i <= pdfDoc.numPages; i++) {
+                const page = await pdfDoc.getPage(i);
+                const textContent = await page.getTextContent();
+                
+                let pageText = '';
+                for (const item of textContent.items) {
+                    if (item.str !== undefined) {
+                        pageText += item.str;
+                        if (item.hasEOL) {
+                            pageText += '\n';
+                        }
+                    }
+                }
+                extractedText += pageText + '\n';
+            }
+            text = extractedText;
+        } else {
+            text = await file.text();
+        }
+
+        if (text.trim()) {
+            inputText.value = text;
+            await sendText();
+        }
+    } catch (err) {
+        appendMessage('bot', 'text', '<span class="text-danger fw-bold">&#9888;&#65039; File Error &#9888;&#65039;</span>');
+    } finally {
+        spinner.classList.add('d-none');
+        fileInput.value = '';
+    }
+});
